@@ -1,4 +1,91 @@
 baseURL = 'https://t-kemmochi.github.io/New-site/'
-locale = 'ja'
-title = 'My New Hugo Project Test'
 theme = 'mytheme'
+title = '研究者名 | 個人サイト'
+
+# 日本語を既定言語にし、日本語にも /ja/ を付けます。
+defaultContentLanguage = 'ja'
+defaultContentLanguageInSubdir = true
+
+# 日付の解釈に使用するタイムゾーン。
+timeZone = 'Asia/Tokyo'
+
+[languages]
+  [languages.ja]
+    label = '日本語'
+    locale = 'ja-JP'
+    title = '研究者名 | 個人サイト'
+    weight = 1
+    hasCJKLanguage = true
+
+    [languages.ja.params]
+      description = '研究者名の個人サイトです。研究内容、業績、略歴などを紹介します。'
+
+  [languages.en]
+    label = 'English'
+    locale = 'en-US'
+    title = 'Your Name | Personal Website'
+    weight = 2
+
+    [languages.en.params]
+      description = 'Personal website of Your Name, featuring research, publications, and biography.'
+
+
+[[languages.ja.menus.main]]
+  identifier = 'about'
+  name = 'プロフィール'
+  pageRef = '/about'
+  weight = 10
+
+[[languages.ja.menus.main]]
+  identifier = 'publication'
+  name = '研究業績'
+  pageRef = '/publication'
+  weight = 20
+
+[[languages.ja.menus.main]]
+  identifier = 'project'
+  name = 'プロジェクト'
+  pageRef = '/project'
+  weight = 30
+
+[[languages.ja.menus.main]]
+  identifier = 'memo'
+  name = 'メモ'
+  pageRef = '/memo'
+  weight = 40
+
+[[languages.ja.menus.main]]
+  identifier = 'news'
+  name = 'お知らせ'
+  pageRef = '/news'
+  weight = 50
+
+[[languages.en.menus.main]]
+  identifier = 'about'
+  name = 'About'
+  pageRef = '/about'
+  weight = 10
+
+[[languages.en.menus.main]]
+  identifier = 'publication'
+  name = 'Publications'
+  pageRef = '/publication'
+  weight = 20
+
+[[languages.en.menus.main]]
+  identifier = 'project'
+  name = 'Projects'
+  pageRef = '/project'
+  weight = 30
+
+[[languages.en.menus.main]]
+  identifier = 'memo'
+  name = 'Memo'
+  pageRef = '/memo'
+  weight = 40
+
+[[languages.en.menus.main]]
+  identifier = 'news'
+  name = 'News'
+  pageRef = '/news'
+  weight = 50

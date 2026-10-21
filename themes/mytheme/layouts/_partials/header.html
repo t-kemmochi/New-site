@@ -1,2 +1,55 @@
-<h1>{{ site.Title }}</h1>
-{{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+{{- $page := . -}}
+{{- $isJapanese := eq .Site.Language.Lang "ja" -}}
+{{- $navLabel := cond $isJapanese "メインナビゲーション" "Main navigation" -}}
+{{- $languageLabel := cond $isJapanese "言語切り替え" "Language selection" -}}
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="site-title" href="{{ .Site.Home.RelPermalink }}">
+      {{ .Site.Title }}
+    </a>
+
+    <nav class="site-nav" aria-label="{{ $navLabel }}">
+      <ul class="site-menu">
+        {{ range .Site.Menus.main }}
+          {{- $isCurrent := $page.IsMenuCurrent "main" . -}}
+          {{- $isAncestor := $page.HasMenuCurrent "main" . -}}
+
+          <li class="site-menu-item">
+            <a
+              href="{{ .URL }}"
+              {{ if $isCurrent }}
+                class="is-current"
+                aria-current="page"
+              {{ else if $isAncestor }}
+                class="is-ancestor"
+              {{ end }}
+            >{{ .Name }}</a>
+          </li>
+        {{ end }}
+      </ul>
+    </nav>
+
+    <nav class="language-switcher" aria-label="{{ $languageLabel }}">
+      {{ range hugo.Sites }}
+        {{ if ne .Language.Lang $page.Site.Language.Lang }}
+          {{- $targetLanguage := .Language.Lang -}}
+          {{- $targetPage := .Home -}}
+
+          {{- range $page.Translations -}}
+            {{- if eq .Language.Lang $targetLanguage -}}
+              {{- $targetPage = . -}}
+            {{- end -}}
+          {{- end -}}
+
+          <a
+            class="language-link"
+            href="{{ $targetPage.RelPermalink }}"
+            lang="{{ .Language.Locale }}"
+            hreflang="{{ .Language.Locale }}"
+          >{{ .Language.Label }}</a>
+        {{ end }}
+      {{ end }}
+    </nav>
+  </div>
+</header>
