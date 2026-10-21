@@ -1,4 +1,4 @@
 baseURL = 'https://t-kemmochi.github.io/New-site/'
-locale = 'en-us'
+locale = 'ja'
 title = 'My New Hugo Project'
 theme = 'mytheme'
