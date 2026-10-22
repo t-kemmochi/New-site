@@ -1,6 +1,5 @@
 baseURL = 'https://t-kemmochi.github.io/New-site/'
 theme = 'mytheme'
-title = '研究者名 | 個人サイト'
 
 # 日本語を既定言語にし、日本語にも /ja/ を付けます。
 defaultContentLanguage = 'ja'
