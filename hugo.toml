@@ -10,9 +10,9 @@ timeZone = 'Asia/Tokyo'
 
 [languages]
   [languages.ja]
-    label = '日本語'
+    label = 'JP'
     locale = 'ja-JP'
-    title = '研究者名 | 個人サイト'
+    title = 'T. Kemmochi'
     weight = 1
     hasCJKLanguage = true
 
@@ -20,9 +20,9 @@ timeZone = 'Asia/Tokyo'
       description = '研究者名の個人サイトです。研究内容、業績、略歴などを紹介します。'
 
   [languages.en]
-    label = 'English'
+    label = 'EN'
     locale = 'en-US'
-    title = 'Your Name | Personal Website'
+    title = 'T. Kemmochi'
     weight = 2
 
     [languages.en.params]
