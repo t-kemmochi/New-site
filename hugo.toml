@@ -30,14 +30,14 @@ timeZone = 'Asia/Tokyo'
 
 
 [[languages.ja.menus.main]]
-  identifier = 'about'
-  name = 'プロフィール'
-  pageRef = '/about'
+  identifier = 'cv'
+  name = 'CV'
+  pageRef = '/cv'
   weight = 10
 
 [[languages.ja.menus.main]]
   identifier = 'publication'
-  name = '研究業績'
+  name = 'Publications'
   pageRef = '/publication'
   weight = 20
 
