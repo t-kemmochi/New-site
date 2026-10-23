@@ -55,7 +55,7 @@ timeZone = 'Asia/Tokyo'
 
 [[languages.ja.menus.main]]
   identifier = 'news'
-  name = 'お知らせ'
+  name = 'News'
   pageRef = '/news'
   weight = 50
 
