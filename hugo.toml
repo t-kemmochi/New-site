@@ -49,7 +49,7 @@ timeZone = 'Asia/Tokyo'
 
 [[languages.ja.menus.main]]
   identifier = 'memo'
-  name = 'メモ'
+  name = 'Memo'
   pageRef = '/memo'
   weight = 40
 
