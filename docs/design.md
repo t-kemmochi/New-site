@@ -193,7 +193,8 @@
 - トップページは現在の言語の `/home` を取得し、ヒーローと配下の通常ページを組み合わせる。
 - 各セクションは共通の `section`・`h2`・`.container` で囲む。
 - ファイル名から言語サフィックスを除いた名前をIDとする。例：`research.ja.md` は `#research`。
-- `widget` は将来の切り替え用に保持する。現時点では値にかかわらずMarkdown本文を表示し、専用一覧や `limit` の処理は未実装。
+- `widget` は `section`・`publications`・`projects`・`news` を指定する。省略時は `section`。以前の `text` も `section` として扱う。
+- 未対応の `widget` はビルドエラーにする。ヒーローはhomeの `_index.*.md` で管理し、独立した `home/hero.html` パーシャルで描画する。
 - homeのcascadeで `build.list: local`、`build.render: never`、`build.publishResources: false` を両言語に設定する。
 - home配下をローカルなページ一覧から取得できる状態に保ち、独立したページとリソースを出力しない。
 - 画像などをhome配下へ配置する場合は、リソースの公開方法を別途検討する。
@@ -202,3 +203,48 @@
 - 背景は画面幅いっぱいに広げ、内容は既存の `.container` で中央寄せする。見出しなどのマージンは背景領域の内側に収める。
 - ヒーロー・本文のその他の詳細デザインは未実装。
 - トップページ用homeが存在しない場合は、ビルドエラーで通知する。
+
+## 12. コンテンツ種別とトップページの一覧
+
+### コンテンツの分類
+
+- `publication`・`project`・`news`・`memo` はHugoのコンテンツ種別（`type`）として扱う。
+- 推奨配置は、それぞれ `content/publication/`・`content/project/`・`content/news/`・`content/memo/`。
+- 通常のページは従来のデフォルトarchetypeを利用できる。
+- news・memoはカテゴリではなく種別で区別する。記事の表示自体は既存の `page.html` を共用する。
+- カテゴリやタグは、必要に応じて種別とは別に付けられる。
+- 個別ページの専用デザインや論文固有の書誌情報は、今回の実装には含めない。
+
+### 作成方法
+
+リポジトリのルートで、以下のように作成する。`hugo` にPATHが通っていない場合、このクラウド環境では `/workspace/.local/hugo/hugo` を使用する。
+
+```sh
+hugo new content --kind publication publication/example.ja.md
+hugo new content --kind project project/example.ja.md
+hugo new content --kind news news/example.ja.md
+hugo new content --kind memo memo/example.ja.md
+```
+
+- 英語版は同じファイル名の `.en.md` とする。
+- 各archetypeは `type`・`date`・`draft: true` を設定する。公開する場合はdraftをfalseにする。
+- projectの初期状態は `status: current`。終了したものは、たとえば `status: completed` に変更する。
+
+### ウィジェットの動作
+
+| widget | 動作 |
+| --- | --- |
+| `section` | Markdown本文をそのまま表示する |
+| `publications` | 本文の後に、現在の言語の `type: publication` を日付の新しい順で表示する |
+| `news` | 本文の後に、現在の言語の `type: news` を日付の新しい順で表示する |
+| `projects` | 本文の後に、現在の言語の `type: project` かつ `status: current` を日付の新しい順ですべて表示する |
+
+- publications・newsの件数は、各home用Markdownの `limit` で指定する。省略時は3件。
+- `limit` は1以上の整数。該当する公開ページが少ない場合は、その件数だけ表示する。
+- 下書き・未来の公開ページなどは、通常のHugoビルドの公開条件に従う。
+- 該当ページがない場合は、見出しとMarkdown本文だけを表示し、空の一覧は出力しない。
+- 一覧をMarkdownへ手動で転記せず、種類別のパーシャルで抽出・描画する。
+- 表示は `home/publications.html`・`home/news.html`・`home/projects.html` に分離する。
+- 各セクションには `home-section--publications` などのクラス、各一覧には `home-publications-list` などの専用クラスを付ける。種類ごとのスタイル調整はこれらに対して行う。
+- 今回は新しい配色やカードデザインを追加しない。既存の全幅交互配色と共通幅を維持する。
+- publication・newsは日付とリンク、projectはリンクと、設定されていればdescriptionを表示する。

@@ -1,29 +1,25 @@
 {{ define "main" }}
   {{ with .Site.GetPage "/home" }}
-    <section class="home-hero" aria-labelledby="hero-title">
-      <div class="container">
-        <h1 id="hero-title" class="hero-title">{{ .Title }}</h1>
-        {{ with .Params.affiliation }}
-          <p class="hero-affiliation">{{ . }}</p>
-        {{ end }}
-        {{ with .Params.position }}
-          <p class="hero-position">{{ . }}</p>
-        {{ end }}
-        {{ with .Content }}
-          <div class="hero-description">{{ . }}</div>
-        {{ end }}
-      </div>
-    </section>
+    {{ partial "home/hero.html" . }}
 
     <div class="home-sections">
       {{ range .RegularPages.ByWeight }}
         {{ $sectionID := .File.ContentBaseName }}
-        <section id="{{ $sectionID }}" class="home-section" aria-labelledby="{{ $sectionID }}-title">
-          <div class="container">
-            <h2 id="{{ $sectionID }}-title" class="home-section-title">{{ .Title }}</h2>
-            <div class="home-section-content">{{ .Content }}</div>
-          </div>
-        </section>
+        {{ $widget := .Params.widget | default "section" }}
+        {{/* 以前の widget: text も汎用セクションとして扱う。 */}}
+        {{ if eq $widget "text" }}{{ $widget = "section" }}{{ end }}
+        {{ if not (in (slice "section" "publications" "projects" "news") $widget) }}
+          {{ errorf "トップページの %s: 未対応の widget %q です。" .Path $widget }}
+        {{ else }}
+          <section id="{{ $sectionID }}" class="home-section home-section--{{ $widget }}" aria-labelledby="{{ $sectionID }}-title">
+            <div class="container">
+              <h2 id="{{ $sectionID }}-title" class="home-section-title">{{ .Title }}</h2>
+              <div class="home-section-content">
+                {{ partial (printf "home/%s.html" $widget) . }}
+              </div>
+            </div>
+          </section>
+        {{ end }}
       {{ end }}
     </div>
   {{ else }}

@@ -1,7 +1,7 @@
 ---
 title: "Research"
 weight: 10
-widget: "text"
+widget: "section"
 ---
 
 <!-- Write the content in Markdown here. -->

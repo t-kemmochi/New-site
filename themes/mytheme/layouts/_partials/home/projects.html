@@ -1,0 +1,13 @@
+{{ .Content }}
+{{ $pages := where .Site.RegularPages "Type" "project" }}
+{{ $pages = where $pages "Params.status" "current" }}
+{{ with $pages.ByDate.Reverse }}
+  <ul class="home-projects-list">
+    {{ range . }}
+      <li class="home-projects-item">
+        <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+        {{ with .Description }}<p>{{ . }}</p>{{ end }}
+      </li>
+    {{ end }}
+  </ul>
+{{ end }}
