@@ -3,6 +3,10 @@
   /* サイト全体の共通設定 */
   --content-max-width: 1200px;
 
+  /* トップページ：ヒーローより後のセクション */
+  --home-section-background-odd: #ffffff;
+  --home-section-background-even: #f2f2f2;
+
   /* ヘッダー */
   --header-background: #243746;
   --header-text-color: #ffffff;
@@ -116,6 +120,19 @@ body {
   border: 1px solid currentColor;
   border-radius: 0.25rem;
   white-space: nowrap;
+}
+
+/* トップページ：見出しのマージンを背景領域の内側に収める */
+.home-sections > .home-section {
+  display: flow-root;
+}
+
+.home-sections > .home-section:nth-child(odd) {
+  background-color: var(--home-section-background-odd);
+}
+
+.home-sections > .home-section:nth-child(even) {
+  background-color: var(--home-section-background-even);
 }
 
 /* フッター */

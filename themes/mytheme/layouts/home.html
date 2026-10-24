@@ -1,9 +1,32 @@
 {{ define "main" }}
-  {{ .Content }}
-  {{ range site.RegularPages }}
-    <section>
-      <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-      {{ .Summary }}
+  {{ with .Site.GetPage "/home" }}
+    <section class="home-hero" aria-labelledby="hero-title">
+      <div class="container">
+        <h1 id="hero-title" class="hero-title">{{ .Title }}</h1>
+        {{ with .Params.affiliation }}
+          <p class="hero-affiliation">{{ . }}</p>
+        {{ end }}
+        {{ with .Params.position }}
+          <p class="hero-position">{{ . }}</p>
+        {{ end }}
+        {{ with .Content }}
+          <div class="hero-description">{{ . }}</div>
+        {{ end }}
+      </div>
     </section>
+
+    <div class="home-sections">
+      {{ range .RegularPages.ByWeight }}
+        {{ $sectionID := .File.ContentBaseName }}
+        <section id="{{ $sectionID }}" class="home-section" aria-labelledby="{{ $sectionID }}-title">
+          <div class="container">
+            <h2 id="{{ $sectionID }}-title" class="home-section-title">{{ .Title }}</h2>
+            <div class="home-section-content">{{ .Content }}</div>
+          </div>
+        </section>
+      {{ end }}
+    </div>
+  {{ else }}
+    {{ errorf "トップページ用の content/home/_index.%s.md がありません。" .Site.Language.Lang }}
   {{ end }}
 {{ end }}
