@@ -1,3 +1,4 @@
+/* 共通設定 */
 :root {
   /* サイト全体の共通設定 */
   --content-max-width: 1200px;
@@ -7,10 +8,12 @@
   --header-text-color: #ffffff;
   --header-link-hover-color: #c9e6ff;
 
+  /* フッター */
   --footer-background: #f2f2f2;
   --footer-text-color: #555555;
 }
 
+/* 基本レイアウト */
 *,
 *::before,
 *::after {
@@ -35,7 +38,16 @@ body {
   padding-right: 1rem;
 }
 
-/* 背景は画面幅いっぱいに表示 */
+.site-main {
+  flex: 1;
+}
+
+.site-header,
+.site-footer {
+  flex-shrink: 0;
+}
+
+/* ヘッダー：背景は画面幅いっぱいに表示 */
 .site-header {
   background-color: var(--header-background);
   color: var(--header-text-color);
@@ -78,11 +90,6 @@ body {
   list-style: none;
 }
 
-.language-switcher {
-  flex-shrink: 0;
-}
-
-
 /* キーボード操作時のフォーカス */
 .site-header a:focus-visible {
   outline: 2px solid currentColor;
@@ -97,6 +104,7 @@ body {
 }
 
 .language-switcher {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -110,15 +118,7 @@ body {
   white-space: nowrap;
 }
 
-.site-main {
-  flex: 1;
-}
-
-.site-header,
-.site-footer {
-  flex-shrink: 0;
-}
-
+/* フッター */
 .site-footer {
   background-color: var(--footer-background);
   color: var(--footer-text-color);
