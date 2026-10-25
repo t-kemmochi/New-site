@@ -1,5 +1,5 @@
 ---
-title: "研究プロジェクト"
+title: "Research projects"
 weight: 30
 widget: "projects"
 ---

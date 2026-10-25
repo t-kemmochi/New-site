@@ -47,6 +47,9 @@
 
 ### 仕様
 
+- メニューバー（サイトタイトル・メニュー・言語切り替え）と全ページの `h1`・`h2` に、Google FontsのMontserratを使用する。
+- ウェイトはnormal（400）、font-styleもnormalとする。Google Fontsから通常体400のみを読み込む。
+- Montserratに含まれない日本語の文字などは、ブラウザのsans-serifフォントへフォールバックする。
 - 共通のコンテンツ最大幅は、ひとまず1200pxとする。
 - 最大幅はサイト全体で共有する変数として定義する。
 - コンテンツを中央に配置する。
@@ -82,9 +85,9 @@
 
 | 日本語版 | 英語版 |
 | --- | --- |
-| CV | About |
+| CV | CV |
 | Publications | Publications |
-| プロジェクト | Projects |
+| Projects | Projects |
 | Memo | Memo |
 | News | News |
 
@@ -92,7 +95,7 @@
 
 - メニューのリンク先は作成済み。CV（日本語）・About（英語）は準備中の通常ページ、publication・project・memo・newsは日英の一覧ページを出力する。
 - 専用テンプレートは未作成で、既存の `page.html`・`section.html` を使用する。
-- CVとAboutを翻訳として対応させるか、別の内容にするかは未確定。
+- メニューの表示名は日英ともCV。リンク先は日本語 `/cv`、英語 `/about` を維持する。両ページを翻訳として対応させるかは未確定。
 - 小さい画面での配置とハンバーガーメニューは未実装。
 
 ## 5. フッター
@@ -249,3 +252,8 @@ hugo new content --kind memo memo/example.ja.md
 - 各セクションには `home-section--publications` などのクラス、各一覧には `home-publications-list` などの専用クラスを付ける。種類ごとのスタイル調整はこれらに対して行う。
 - 今回は新しい配色やカードデザインを追加しない。既存の全幅交互配色と共通幅を維持する。
 - publication・newsは日付とリンク、projectはリンクと、設定されていればdescriptionを表示する。
+
+## 13. トップページの見出し表記
+
+- 日本語版のトップページのセクション見出しは、英語版と同じResearch・Recent publications・Research projects・Newsとする。
+- ヒーローは日英ともTomoya Kemmochi。本文の言語は変更しない。

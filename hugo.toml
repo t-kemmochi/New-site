@@ -43,7 +43,7 @@ timeZone = 'Asia/Tokyo'
 
 [[languages.ja.menus.main]]
   identifier = 'project'
-  name = 'プロジェクト'
+  name = 'Projects'
   pageRef = '/project'
   weight = 30
 
@@ -61,7 +61,7 @@ timeZone = 'Asia/Tokyo'
 
 [[languages.en.menus.main]]
   identifier = 'about'
-  name = 'About'
+  name = 'CV'
   pageRef = '/about'
   weight = 10
 

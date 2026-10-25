@@ -1,5 +1,5 @@
 ---
-title: "研究内容"
+title: "Research"
 weight: 10
 widget: "section"
 ---

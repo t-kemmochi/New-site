@@ -1,5 +1,5 @@
 ---
-title: "お知らせ"
+title: "News"
 weight: 40
 widget: "news"
 limit: 3

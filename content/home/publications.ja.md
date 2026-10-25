@@ -1,5 +1,5 @@
 ---
-title: "最近の論文"
+title: "Recent publications"
 weight: 20
 widget: "publications"
 limit: 3
