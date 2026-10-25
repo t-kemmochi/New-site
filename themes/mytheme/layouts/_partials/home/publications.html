@@ -1,4 +1,3 @@
-{{ .Content }}
 {{ $limit := 3 }}
 {{ if isset .Params "limit" }}
   {{ if not (findRE `^[1-9][0-9]*$` (printf "%v" .Params.limit)) }}
@@ -18,3 +17,5 @@
     {{ end }}
   </ul>
 {{ end }}
+
+{{ .Content }}

@@ -1,4 +1,3 @@
-{{ .Content }}
 {{ $pages := where .Site.RegularPages "Type" "project" }}
 {{ $pages = where $pages "Params.status" "current" }}
 {{ with $pages.ByDate.Reverse }}
@@ -11,3 +10,5 @@
     {{ end }}
   </ul>
 {{ end }}
+
+{{ .Content }}

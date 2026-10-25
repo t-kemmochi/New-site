@@ -239,9 +239,9 @@ hugo new content --kind memo memo/example.ja.md
 | widget | 動作 |
 | --- | --- |
 | `section` | Markdown本文をそのまま表示する |
-| `publications` | 本文の後に、現在の言語の `type: publication` を日付の新しい順で表示する |
-| `news` | 本文の後に、現在の言語の `type: news` を日付の新しい順で表示する |
-| `projects` | 本文の後に、現在の言語の `type: project` かつ `status: current` を日付の新しい順ですべて表示する |
+| `publications` | 本文の前に、現在の言語の `type: publication` を日付の新しい順で表示する |
+| `news` | 本文の前に、現在の言語の `type: news` を日付の新しい順で表示する |
+| `projects` | 本文の前に、現在の言語の `type: project` かつ `status: current` を日付の新しい順ですべて表示する |
 
 - publications・newsの件数は、各home用Markdownの `limit` で指定する。省略時は3件。
 - `limit` は1以上の整数。該当する公開ページが少ない場合は、その件数だけ表示する。
@@ -324,3 +324,12 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 
 - CTAはinline-flexで文字とシェブロンを中央揃えし、間隔は0.5remとする。
 - シェブロンの領域は幅・高さとも1.625rem（26px）。文字列の後ろに配置する。
+
+## 16. トップページのCTA配置
+
+- ヒーローを除く4セクションの日英Markdownに `cta` ショートコードを配置する。
+- ResearchはCVへリンクする（日本語 `/cv`、英語 `/about`）。研究紹介の独立ページは未作成のため、既存の略歴ページを案内する。
+- publications・projects・newsは、それぞれ `/publication`・`/project`・`/news` の一覧へリンクする。
+- 日本語の文言は「略歴を見る」「論文一覧を見る」「プロジェクト一覧を見る」「お知らせ一覧を見る」。英語は「View CV」「View all publications」「View all projects」「View all news」。
+- 一覧型ウィジェットは、自動生成した一覧の後ろにMarkdown本文を表示し、本文末尾のCTAが一覧の下に来るようにする。
+- ヒーローには今回CTAを追加しない。

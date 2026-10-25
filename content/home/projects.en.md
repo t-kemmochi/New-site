@@ -5,3 +5,5 @@ widget: "projects"
 ---
 
 <!-- Write the content in Markdown here. -->
+
+{{< cta text="View all projects" url="/project" >}}
