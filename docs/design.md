@@ -49,7 +49,8 @@
 
 - メニューバー（サイトタイトル・メニュー・言語切り替え）と全ページの `h1`・`h2` に、Google FontsのMontserratを使用する。
 - ウェイトはnormal（400）、font-styleもnormalとする。Google Fontsから通常体400のみを読み込む。
-- Montserratに含まれない日本語の文字などは、ブラウザのsans-serifフォントへフォールバックする。
+- 本文はGoogle FontsのOpen SansとLINE Seed JPを使用する。フォントスタックは `"Open Sans", "LINE Seed JP", sans-serif` とし、英字はOpen Sans、日本語はLINE Seed JPで表示する。日英両サイトに共通で適用する。通常体400と太字700を読み込む。
+- メニューバー・h1・h2はMontserratの通常体400を維持し、日本語はLINE Seed JPへフォールバックする。
 - 共通のコンテンツ最大幅は、ひとまず1200pxとする。
 - 最大幅はサイト全体で共有する変数として定義する。
 - コンテンツを中央に配置する。
@@ -61,7 +62,7 @@
 - CSS変数 `--content-max-width` と共通クラス `.container` がある。
 - ヘッダーとフッターには適用済み。
 - トップページのヒーローと各セクションにも適用済み。その他の本文領域への適用は未実装。
-- 本文のフォント、行間、見出し、余白などの詳細は未確定。
+- 本文のフォントはOpen SansとLINE Seed JP。行間、見出し、余白などの詳細は未確定。
 
 ## 4. ヘッダー
 
@@ -263,7 +264,7 @@ hugo new content --kind memo memo/example.ja.md
 ### CTAの使い方
 
 D案（背景・枠線なし、末尾に一重シェブロン）を `cta` ショートコードで表示する。
-文字はMontserratの通常体とする。シェブロンは空のCSS擬似要素 `::after` にSVGをマスクとして指定する装飾で、読み上げる文字は挿入しない。
+CTA自体にfont-familyを指定せず、本文のOpen Sans・LINE Seed JPを継承する。ウェイト・スタイルは通常体とする。シェブロンは空のCSS擬似要素 `::after` にSVGをマスクとして指定する装飾で、読み上げる文字は挿入しない。
 SVGはCSS内のデータURIとして保持し、文字色に追従させる。追加の通信や公開先サブディレクトリに依存しない。
 
 ```markdown
