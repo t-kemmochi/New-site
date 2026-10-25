@@ -1,0 +1,33 @@
+{{- $text := .Get "text" -}}
+{{- $url := .Get "url" -}}
+{{- $external := false -}}
+{{- with .Get "external" -}}
+  {{- if not (in (slice "true" "false") (printf "%v" .)) -}}
+    {{- errorf "cta: external は true または false を指定してください。%s" $.Position -}}
+  {{- end -}}
+  {{- $external = eq (printf "%v" .) "true" -}}
+{{- end -}}
+{{- if or (not $text) (not $url) -}}
+  {{- errorf "cta: text と url は必須です。%s" .Position -}}
+{{- else -}}
+  {{- $parsed := urls.Parse $url -}}
+  {{- $href := "" -}}
+  {{- if $external -}}
+    {{- if or (not (in (slice "http" "https") $parsed.Scheme)) (not $parsed.Host) $parsed.User -}}
+      {{- errorf "cta: 外部リンクは http(s) の絶対URLを指定してください。%s" .Position -}}
+    {{- else -}}
+      {{- $href = $url -}}
+    {{- end -}}
+  {{- else -}}
+    {{- if or $parsed.Scheme $parsed.Host (strings.HasPrefix $url "//") (strings.Contains $url "\\") -}}
+      {{- errorf "cta: 内部リンクにはサイト内のページパスを指定してください。外部URLには external=true が必要です。%s" .Position -}}
+    {{- else if strings.HasPrefix $url "#" -}}
+      {{- $href = $url -}}
+    {{- else -}}
+      {{- $href = relref . $url -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with $href -}}
+<a class="cta" href="{{ . }}"{{ if $external }} target="_blank" rel="external noopener noreferrer"{{ end }}>{{ $text }}</a>
+  {{- end -}}
+{{- end -}}

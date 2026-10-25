@@ -3,14 +3,42 @@
   /* サイト全体の共通設定 */
   --content-max-width: 1200px;
 
+  /* フォントサイズ：htmlの16pxを基準にremで指定 */
+  --font-size-root: 16px;
+  --font-size-base: 1.25rem;
+  --font-size-h1: 2.5rem;
+  --font-size-h2: 1.875rem;
+  --font-size-site-title: 1.25rem;
+  --font-size-footer: 0.875rem;
+  --font-size-cta: var(--font-size-base);
+
   /* トップページ：ヒーローより後のセクション */
   --home-section-background-odd: #ffffff;
   --home-section-background-even: #f2f2f2;
 
   /* ヘッダー */
-  --header-background: #243746;
+  --header-background: #22d46a;
   --header-text-color: #ffffff;
-  --header-link-hover-color: #c9e6ff;
+  --header-link-hover-color: #e6faec;
+  --header-link-focus-color: #ffffff;
+  --header-link-active-color: #ffffff;
+  --header-link-focus-ring-color: #ffffff;
+
+  /* 通常リンク */
+  --link-color: #008000;
+  --link-visited-color: #008000;
+  --link-hover-color: #009900;
+  --link-focus-color: #008000;
+  --link-active-color: #006600;
+  --link-focus-ring-color: #008000;
+
+  /* CTA：通常リンクと別々に上書き可能 */
+  --cta-color: var(--link-color);
+  --cta-visited-color: var(--link-visited-color);
+  --cta-hover-color: var(--link-hover-color);
+  --cta-focus-color: var(--link-focus-color);
+  --cta-active-color: var(--link-active-color);
+  --cta-focus-ring-color: var(--link-focus-ring-color);
 
   /* フッター */
   --footer-background: #f2f2f2;
@@ -24,12 +52,84 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: var(--font-size-root);
+}
+
 body {
+  font-size: var(--font-size-base);
   margin: 0;
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+}
+
+/* 通常リンク */
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--link-visited-color);
+}
+
+a:hover {
+  color: var(--link-hover-color);
+}
+
+a:focus-visible {
+  color: var(--link-focus-color);
+  outline: 2px solid var(--link-focus-ring-color);
+  outline-offset: 4px;
+}
+
+a:active {
+  color: var(--link-active-color);
+}
+
+/* CTA：D案（末尾にSVGの一重シェブロン、背景と枠線なし） */
+a.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--font-size-cta);
+  font-family: "Montserrat", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  color: var(--cta-color);
+}
+
+/* 空の擬似要素による装飾。色はCTAの文字色に追従する。 */
+a.cta::after {
+  content: "";
+  width: 1.625rem;
+  height: 1.625rem;
+  flex-shrink: 0;
+  background-color: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m9 5 7 7-7 7' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+a.cta:visited {
+  color: var(--cta-visited-color);
+}
+
+a.cta:hover {
+  color: var(--cta-hover-color);
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+a.cta:focus-visible {
+  color: var(--cta-focus-color);
+  outline-color: var(--cta-focus-ring-color);
+}
+
+a.cta:active {
+  color: var(--cta-active-color);
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
 }
 
 /* メニューバーと見出しの書体 */
@@ -39,6 +139,14 @@ h2 {
   font-family: "Montserrat", sans-serif;
   font-weight: normal;
   font-style: normal;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+}
+
+h2 {
+  font-size: var(--font-size-h2);
 }
 
 /* ヘッダー、本文、フッターで共用するコンテナ */
@@ -85,7 +193,7 @@ h2 {
 
 .site-title {
   flex-shrink: 0;
-  font-size: 1.25rem;
+  font-size: var(--font-size-site-title);
   font-weight: normal;
 }
 
@@ -105,15 +213,20 @@ h2 {
 
 /* キーボード操作時のフォーカス */
 .site-header a:focus-visible {
-  outline: 2px solid currentColor;
+  color: var(--header-link-focus-color);
+  outline: 2px solid var(--header-link-focus-ring-color);
   outline-offset: 4px;
+}
+
+.site-header a:active {
+  color: var(--header-link-active-color);
 }
 
 /* 現在のページ、または配下のページを表示中の項目 */
 .site-menu a.is-current,
 .site-menu a.is-ancestor {
   text-decoration: underline;
-  text-underline-offset: 0.35em;
+  text-underline-offset: 0.35rem;
 }
 
 .language-switcher {
@@ -150,7 +263,7 @@ h2 {
   color: var(--footer-text-color);
   padding-top: 1rem;
   padding-bottom: 1rem;
-  font-size: 0.875rem;
+  font-size: var(--font-size-footer);
 }
 
 .footer-copyright {

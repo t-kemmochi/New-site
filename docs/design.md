@@ -257,3 +257,70 @@ hugo new content --kind memo memo/example.ja.md
 
 - 日本語版のトップページのセクション見出しは、英語版と同じResearch・Recent publications・Research projects・Newsとする。
 - ヒーローは日英ともTomoya Kemmochi。本文の言語は変更しない。
+
+## 14. CTAショートコードとリンクの色
+
+### CTAの使い方
+
+D案（背景・枠線なし、末尾に一重シェブロン）を `cta` ショートコードで表示する。
+文字はMontserratの通常体とする。シェブロンは空のCSS擬似要素 `::after` にSVGをマスクとして指定する装飾で、読み上げる文字は挿入しない。
+SVGはCSS内のデータURIとして保持し、文字色に追従させる。追加の通信や公開先サブディレクトリに依存しない。
+
+```markdown
+{{< cta text="View publications" url="/publication" >}}
+{{< cta text="View news" url="/news" external=false >}}
+{{< cta text="Jump to research" url="#research" >}}
+{{< cta text="External website" url="https://example.com/" external=true >}}
+```
+
+- `text` と `url` は必須の名前付き引数。
+- `external` は省略時false。true・false以外はビルドエラーとする。
+- 内部ページはHugoの `relref` で解決し、現在の言語と公開先サブディレクトリを反映する。存在しないページはビルドエラーにする。
+- ページ内アンカーも指定できる。アンカー先の存在確認は編集者が行う。
+- 内部リンクはコンテンツページを対象とし、静的ファイルへのリンクは今回の対象外。
+- 外部URLを指定する場合は `external=true` が必要。HTTP(S)の絶対URLだけを許可し、別タブで開く。
+- 外部リンクには `rel="external noopener noreferrer"` を付ける。
+- ショートコード自体は全ページ共通のCSSを使い、追加JavaScriptは使用しない。
+
+### 色と状態
+
+色は `assets/css/main.css` の `:root` で設定する。ショートコードへの色引数は設けず、CSSカスタムプロパティで変更する。必要なら特定のコンテナ内だけ変数を上書きできる。
+
+| 対象 | CSS変数 | 初期値 |
+| --- | --- | --- |
+| メニューバー背景 | `--header-background` | `#22d46a` |
+| メニューバー文字 | `--header-text-color` | `#ffffff` |
+| メニューホバー | `--header-link-hover-color` | `#e6faec` |
+| メニューフォーカス・押下・フォーカス枠 | `--header-link-focus-color`・`--header-link-active-color`・`--header-link-focus-ring-color` | `#ffffff` |
+| 通常リンク | `--link-color` | `#008000` |
+| 訪問済みリンク | `--link-visited-color` | `#008000` |
+| ホバー | `--link-hover-color` | `#009900` |
+| キーボードフォーカス | `--link-focus-color` | `#008000` |
+| 押下 | `--link-active-color` | `#006600` |
+| フォーカス枠 | `--link-focus-ring-color` | `#008000` |
+
+- 通常リンクは通常・訪問済み・ホバー・フォーカス・押下のいずれも下線なし。
+- キーボードフォーカス時は2pxの枠を4px外側に表示する。
+- CTAには `--cta-color`・`--cta-visited-color`・`--cta-hover-color`・`--cta-focus-color`・`--cta-active-color`・`--cta-focus-ring-color` を用意する。初期値は対応する通常リンク変数を参照する。
+- CTAは通常・訪問済みは下線なし、ホバー・押下時に下線を表示する。フォーカス時は枠を表示する。
+- ヘッダーの現在位置を示す下線は維持する。
+
+## 15. フォントサイズと文字関連の単位
+
+- ルート要素 `html` のフォントサイズは `--font-size-root` で指定する。初期値は16px。
+- 本文の既定サイズは `--font-size-base: 1.25rem`（20px）とする。
+- フォントサイズ、記号の大きさ・間隔、下線のオフセットはremで指定する。既存のem指定はremへ統一する。
+- フォントサイズは `:root` の以下のCSS変数で指定する。
+
+| 用途 | CSS変数 | 初期値（ルート16px時） |
+| --- | --- | --- |
+| ルート | `--font-size-root` | `16px` |
+| 本文・継承するメニュー | `--font-size-base` | `1.25rem`（20px） |
+| h1 | `--font-size-h1` | `2.5rem`（40px） |
+| h2 | `--font-size-h2` | `1.875rem`（30px） |
+| メニューのサイトタイトル | `--font-size-site-title` | `1.25rem`（20px） |
+| フッター | `--font-size-footer` | `0.875rem`（14px） |
+| CTA | `--font-size-cta` | `var(--font-size-base)` |
+
+- CTAはinline-flexで文字とシェブロンを中央揃えし、間隔は0.5remとする。
+- シェブロンの領域は幅・高さとも1.625rem（26px）。文字列の後ろに配置する。
