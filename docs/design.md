@@ -288,7 +288,7 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 
 | 対象 | CSS変数 | 初期値 |
 | --- | --- | --- |
-| メニューバー背景 | `--header-background` | `#22d46a` |
+| メニューバー背景 | `--header-background` | `#37ab5c` |
 | メニューバー文字 | `--header-text-color` | `#ffffff` |
 | メニューホバー | `--header-link-hover-color` | `#e6faec` |
 | メニューフォーカス・押下・フォーカス枠 | `--header-link-focus-color`・`--header-link-active-color`・`--header-link-focus-ring-color` | `#ffffff` |
@@ -322,8 +322,8 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 | フッター | `--font-size-footer` | `0.875rem`（14px） |
 | CTA | `--font-size-cta` | `var(--font-size-base)` |
 
-- CTAはinline-flexで文字とシェブロンを中央揃えし、間隔は0.5remとする。
-- シェブロンの領域は幅・高さとも1.625rem（26px）。文字列の後ろに配置する。
+- CTAはinline-flexで文字とシェブロンを中央揃えし、間隔は0.3125rem（ルート16px時に5px）とする。本文20pxで半角スペース1個分程度を目安とし、SVG内部の左右余白も絞った状態を維持する。
+- シェブロンの領域は幅0.625rem（10px）、高さ1.625rem（26px）。SVGのviewBoxを `8 0 9 24` とし、線の形・大きさを維持して横方向の余白を削る。文字列の後ろに配置する。
 
 ## 16. トップページのCTA配置
 
@@ -333,3 +333,5 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 - 日本語の文言は「略歴を見る」「論文一覧を見る」「プロジェクト一覧を見る」「お知らせ一覧を見る」。英語は「View CV」「View all publications」「View all projects」「View all news」。
 - 一覧型ウィジェットは、自動生成した一覧の後ろにMarkdown本文を表示し、本文末尾のCTAが一覧の下に来るようにする。
 - ヒーローには今回CTAを追加しない。
+
+- メニューバーの背景色 `#37ab5c` は、既存サイト `https://t-kemmochi.github.io/ja/` の公開用HTMLが読み込むCSSの `.navbar` に合わせた値。メニュー文字は白を維持する。
