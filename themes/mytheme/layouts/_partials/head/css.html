@@ -1,4 +1,5 @@
-{{- with resources.Get "css/main.css" }}
+{{- range slice "css/reset.css" "css/main.css" }}
+{{- with resources.Get . }}
   {{- $opts := dict
     "minify" (cond hugo.IsDevelopment false true)
     "sourceMap" (cond hugo.IsDevelopment "linked" "none")
@@ -12,4 +13,5 @@
       {{- end }}
     {{- end }}
   {{- end }}
+{{- end }}
 {{- end }}

@@ -1,0 +1,67 @@
+/*
+ * このサイト向けの軽量リセット。
+ * 見出し・段落・リストの余白と記号をリセットし、main.cssで指定し直す。
+ * キーボードフォーカス表示は維持する。
+ * 色・フォントサイズ・レイアウトは後から読み込む main.css で指定する。
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* モバイルブラウザの自動的な文字拡大を揃える。ズーム操作は制限しない。 */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+/* ブラウザ既定の余白とリスト記号を除く。 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li,
+dl,
+dt,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* 画像・動画の縦横比を保ち、コンテナからのはみ出しを防ぐ。 */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ブラウザ固有のフォーム用フォントではなく、周囲の文字設定を使う。 */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+
+/* 通常のhidden属性は非表示にする。ページ内検索用のuntil-foundは除外する。 */
+[hidden]:not([hidden="until-found"]) {
+  display: none !important;
+}

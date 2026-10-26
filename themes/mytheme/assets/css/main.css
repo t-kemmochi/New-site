@@ -1,7 +1,37 @@
 /* 共通設定 */
 :root {
   /* サイト全体の共通設定 */
-  --content-max-width: 1200px;
+  --content-max-width: 75rem;
+
+  /* 本文の余白・リスト */
+  --heading-margin-before: 1.5rem;
+  --heading-margin-after: 0.75rem;
+  --paragraph-margin-after: 1rem;
+  --list-margin-after: 1rem;
+  --list-indent: 1.75rem;
+  --list-item-gap: 0.375rem;
+  --nested-list-margin: 0.5rem;
+  --description-indent: 1.5rem;
+  --description-term-gap: 0.5rem;
+
+  /* 共通レイアウト・装飾の長さ */
+  --container-padding: 1rem;
+  --header-gap: 2rem;
+  --header-padding-block: 1rem;
+  --menu-gap: 1.5rem;
+  --language-gap: 0.5rem;
+  --language-padding-block: 0.35rem;
+  --language-padding-inline: 0.75rem;
+  --language-border-width: 0.0625rem;
+  --language-border-radius: 0.25rem;
+  --footer-padding-block: 1rem;
+  --focus-ring-width: 0.125rem;
+  --focus-ring-offset: 0.25rem;
+  --menu-underline-offset: 0.35rem;
+  --cta-gap: 0.3125rem;
+  --cta-icon-width: 0.625rem;
+  --cta-icon-height: 1.625rem;
+  --cta-underline-offset: 0.2rem;
 
   /* フォントサイズ：htmlの16pxを基準にremで指定 */
   --font-size-root: 16px;
@@ -20,25 +50,17 @@
   --header-background: #37ab5c;
   --header-text-color: #ffffff;
   --header-link-hover-color: #e6faec;
-  --header-link-focus-color: #ffffff;
-  --header-link-active-color: #ffffff;
-  --header-link-focus-ring-color: #ffffff;
 
   /* 通常リンク */
   --link-color: #008000;
-  --link-visited-color: #008000;
   --link-hover-color: #009900;
-  --link-focus-color: #008000;
   --link-active-color: #006600;
-  --link-focus-ring-color: #008000;
 
   /* CTA：通常リンクと別々に上書き可能 */
   --cta-color: var(--link-color);
-  --cta-visited-color: var(--link-visited-color);
   --cta-hover-color: var(--link-hover-color);
-  --cta-focus-color: var(--link-focus-color);
   --cta-active-color: var(--link-active-color);
-  --cta-focus-ring-color: var(--link-focus-ring-color);
+  --cta-focus-ring-color: var(--link-color);
 
   /* フッター */
   --footer-background: #f2f2f2;
@@ -46,12 +68,6 @@
 }
 
 /* 基本レイアウト */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 html {
   font-size: var(--font-size-root);
 }
@@ -59,11 +75,64 @@ html {
 body {
   font-family: "Open Sans", "LINE Seed JP", sans-serif;
   font-size: var(--font-size-base);
-  margin: 0;
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+}
+
+/* 本文の見出し・段落・リストをブラウザ既定値に依存せず指定する。 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-block: var(--heading-margin-before) var(--heading-margin-after);
+}
+
+p {
+  margin-block-end: var(--paragraph-margin-after);
+}
+
+ul,
+ol {
+  margin-block-end: var(--list-margin-after);
+  padding-inline-start: var(--list-indent);
+  list-style-position: outside;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+li + li {
+  margin-block-start: var(--list-item-gap);
+}
+
+li > ul,
+li > ol {
+  margin-block: var(--nested-list-margin);
+}
+
+li > ul {
+  list-style-type: circle;
+}
+
+dl {
+  margin-block-end: var(--list-margin-after);
+}
+
+dt:not(:first-child) {
+  margin-block-start: var(--description-term-gap);
+}
+
+dd {
+  margin-inline-start: var(--description-indent);
 }
 
 /* 通常リンク */
@@ -73,17 +142,18 @@ a {
 }
 
 a:visited {
-  color: var(--link-visited-color);
+  color: var(--link-color);
 }
 
 a:hover {
   color: var(--link-hover-color);
+  text-decoration: underline;
 }
 
 a:focus-visible {
-  color: var(--link-focus-color);
-  outline: 2px solid var(--link-focus-ring-color);
-  outline-offset: 4px;
+  color: var(--link-color);
+  outline: var(--focus-ring-width) solid var(--link-color);
+  outline-offset: var(--focus-ring-offset);
 }
 
 a:active {
@@ -94,7 +164,7 @@ a:active {
 a.cta {
   display: inline-flex;
   align-items: center;
-  gap: 0.3125rem; /* ルート16px時に5px：半角スペース1個分程度 */
+  gap: var(--cta-gap); /* ルート16px時に5px：半角スペース1個分程度 */
   font-size: var(--font-size-cta);
   font-weight: normal;
   font-style: normal;
@@ -104,32 +174,32 @@ a.cta {
 /* 空の擬似要素による装飾。色はCTAの文字色に追従する。 */
 a.cta::after {
   content: "";
-  width: 0.625rem;
-  height: 1.625rem;
+  width: var(--cta-icon-width);
+  height: var(--cta-icon-height);
   flex-shrink: 0;
   background-color: currentColor;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='8 0 9 24'%3E%3Cpath d='m9 5 7 7-7 7' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 a.cta:visited {
-  color: var(--cta-visited-color);
+  color: var(--cta-color);
 }
 
 a.cta:hover {
   color: var(--cta-hover-color);
   text-decoration: underline;
-  text-underline-offset: 0.2rem;
+  text-underline-offset: var(--cta-underline-offset);
 }
 
 a.cta:focus-visible {
-  color: var(--cta-focus-color);
+  color: var(--cta-color);
   outline-color: var(--cta-focus-ring-color);
 }
 
 a.cta:active {
   color: var(--cta-active-color);
   text-decoration: underline;
-  text-underline-offset: 0.2rem;
+  text-underline-offset: var(--cta-underline-offset);
 }
 
 /* メニューバーと見出しの書体 */
@@ -155,8 +225,8 @@ h2 {
   max-width: var(--content-max-width);
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
 }
 
 .site-main {
@@ -177,9 +247,9 @@ h2 {
 .header-inner {
   display: flex;
   align-items: center;
-  gap: 2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  gap: var(--header-gap);
+  padding-top: var(--header-padding-block);
+  padding-bottom: var(--header-padding-block);
 }
 
 .site-header a {
@@ -189,6 +259,7 @@ h2 {
 
 .site-header a:hover {
   color: var(--header-link-hover-color);
+  text-decoration: none;
 }
 
 .site-title {
@@ -205,42 +276,46 @@ h2 {
 .site-menu {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: var(--menu-gap);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+.site-menu > li + li {
+  margin-block-start: 0;
+}
+
 /* キーボード操作時のフォーカス */
 .site-header a:focus-visible {
-  color: var(--header-link-focus-color);
-  outline: 2px solid var(--header-link-focus-ring-color);
-  outline-offset: 4px;
+  color: var(--header-text-color);
+  outline: var(--focus-ring-width) solid var(--header-text-color);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .site-header a:active {
-  color: var(--header-link-active-color);
+  color: var(--header-text-color);
 }
 
 /* 現在のページ、または配下のページを表示中の項目 */
 .site-menu a.is-current,
 .site-menu a.is-ancestor {
   text-decoration: underline;
-  text-underline-offset: 0.35rem;
+  text-underline-offset: var(--menu-underline-offset);
 }
 
 .language-switcher {
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--language-gap);
 }
 
 .language-link {
   display: inline-block;
-  padding: 0.35rem 0.75rem;
-  border: 1px solid currentColor;
-  border-radius: 0.25rem;
+  padding: var(--language-padding-block) var(--language-padding-inline);
+  border: var(--language-border-width) solid currentColor;
+  border-radius: var(--language-border-radius);
   white-space: nowrap;
 }
 
@@ -261,8 +336,8 @@ h2 {
 .site-footer {
   background-color: var(--footer-background);
   color: var(--footer-text-color);
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: var(--footer-padding-block);
+  padding-bottom: var(--footer-padding-block);
   font-size: var(--font-size-footer);
 }
 
