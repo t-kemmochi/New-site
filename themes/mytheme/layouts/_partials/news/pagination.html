@@ -1,7 +1,7 @@
 {{ $pager := .pager }}
 {{ $ja := eq .lang "ja" }}
 {{ if gt $pager.TotalPages 1 }}
-  <nav class="news-pagination" aria-label="{{ if $ja }}NEWSのページ送り{{ else }}News pagination{{ end }}">
+  <nav class="news-pagination" aria-label="{{ .label | default (cond $ja "NEWSのページ送り" "News pagination") }}">
     <ul class="news-pagination-list" role="list">
       <li>
         {{ if $pager.HasPrev }}

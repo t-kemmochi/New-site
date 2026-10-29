@@ -1,0 +1,37 @@
+{{ $page := .page }}
+{{ $archive := .archive }}
+{{ $ja := eq $page.Site.Language.Lang "ja" }}
+{{ $link := partial "projects/link.html" $page }}
+{{ $state := partial "projects/state.html" $page }}
+{{ if ne (printf "%T" $page.Params.role) "string" }}
+  {{ errorf "project: role は表示用の文字列を指定してください：%s" $page.Path }}
+{{ end }}
+{{ if ne (printf "%T" $page.Params.is_pi) "bool" }}
+  {{ errorf "project: is_PI はtrueまたはfalseで指定してください：%s" $page.Path }}
+{{ end }}
+{{ if and (not $page.Params.is_pi) (not $page.Params.principal_investigator) }}
+  {{ errorf "project: is_PI=false では principal_investigator が必須です：%s" $page.Path }}
+{{ end }}
+<li class="project-item">
+  <a class="project-card" href="{{ $link.href }}"{{ if $link.external }} rel="external"{{ end }} aria-labelledby="{{ .id }}">
+    <div class="project-meta project-topline">
+      <span>{{ $page.Params.grant_type }}</span>
+      <span>{{ $page.Params.grant_id }}</span>
+      {{ if $archive }}
+        <span class="project-status project-status--{{ $state }}">{{ if eq $state "current" }}{{ if $ja }}継続中{{ else }}Current{{ end }}{{ else if eq $state "upcoming" }}{{ if $ja }}開始予定{{ else }}Upcoming{{ end }}{{ else }}{{ if $ja }}完了{{ else }}Completed{{ end }}{{ end }}</span>
+      {{ end }}
+    </div>
+    {{ if $archive }}
+      <h2 class="project-title" id="{{ .id }}">{{ $page.Title }}</h2>
+    {{ else }}
+      <h3 class="project-title" id="{{ .id }}">{{ $page.Title }}</h3>
+    {{ end }}
+    <div class="project-meta project-role">
+      <span>{{ $page.Params.role }}</span>
+      {{ if not $page.Params.is_pi }}
+        <span>{{ if $ja }}研究代表者：{{ else }}PI: {{ end }}{{ $page.Params.principal_investigator }}</span>
+      {{ end }}
+    </div>
+    <div class="project-meta project-period">{{ replace $page.Params.period_start "-" "." }}–{{ replace $page.Params.period_end "-" "." }}</div>
+  </a>
+</li>

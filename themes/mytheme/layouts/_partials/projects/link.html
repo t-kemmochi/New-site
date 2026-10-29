@@ -1,0 +1,23 @@
+{{- $external := true -}}
+{{- if isset .Params "external" -}}
+  {{- if ne (printf "%T" .Params.external) "bool" -}}{{- errorf "project: external は真偽値です：%s" .Path -}}{{- end -}}
+  {{- $external = .Params.external -}}
+{{- end -}}
+{{- $href := .RelPermalink -}}
+{{- if $external -}}
+  {{- $href = .Params.external_url | default "" -}}
+  {{- if not $href -}}
+    {{- errorf "project: external=true では external_url が必須です：%s" .Path -}}
+  {{- else -}}
+    {{- $url := urls.Parse $href -}}
+    {{- if or (not (in (slice "http" "https") $url.Scheme)) (not $url.Host) $url.User -}}
+      {{- errorf "project: external_url はHTTP(S)の絶対URLを指定してください：%s" .Path -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if .RelPermalink -}}
+    {{- errorf "project: 外部専用課題には build.render=never を指定してください：%s" .Path -}}
+  {{- end -}}
+{{- else if not $href -}}
+  {{- errorf "project: 個別ページには build.render=always を指定してください：%s" .Path -}}
+{{- end -}}
+{{- return (dict "href" $href "external" $external) -}}

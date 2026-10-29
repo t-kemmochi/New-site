@@ -1,0 +1,83 @@
+/* 項目全体を1つのリンクにする。リンク内部にCTAは置かない。 */
+.project-list {
+  --project-padding: 1rem;
+  --project-row-gap: 0.75rem;
+  --project-meta-gap: 1.5rem;
+  --project-border-color: #d6d6d6;
+  --project-hover-border-color: #a6a6a6;
+  --project-meta-color: #666666;
+  --project-title-size: var(--font-size-base);
+  --project-period-size: 1rem;
+  --project-status-current-color: #258540;
+  --project-status-current-border: var(--header-background);
+  --project-status-completed-color: #666666;
+  --project-status-completed-border: #d6d6d6;
+  padding: 0;
+  margin-block: 0 var(--list-margin-after);
+  list-style: none;
+}
+
+.project-item + .project-item {
+  margin-block-start: 0;
+}
+
+.project-card,
+.project-card:visited,
+.project-card:hover,
+.project-card:focus-visible,
+.project-card:active {
+  display: grid;
+  gap: var(--project-row-gap);
+  padding: var(--project-padding);
+  color: inherit;
+  text-decoration: none;
+  border: 0.0625rem solid transparent;
+  border-block-end-color: var(--project-border-color);
+  border-radius: 0.25rem;
+}
+
+.project-card:hover,
+.project-card:focus-visible {
+  border-color: var(--project-hover-border-color);
+}
+
+.project-card:hover .project-title,
+.project-card:focus-visible .project-title {
+  text-decoration: underline;
+}
+
+.project-title {
+  margin: 0;
+  font-family: inherit;
+  font-size: var(--project-title-size);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.project-meta {
+  color: var(--project-meta-color);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--project-meta-gap);
+  row-gap: 0.25rem;
+}
+
+.project-period {
+  font-size: var(--project-period-size);
+}
+
+.project-status {
+  margin-inline-start: auto;
+  padding: 0.125rem 0.5rem;
+  border: 0.0625rem solid var(--project-status-completed-border);
+  border-radius: 0.25rem;
+  color: var(--project-status-completed-color);
+  font-size: var(--project-period-size);
+}
+
+.project-status--current,
+.project-status--upcoming {
+  color: var(--project-status-current-color);
+  border-color: var(--project-status-current-border);
+}

@@ -1,0 +1,20 @@
+{{- $start := .Params.period_start | default "" -}}
+{{- $end := .Params.period_end | default "" -}}
+{{- $valid := true -}}
+{{- range slice $start $end -}}
+  {{- if not (findRE `^[0-9]{4}-(0[1-9]|1[0-2])$` .) -}}
+    {{- errorf "project: period_start/period_end は YYYY-MM で指定してください：%s" $.Path -}}
+    {{- $valid = false -}}
+  {{- end -}}
+{{- end -}}
+{{- $state := "completed" -}}
+{{- if $valid -}}
+  {{- if gt $start $end -}}{{- errorf "project: 開始年月が終了年月より後です：%s" .Path -}}{{- end -}}
+  {{- $month := now.Format "2006-01" -}}
+  {{- if gt $start $month -}}
+    {{- $state = "upcoming" -}}
+  {{- else if ge $end $month -}}
+    {{- $state = "current" -}}
+  {{- end -}}
+{{- end -}}
+{{- return $state -}}

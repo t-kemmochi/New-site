@@ -1,0 +1,23 @@
+{{ define "main" }}
+  <div class="container project-archive">
+    <h1>{{ .Title }}</h1>
+    {{ .Content }}
+    {{ $size := 3 }}
+    {{ if isset .Params "page_size" }}{{ $size = .Params.page_size }}{{ end }}
+    {{ if not (findRE `^[1-9][0-9]*$` (printf "%v" $size)) }}
+      {{ errorf "project: page_size は1以上の整数を指定してください：%s" .Path }}
+    {{ else }}
+      {{ $pages := sort .RegularPages "Params.period_start" "desc" }}
+      {{ $pager := .Paginate $pages (int $size) }}
+      {{ with $pager.Pages }}
+        <ul class="project-list" role="list">
+          {{ range $i, $page := . }}
+            {{ partial "projects/item.html" (dict "page" $page "archive" true "id" (printf "archive-project-%d" $i)) }}
+          {{ end }}
+        </ul>
+      {{ end }}
+      {{ $label := cond (eq .Site.Language.Lang "ja") "プロジェクトのページ送り" "Project pagination" }}
+      {{ partial "news/pagination.html" (dict "pager" $pager "lang" .Site.Language.Lang "label" $label) }}
+    {{ end }}
+  </div>
+{{ end }}

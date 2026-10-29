@@ -1,4 +1,4 @@
-{{- range slice "css/reset.css" "css/main.css" "css/news.css" }}
+{{- range slice "css/reset.css" "css/main.css" "css/news.css" "css/projects.css" }}
 {{- with resources.Get . }}
   {{- $opts := dict
     "minify" (cond hugo.IsDevelopment false true)

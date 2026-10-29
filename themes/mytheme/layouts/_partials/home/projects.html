@@ -1,14 +1,14 @@
-{{ $pages := where .Site.RegularPages "Type" "project" }}
-{{ $pages = where $pages "Params.status" "current" }}
-{{ with $pages.ByDate.Reverse }}
-  <ul class="home-projects-list">
-    {{ range . }}
-      <li class="home-projects-item">
-        <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
-        {{ with .Description }}<p>{{ . }}</p>{{ end }}
-      </li>
+{{ $current := slice }}
+{{ range where .Site.RegularPages "Type" "project" }}
+  {{ if eq (partial "projects/state.html" .) "current" }}
+    {{ $current = $current | append . }}
+  {{ end }}
+{{ end }}
+{{ with $current }}
+  <ul class="project-list home-projects-list" role="list">
+    {{ range $i, $page := sort . "Params.period_start" "desc" }}
+      {{ partial "projects/item.html" (dict "page" $page "archive" false "id" (printf "home-project-%d" $i)) }}
     {{ end }}
   </ul>
 {{ end }}
-
 {{ .Content }}

@@ -233,7 +233,7 @@ hugo new content --kind memo memo/example.ja.md
 
 - 英語版は同じファイル名の `.en.md` とする。
 - 各archetypeは `type`・`date`・`draft: true` を設定する。公開する場合はdraftをfalseにする。
-- projectの初期状態は `status: current`。終了したものは、たとえば `status: completed` に変更する。
+- projectは `period_start`・`period_end` とビルド年月から状態を自動判定する。手動のstatusは使わない。
 
 ### ウィジェットの動作
 
@@ -242,7 +242,7 @@ hugo new content --kind memo memo/example.ja.md
 | `section` | Markdown本文をそのまま表示する |
 | `publications` | 本文の前に、現在の言語の `type: publication` を日付の新しい順で表示する |
 | `news` | 本文の前に、現在の言語の `type: news` を日付の新しい順で、日付・タイトル・手動要約・続きを読む付きで表示する |
-| `projects` | 本文の前に、現在の言語の `type: project` かつ `status: current` を日付の新しい順ですべて表示する |
+| `projects` | 本文の前に、現在の言語の `type: project` で期間から継続中と判定した課題を、開始年月の新しい順ですべて表示する |
 
 - publications・newsの件数は、各home用Markdownの `limit` で指定する。省略時は3件。
 - `limit` は1以上の整数。該当する公開ページが少ない場合は、その件数だけ表示する。
@@ -252,7 +252,7 @@ hugo new content --kind memo memo/example.ja.md
 - 表示は `home/publications.html`・`home/news.html`・`home/projects.html` に分離する。
 - 各セクションには `home-section--publications` などのクラス、各一覧には `home-publications-list` などの専用クラスを付ける。種類ごとのスタイル調整はこれらに対して行う。
 - 今回は新しい配色やカードデザインを追加しない。既存の全幅交互配色と共通幅を維持する。
-- publicationは日付とリンク、newsは日付・タイトルリンク・手動要約・続きを読む、projectはリンクと、設定されていればdescriptionを表示する。
+- publicationは日付とリンク、newsは日付・タイトルリンク・手動要約・続きを読むを表示する。projectは研究種別・番号・課題名・役割・必要時のみ代表者名・期間を表示する。
 
 ## 13. トップページの見出し表記
 
@@ -400,3 +400,50 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 - 先頭・末尾・現在ページ前後と省略記号による表示は維持する。
 
 - NEWSの横並びでは、外枠内側から日付、日付から区切り線、区切り線から記事本文、記事本文領域から外枠内側までを、すべて `--news-item-padding`（初期値1rem）で揃える。日付列は固定幅ではなくmax-contentとし、文字幅に追従させる。本文右側の余白は折り返した各行の文字末尾ではなく、本文領域の右端から測る。
+
+## 21. プロジェクト（グラント）
+
+### メタデータ
+
+| パラメータ | 内容 |
+| --- | --- |
+| `title` | 課題名 |
+| `type` | Hugoのコンテンツ種別。`project` を維持 |
+| `grant_type` | 研究種別（例：科研費 若手研究） |
+| `grant_id` | 課題番号。引用符を付けた文字列 |
+| `role` | 自由な表示用文字列。例：研究代表者、研究分担者 |
+| `is_PI` | 代表者かどうかの真偽値。Hugoテンプレートからは小文字の `is_pi` で参照 |
+| `principal_investigator` | 代表者名。is_PI=falseの場合に必須・表示 |
+| `period_start`・`period_end` | 引用符付きYYYY-MM。開始年月・終了年月 |
+| `external` | 外部専用か。省略時true。ひな型にもtrueを明記 |
+| `external_url` | 外部URL。external=trueの場合に必須。HTTP(S)のみ |
+
+### HTML出力とリンク先
+
+- 外部専用課題は `external = true` と `[build] render = 'never'` を組にする。`list = 'always'` で一覧からの取得を維持し、`publishResources = false` とする。
+- 内部ページを作る課題は `external = false` と `[build] render = 'always'` を組にする。必要なら `publishResources = true` にする。
+- externalだけではHugoの出力を変更できない。設定が不整合の場合はビルドエラーで通知する。
+- カード全体が1つのリンク。外部専用ならexternal_url、内部ページなら言語別RelPermalinkへ移動する。外部リンクも同じタブで開く。
+- 課題内にはCTAなど別のリンクを入れない。カードのリンク名は課題名で指定する。
+
+### 状態と並び順
+
+- Asia/Tokyoでビルドする運用（CI・クラウド起動手順のTZ設定）を前提に、ビルド年月と期間を比較する。
+- 開始年月が翌月以降なら開始予定。開始済みで終了年月が当月以降なら継続中。終了年月が前月以前なら完了。
+- 終了月全体を継続中に含める。月が変わっても自動配信更新はされず、再ビルドが必要。
+- 不正な年月や開始・終了の逆転はビルドエラー。手動のstatusは廃止する。
+- 開始年月の新しい順で表示する。トップページは継続中のみ。一覧は開始予定・継続中・完了を含める。
+
+### 表示
+
+- 研究種別と課題番号を横並びでグレー表示し、番号のラベルは付けない。
+- 課題名は本文色・太字。トップページはh3、一覧ページはh2。
+- 次の行にグレーのroleを表示し、is_PI=falseの場合だけ間隔を空けて「研究代表者：氏名」を添える。
+- 最後に期間を小さめのグレー文字で表示する。
+- 通常は下の区切り線のみ、ホバー時はグレーの四辺枠と課題名のみの下線を表示する。キーボードフォーカスでも枠と下線を表示する。
+- トップはラベルなし、リスト末尾に既存CTAショートコードによる一覧へのリンクを1つ配置する。
+- 一覧は継続中を緑の枠ラベル、完了を薄いグレー枠ラベルで表示する。開始予定は緑枠の別文言で表示する。
+- ラベルの緑文字は読みやすい濃さとし、枠はヘッダー色を使う。
+- 一覧のpage_sizeは `content/project/_index.*.md` で指定し、省略時3件。NEWSと同じページ送り部品・配色・省略規則を共用し、ナビゲーションのラベルはプロジェクト用にする。
+- スタイルはprojects.css、共通カード・状態判定・リンク判定は `_partials/projects/` に置く。
+- 既存ダミー課題を新メタデータに移行する。外部URLは架空例としてexample.comを使用し、実際の研究課題へのリンクとはしない。
