@@ -1,0 +1,39 @@
+{{ $pager := .pager }}
+{{ $ja := eq .lang "ja" }}
+{{ if gt $pager.TotalPages 1 }}
+  <nav class="news-pagination" aria-label="{{ if $ja }}NEWSのページ送り{{ else }}News pagination{{ end }}">
+    <ul class="news-pagination-list" role="list">
+      <li>
+        {{ if $pager.HasPrev }}
+          <a class="news-pagination-direction" href="{{ $pager.Prev.URL }}" rel="prev"><span aria-hidden="true">‹</span>{{ if $ja }}前へ{{ else }}Previous{{ end }}</a>
+        {{ else }}
+          <span class="news-pagination-direction" aria-disabled="true"><span aria-hidden="true">‹</span>{{ if $ja }}前へ{{ else }}Previous{{ end }}</span>
+        {{ end }}
+      </li>
+      {{ $previous := 0 }}
+      {{ range $pager.Pagers }}
+        {{/* 7ページ以下は全件、それ以上は先頭・末尾・現在ページ前後1件。 */}}
+        {{ if or (le $pager.TotalPages 7) (eq .PageNumber 1) (eq .PageNumber $pager.TotalPages) (le (math.Abs (sub .PageNumber $pager.PageNumber)) 1) }}
+          {{ if gt (sub .PageNumber $previous) 1 }}
+            <li class="news-pagination-ellipsis"><span aria-hidden="true">…</span><span class="news-sr-only">{{ if $ja }}途中のページを省略{{ else }}Pages omitted{{ end }}</span></li>
+          {{ end }}
+          <li>
+            {{ if eq .PageNumber $pager.PageNumber }}
+              <span class="is-current" aria-current="page" aria-label="{{ if $ja }}現在のページ：{{ .PageNumber }}{{ else }}Current page: {{ .PageNumber }}{{ end }}">{{ .PageNumber }}</span>
+            {{ else }}
+              <a href="{{ .URL }}" aria-label="{{ if $ja }}{{ .PageNumber }}ページ目{{ else }}Page {{ .PageNumber }}{{ end }}">{{ .PageNumber }}</a>
+            {{ end }}
+          </li>
+          {{ $previous = .PageNumber }}
+        {{ end }}
+      {{ end }}
+      <li>
+        {{ if $pager.HasNext }}
+          <a class="news-pagination-direction" href="{{ $pager.Next.URL }}" rel="next">{{ if $ja }}次へ{{ else }}Next{{ end }}<span aria-hidden="true">›</span></a>
+        {{ else }}
+          <span class="news-pagination-direction" aria-disabled="true">{{ if $ja }}次へ{{ else }}Next{{ end }}<span aria-hidden="true">›</span></span>
+        {{ end }}
+      </li>
+    </ul>
+  </nav>
+{{ end }}

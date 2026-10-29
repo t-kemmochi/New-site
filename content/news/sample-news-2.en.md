@@ -7,6 +7,8 @@ type = "news"
 
 This is dummy content for display testing. It does not describe real publications, research activities, or achievements.
 
+<!--more-->
+
 ## Overview
 
 Sample content about presentation at a workshop.

@@ -8,12 +8,9 @@
 {{ end }}
 {{ $pages := where .Site.RegularPages "Type" "news" }}
 {{ with first $limit $pages.ByDate.Reverse }}
-  <ul class="home-news-list">
+  <ul class="news-list home-news-list" role="list">
     {{ range . }}
-      <li class="home-news-item">
-        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
-        <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
-      </li>
+      {{ partial "news/item.html" . }}
     {{ end }}
   </ul>
 {{ end }}

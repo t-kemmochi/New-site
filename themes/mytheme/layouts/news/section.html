@@ -1,0 +1,20 @@
+{{ define "main" }}
+  <div class="container news-archive">
+    <h1>{{ .Title }}</h1>
+    {{ .Content }}
+    {{ $size := .Params.page_size | default 3 }}
+    {{ if not (findRE `^[1-9][0-9]*$` (printf "%v" $size)) }}
+      {{ errorf "NEWSのpage_sizeは1以上の整数にしてください：%s" .Path }}
+    {{ else }}
+      {{ $pager := .Paginate .RegularPages.ByDate.Reverse (int $size) }}
+      {{ with $pager.Pages }}
+        <ul class="news-list" role="list">
+          {{ range . }}
+            {{ partial "news/item.html" . }}
+          {{ end }}
+        </ul>
+      {{ end }}
+      {{ partial "news/pagination.html" (dict "pager" $pager "lang" .Site.Language.Lang) }}
+    {{ end }}
+  </div>
+{{ end }}
