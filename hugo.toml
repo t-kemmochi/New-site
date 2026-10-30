@@ -60,9 +60,9 @@ timeZone = 'Asia/Tokyo'
   weight = 50
 
 [[languages.en.menus.main]]
-  identifier = 'about'
+  identifier = 'cv'
   name = 'CV'
-  pageRef = '/about'
+  pageRef = '/cv'
   weight = 10
 
 [[languages.en.menus.main]]
@@ -88,3 +88,27 @@ timeZone = 'Asia/Tokyo'
   name = 'News'
   pageRef = '/news'
   weight = 50
+
+# 数式中のアンダースコア・改行・バックスラッシュ等をMarkdown処理から保護する。
+[markup.goldmark.extensions.passthrough]
+  enable = true
+  [markup.goldmark.extensions.passthrough.delimiters]
+    inline = [['$', '$']]
+    block = [
+      ['\[', '\]'],
+      ['\begin{equation}', '\end{equation}'],
+      ['\begin{equation*}', '\end{equation*}'],
+      ['\begin{align}', '\end{align}'],
+      ['\begin{align*}', '\end{align*}'],
+      ['\begin{alignat}', '\end{alignat}'],
+      ['\begin{alignat*}', '\end{alignat*}'],
+      ['\begin{gather}', '\end{gather}'],
+      ['\begin{gather*}', '\end{gather*}'],
+      ['\begin{multline}', '\end{multline}'],
+      ['\begin{multline*}', '\end{multline*}'],
+      ['\begin{flalign}', '\end{flalign}'],
+      ['\begin{flalign*}', '\end{flalign*}'],
+      ['\begin{eqnarray}', '\end{eqnarray}'],
+      ['\begin{eqnarray*}', '\end{eqnarray*}'],
+      ['\begin{displaymath}', '\end{displaymath}'],
+    ]

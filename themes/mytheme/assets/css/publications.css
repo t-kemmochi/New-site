@@ -119,7 +119,8 @@
 .publication-link:focus-visible,
 .publication-link:active {
   display: inline-block;
-  font-optical-sizing: none;
+  font-family: "Inconsolata", "LINE Seed JP", monospace;
+  font-optical-sizing: auto;
   padding: var(--publication-link-padding-block) var(--publication-link-padding-inline);
   border: var(--publication-link-border-width) solid var(--link-color);
   border-radius: 0.1875rem;

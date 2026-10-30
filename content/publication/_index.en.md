@@ -1,6 +1,7 @@
 ---
 title: "Publications"
 draft: false
+math: true
 ---
 
 A list of publications and preprints.

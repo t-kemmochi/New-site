@@ -1,3 +1,4 @@
 ---
 title: "ホーム"
+math: true
 ---

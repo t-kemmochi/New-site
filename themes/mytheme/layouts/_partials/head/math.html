@@ -1,0 +1,14 @@
+{{- $enabled := false -}}
+{{- if isset .Params "math" -}}
+  {{- if ne (printf "%T" .Params.math) "bool" -}}
+    {{- errorf "math はtrueまたはfalseの真偽値で指定してください：%s" .Path -}}
+  {{- else -}}
+    {{- $enabled = .Params.math -}}
+  {{- end -}}
+{{- end -}}
+{{- if $enabled -}}
+  {{- with resources.Get "js/mathjax-config.js" | minify | fingerprint -}}
+    <script defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+  {{- end -}}
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+{{- end -}}

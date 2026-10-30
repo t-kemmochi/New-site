@@ -1,6 +1,7 @@
 ---
 title: "Publications"
 draft: false
+math: true
 ---
 
 論文・プレプリントの一覧です。
