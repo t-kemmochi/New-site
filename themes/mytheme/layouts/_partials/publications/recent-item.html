@@ -2,7 +2,11 @@
 {{ $authors := $paper.authors | default slice }}
 <li class="publication-item">
   <a class="publication-card" href="https://doi.org/{{ $paper.doi }}" aria-labelledby="{{ .titleID }}" rel="external">
-    <h3 class="publication-title" id="{{ .titleID }}">{{ $paper.title }}</h3>
+    {{ if .featured }}
+      <h4 class="publication-title" id="{{ .titleID }}">{{ $paper.title }}</h4>
+    {{ else }}
+      <h3 class="publication-title" id="{{ .titleID }}">{{ $paper.title }}</h3>
+    {{ end }}
     {{ with $authors }}
       <p class="publication-authors">by {{ partial "publications/authors.html" $paper }}</p>
     {{ end }}

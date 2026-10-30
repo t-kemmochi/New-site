@@ -36,8 +36,7 @@
   border-color: var(--publication-hover-border-color);
 }
 
-.publication-card:hover .publication-title,
-.publication-card:focus-visible .publication-title {
+.publication-card:hover .publication-title {
   text-decoration: underline;
 }
 
@@ -119,7 +118,7 @@
 .publication-link:focus-visible,
 .publication-link:active {
   display: inline-block;
-  font-family: "Inconsolata", "LINE Seed JP", monospace;
+  font-family: var(--font-family-monospace);
   font-optical-sizing: auto;
   padding: var(--publication-link-padding-block) var(--publication-link-padding-inline);
   border: var(--publication-link-border-width) solid var(--link-color);

@@ -1,8 +1,6 @@
-{{ $isJapanese := eq .Site.Language.Lang "ja" }}
 <li class="news-item">
-  <time class="news-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+  <h3 class="news-date"><a href="{{ .RelPermalink }}"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time></a></h3>
   <div class="news-item-body">
-    <h3 class="news-title"><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h3>
     <div class="news-summary">
       {{ if strings.Contains .RawContent "<!--more-->" }}
         {{ .Summary }}
@@ -10,6 +8,5 @@
         {{ .Content }}
       {{ end }}
     </div>
-    <a class="cta news-read-more" href="{{ .RelPermalink }}" aria-label="{{ if $isJapanese }}続きを読む：{{ .Title }}{{ else }}Read more: {{ .Title }}{{ end }}">{{ if $isJapanese }}続きを読む{{ else }}Read more{{ end }}</a>
   </div>
 </li>

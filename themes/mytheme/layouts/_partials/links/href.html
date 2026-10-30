@@ -1,0 +1,15 @@
+{{- $url := .url -}}
+{{- $href := "" -}}
+{{- $parsed := urls.Parse $url -}}
+{{- if and (in (slice "http" "https") $parsed.Scheme) $parsed.Host (not $parsed.User) -}}
+  {{- $href = $url -}}
+{{- else if and .mailto (eq $parsed.Scheme "mailto") $parsed.Opaque (not $parsed.Host) -}}
+  {{- $href = $url -}}
+{{- else if or $parsed.Scheme $parsed.Host (strings.HasPrefix $url "//") (strings.Contains $url "\\") -}}
+  {{- errorf "link: 内部ページ、ページ内アンカー、HTTP(S)のURLを指定してください（Contactのみmailtoも使用可）：%q" $url -}}
+{{- else if strings.HasPrefix $url "#" -}}
+  {{- $href = $url -}}
+{{- else -}}
+  {{- $href = relref .page $url -}}
+{{- end -}}
+{{- return $href -}}

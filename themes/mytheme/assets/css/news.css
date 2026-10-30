@@ -1,8 +1,8 @@
 /* NEWSの共通表示。本文・リンクの基本設定はmain.cssから継承する。 */
 .news-list {
   --news-item-padding: 1rem;
-  --news-border-color: #d6d6d6;
   --news-border-hover-color: #a6a6a6;
+  --news-item-gap: 1rem;
   --news-border-radius: 0.25rem;
   --news-title-size: var(--font-size-base);
   margin-block: 0 var(--list-margin-after);
@@ -16,12 +16,11 @@
   gap: var(--news-item-padding);
   padding: var(--news-item-padding);
   border: 0.0625rem solid transparent;
-  border-block-end-color: var(--news-border-color);
   border-radius: var(--news-border-radius);
 }
 
 .news-item + .news-item {
-  margin-block-start: 0;
+  margin-block-start: var(--news-item-gap);
 }
 
 .news-item:hover,
@@ -30,28 +29,30 @@
 }
 
 .news-date {
-  padding-inline-end: var(--news-item-padding);
-  white-space: nowrap;
-  border-inline-end: 0.0625rem solid var(--news-border-color);
-}
-
-.news-title {
-  margin: 0 0 var(--heading-margin-after);
+  margin: 0;
   font-size: var(--news-title-size);
-  font-weight: normal;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-.news-title a,
-.news-title a:visited,
-.news-title a:hover,
-.news-title a:focus-visible,
-.news-title a:active {
+.news-date a,
+.news-date a:visited,
+.news-date a:hover,
+.news-date a:focus-visible,
+.news-date a:active {
   color: inherit;
 }
 
+.news-item:hover .news-date a {
+  text-decoration: underline;
+}
+
 .news-summary {
+  min-width: 0;
   overflow-wrap: anywhere;
 }
+
+.news-summary > :last-child { margin-block-end: 0; }
 
 /* 要約内にリスト・コード・数式があっても、NEWS項目のレイアウトを壊さない。 */
 .news-summary pre {
@@ -137,11 +138,6 @@
 }
 
 @media (max-width: 40rem) {
-  .news-date {
-    padding-inline-end: 0;
-    border-inline-end: 0;
-  }
-
   .news-item {
     grid-template-columns: minmax(0, 1fr);
     gap: 0.5rem;

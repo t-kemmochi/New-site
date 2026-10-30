@@ -3,7 +3,7 @@
   {{ .Content }}
   {{ range .Pages }}
     <section>
-      <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
+      <h2><a href="{{ .RelPermalink }}">{{ if and .IsPage (eq .Type "news") }}{{ partial "page-title.html" . }}{{ else }}{{ .LinkTitle }}{{ end }}</a></h2>
       {{ .Summary }}
     </section>
   {{ end }}

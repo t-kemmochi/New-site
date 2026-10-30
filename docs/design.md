@@ -41,7 +41,7 @@
 ### 未実装
 
 - 日英トップページと組み込み用セクションのファイルは作成済み。
-- 自己紹介と各セクションの実際の本文・翻訳は未作成。
+- 職位・所属・研究分野・キーワード・連絡先は日英とも記入済み。Projects・Newsは表示確認用データを保持しており、実際の本文の整備は今後行う。
 
 ## 3. サイト全体のレイアウト
 
@@ -95,9 +95,9 @@
 ### 未完成・未確定
 
 - メニューのリンク先は作成済み。CV（日英）は準備中の通常ページ、publication・project・memo・newsは日英の一覧ページを出力する。
-- 専用テンプレートは未作成で、既存の `page.html`・`section.html` を使用する。
+- publication・project・news・talksは専用テンプレートを使用する。CV・Memoは汎用テンプレートを使用する。
 - メニューの表示名・pageRefは日英ともCV・`/cv`。content/cv/index.ja.mdとindex.en.mdを翻訳ペアとして管理する。英語版の旧aboutページはcvへ移動する。
-- 小さい画面での配置とハンバーガーメニューは未実装。
+- 小さい画面ではメニューを折り返す。ハンバーガーメニューは未実装。
 
 ## 5. フッター
 
@@ -107,7 +107,7 @@
 - 本文が長い場合は、その後ろに続けて表示する。
 - スクロール中も画面に固定する方式は想定しない。
 - 全幅の背景色を付け、内側の内容には共通の最大幅を適用する。
-- 背景色は変数で管理し、当面は薄いグレーとする。
+- 背景色は変数で管理し、現在は本文と同じ白にする。
 - 著作権表示は小さめの文字とする。
 
 ### 現在の実装
@@ -190,24 +190,20 @@
 
 ## 11. トップページのコンテンツ構成
 
-- `content/_index.ja.md` と `content/_index.en.md` は、ページ全体の設定を持つ薄い入口とする。
-- `content/home/_index.ja.md` と `content/home/_index.en.md` にヒーローのタイトル、所属、職名、自己紹介を書く。
-- 所属・職名は未入力で、値がある場合だけ表示する。
-- `content/home/` に research・publications・projects・news の日英Markdownを配置する。
-- 各セクションの表示順は `weight` で指定する。初期値は順に10・20・30・40。
-- トップページは現在の言語の `/home` を取得し、ヒーローと配下の通常ページを組み合わせる。
-- 各セクションは共通の `section`・`h2`・`.container` で囲む。
-- ファイル名から言語サフィックスを除いた名前をIDとする。例：`research.ja.md` は `#research`。
-- `widget` は `section`・`publications`・`projects`・`news` を指定する。省略時は `section`。以前の `text` も `section` として扱う。
-- 未対応の `widget` はビルドエラーにする。ヒーローはhomeの `_index.*.md` で管理し、独立した `home/hero.html` パーシャルで描画する。
-- homeのcascadeで `build.list: local`、`build.render: never`、`build.publishResources: false` を両言語に設定する。
-- home配下をローカルなページ一覧から取得できる状態に保ち、独立したページとリソースを出力しない。
-- 画像などをhome配下へ配置する場合は、リソースの公開方法を別途検討する。
-- ヒーローより後のセクションは、表示順に白・薄いグレーの背景を交互に適用する。ヒーローは交互配色の対象外。
-- 背景色はCSS変数 `--home-section-background-odd`（初期値 `#ffffff`）と `--home-section-background-even`（初期値 `#f2f2f2`）で指定する。
-- 背景は画面幅いっぱいに広げ、内容は既存の `.container` で中央寄せする。見出しなどのマージンは背景領域の内側に収める。
-- ヒーロー・本文のその他の詳細デザインは未実装。
-- トップページ用homeが存在しない場合は、ビルドエラーで通知する。
+- `content/_index.ja.md`・`content/_index.en.md` はページ全体の設定を持つ入口とする。
+- `content/home/_index.*.md` にヒーロー用Markdownとショートコードを書く。
+- `content/home/` にresearch・work・projects・news・contactの日英Markdownを配置する。表示順はweightの10・20・30・40・50。
+- 現在の言語の `/home` を取得し、ヒーローと配下の通常ページを組み合わせる。
+- 各セクションはsection・h2・.containerで囲む。ファイル名から言語サフィックスを除いた名前をIDにする（例：#research・#work・#contact）。
+- ヒーロー以外は左にh2、右に内容を置く共通グリッド。見出しと内容の間、セクション間に区切り線を置かない。
+- ヒーローの内容開始位置は右の内容列に揃える。画像は配置しない。
+- 交互配色は保留し、背景は共通の白。セクション間の余白は `--home-section-gap: 6rem`。列幅・列間隔などはhome.cssの変数で調整する。
+- 55rem以下では見出しを内容の上に配置する。
+- widgetはsection・publications・projects・news。省略時はsection、以前のtextもsectionとして扱う。未対応値はビルドエラー。
+- Research・Work・Contactは汎用section。Workの論文はfeatured_articlesショートコードから共通YAMLを参照する。
+- homeのcascadeは両言語でbuild.list: local・render: never・publishResources: false。単独HTMLやリソースは出力しない。
+- トップページ用homeが存在しない場合はビルドエラー。
+- 画像などのアイコンはthemes/mytheme/assets/iconsに置き、Hugoのアセットとして公開する。旧home/publicationsウィジェットは互換性のため保持する。
 
 ## 12. コンテンツ種別とトップページの一覧
 
@@ -216,9 +212,9 @@
 - `publication`・`project`・`news`・`memo` はHugoのコンテンツ種別（`type`）として扱う。
 - 推奨配置は、それぞれ `content/publication/`・`content/project/`・`content/news/`・`content/memo/`。
 - 通常のページは従来のデフォルトarchetypeを利用できる。
-- news・memoはカテゴリではなく種別で区別する。記事の表示自体は既存の `page.html` を共用する。
+- news・memoはカテゴリではなく種別で区別する。newsは専用のnews/page.htmlを使い、memoは既存のpage.htmlを使う。
 - カテゴリやタグは、必要に応じて種別とは別に付けられる。
-- 個別ページの専用デザインや論文固有の書誌情報は、今回の実装には含めない。
+- Talksはcontent/talks/_index.*.mdによる日英の一覧ページを用意し、現時点の本文は準備中とする。
 
 ### 作成方法
 
@@ -241,7 +237,7 @@ hugo new content --kind memo memo/example.ja.md
 | --- | --- |
 | `section` | Markdown本文をそのまま表示する |
 | `publications` | 共通YAMLから査読済み英語論文をdate降順で抽出し、Recentのカードを表示する |
-| `news` | 本文の前に、現在の言語の `type: news` を日付の新しい順で、日付・タイトル・手動要約・続きを読む付きで表示する |
+| `news` | 本文の前に、現在の言語の `type: news` を日付の新しい順で、日付を見出し兼リンクとして、その右に手動要約を表示する |
 | `projects` | 本文の前に、現在の言語の `type: project` で期間から継続中と判定した課題を、開始年月の新しい順ですべて表示する |
 
 - publications・newsの件数は、各home用Markdownの `limit` で指定する。省略時は3件。
@@ -251,12 +247,12 @@ hugo new content --kind memo memo/example.ja.md
 - 一覧をMarkdownへ手動で転記せず、種類別のパーシャルで抽出・描画する。
 - 表示は `home/publications.html`・`home/news.html`・`home/projects.html` に分離する。
 - 各セクションには `home-section--publications` などのクラス、各一覧には `home-publications-list` などの専用クラスを付ける。種類ごとのスタイル調整はこれらに対して行う。
-- 今回は新しい配色やカードデザインを追加しない。既存の全幅交互配色と共通幅を維持する。
-- publicationは日付とリンク、newsは日付・タイトルリンク・手動要約・続きを読むを表示する。projectは研究種別・番号・課題名・役割・必要時のみ代表者名・期間を表示する。
+- 共通幅を維持し、トップの配置は11節、論文は22節に従う。
+- Workでは選択した論文の書誌情報、newsは日付リンクと手動要約を表示する。projectは研究種別・番号・課題名・役割・必要時のみ代表者名・期間を表示する。
 
 ## 13. トップページの見出し表記
 
-- 日本語版のトップページのセクション見出しは、英語版と同じResearch・Recent publications・Research projects・Newsとする。
+- 日本語版のトップページのセクション見出しは、英語版と同じResearch・Work・Research projects・News・Contactとする。
 - ヒーローは日英ともTomoya Kemmochi。本文の言語は変更しない。
 
 ## 14. CTAショートコードとリンクの色
@@ -301,11 +297,11 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 | フォーカス枠 | `--link-color` | `#008000` |
 
 - 通常リンクは通常・訪問済みでは下線なし。ホバー時に下線を表示する。フォーカス・押下だけでは下線を追加しないが、ホバーと重なる場合は下線を表示する。
-- メニューバーのホバーでは下線を追加せず、現在位置を示す下線は維持する。
+- メニューバーもホバー時に下線を表示する。現在位置はaria-currentで示し、通常時の下線は付けない。
 - キーボードフォーカス時は2pxの枠を4px外側に表示する。
 - CTAには `--cta-color`・`--cta-hover-color`・`--cta-active-color`・`--cta-focus-ring-color` を用意する。初期値は対応する通常リンク変数を参照する。
-- CTAは通常・訪問済みは下線なし、ホバー・押下時に下線を表示する。フォーカス時は枠を表示する。
-- ヘッダーの現在位置を示す下線は維持する。
+- CTAは通常・訪問済み・押下・フォーカスのみでは下線なし、ホバー時だけ下線を表示する。フォーカス時は枠を表示する。
+- 言語切り替えは地球アイコンと切り替え先の言語名だけを表示する。日本語版はEnglish、英語版は日本語。翻訳があれば同じページ、なければ対象言語のホームへ移動する。
 
 ## 15. フォントサイズと文字関連の単位
 
@@ -320,6 +316,8 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 | 本文・継承するメニュー | `--font-size-base` | `1.25rem`（20px） |
 | h1 | `--font-size-h1` | `2.5rem`（40px） |
 | h2 | `--font-size-h2` | `1.875rem`（30px） |
+| h3 | `--font-size-h3` | `1.5rem`（24px） |
+| h4 | `--font-size-h4` | `1.25rem`（20px） |
 | メニューのサイトタイトル | `--font-size-site-title` | `1.25rem`（20px） |
 | フッター | `--font-size-footer` | `0.875rem`（14px） |
 | CTA | `--font-size-cta` | `var(--font-size-base)` |
@@ -373,33 +371,19 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 
 ## 20. NEWSの表示とページ送り
 
-- トップページとNEWS一覧ページは `news/item.html` を共用する。
-- 日付は標準の `<time datetime="YYYY-MM-DD">`、タイトルは `<h3>` 内のリンクとする。
-- タイトルのリンクは全状態で通常本文色を継承する。ホバー時の下線とキーボードフォーカス枠は維持する。
-- 各項目は日付・タイトル・要約・「続きを読む」（英語はRead more）を表示する。Read moreは既存CTAの緑色と末尾シェブロンを使用する。
-- 要約はMarkdownの `<!--more-->` までをHugoの `.Summary` で表示する。区切りがなければ全文を表示し、文字数指定の自動要約やCSSによる切り詰めは使用しない。
-- 既存NEWSダミー記事には、最初の段落の後に区切りを追加する。
-- 通常は下辺の区切り線、ホバー・focus-within時は四辺の枠を表示する。背景色は変えず、透明の枠をあらかじめ確保してサイズの変化を防ぐ。
-- 項目全体をリンクにはせず、タイトルとRead moreだけをリンクにする。要約は選択・コピーできる。
-- NEWS一覧専用テンプレートは `layouts/news/section.html`。新しい日付順にページ分割する。
-- 1ページの件数は `content/news/_index.*.md` の `page_size` で指定する。初期値・省略時は3件。トップページの `limit` とは独立。
-- ページ送りは前へ・ページ番号・次へ。1ページだけなら出さず、前後がない場合は非リンクの無効表示とする。
-- 7ページ以下は全ページを表示する。8ページ以上は先頭・末尾・現在ページ前後1件だけを表示し、間に省略記号を置く。
-- 例：全20ページの10ページ目は `前へ 1 … 9 10 11 … 20 次へ`。
-- 現在ページには `aria-current="page"` を付ける。省略記号はリンクにしない。
-- NEWSのスタイルは `assets/css/news.css` に分離し、reset.css・main.cssの後に読み込む。
-- 部品内の余白・枠線色などはnews-list内、ページ送りの寸法・色はnews-pagination内のCSS変数で調整できる。
-- 幅40rem以下ではNEWSの日付を本文の上へ配置する。ページ送りは必要に応じて折り返す。
-
-### NEWSデザイン調整
-
-- NEWS項目のホバー・focus-within枠はグレー `#a6a6a6`。日付列の右側にグレー `#d6d6d6` の縦線を表示する。狭い画面で1列に並べる場合は縦線を除く。
-- ページ送りは前へ・次へに一重山括弧を添える。現在ページの背景は `var(--header-background)`、文字は白。
-- その他のページ番号リンクは、訪問済み・ホバー・フォーカス・押下時も通常本文色を継承する。
-- 前へ・次へはグレー `#737373`、移動先がない無効表示は `#8a8a8a` とする。無効表示はリンクにしない。
-- 先頭・末尾・現在ページ前後と省略記号による表示は維持する。
-
-- NEWSの横並びでは、外枠内側から日付、日付から区切り線、区切り線から記事本文、記事本文領域から外枠内側までを、すべて `--news-item-padding`（初期値1rem）で揃える。日付列は固定幅ではなくmax-contentとし、文字幅に追従させる。本文右側の余白は折り返した各行の文字末尾ではなく、本文領域の右端から測る。
+- トップとNEWS一覧はnews/item.htmlを共用する。左に日付、右に要約。日付が記事タイトルとなり、front matterのtitleは指定不要。指定されていても表示・HTMLのtitle・RSSでは無視する。
+- 一覧の日付は `<h3><a><time datetime="YYYY-MM-DD">YYYY-MM-DD</time></a></h3>`。個別ページはnews/page.htmlのh1内にtimeで表示し、重複する日付欄は置かない。
+- 日付リンクは全状態で通常本文色。通常時は下線なし、項目ホバー時は日付に下線、キーボードフォーカス時は枠を表示する。
+- 個別項目に「続きを読む」は置かず、項目全体もリンクにしない。日付が個別ページへのリンクとなる。要約は選択・コピーできる。
+- 要約はMarkdownの `<!--more-->` までをHugoの.Summaryで表示する。区切りがなければ全文を表示し、文字数指定の自動要約やCSSによる切り詰めは使わない。
+- 日付横の縦線・項目間の区切り線は置かない。項目ホバー・focus-within時だけグレー#a6a6a6の四辺枠を表示する。透明枠を確保して位置ずれを防ぐ。
+- 余白と列間隔は--news-item-padding（1rem）、項目間は--news-item-gap（1rem）。40rem以下では日付を概要の上に配置する。
+- 既存ダミー記事は保持する。titleが残っていても日付を優先し、新規archetypeからはtitleを外す。
+- news/section.htmlで新しい日付順にページ分割する。page_sizeはcontent/news/_index.*.mdで指定し、初期値・省略時3件。トップのlimitとは独立。
+- ページ送りは前へ・ページ番号・次へ。1ページなら非表示、前後がない場合は非リンクの無効表示。
+- 7ページ以下は全件、8ページ以上は先頭・末尾・現在ページ前後1件と省略記号。例：全20ページの10ページ目は「前へ 1 … 9 10 11 … 20 次へ」。
+- 現在ページにaria-current、背景は--header-background、文字は白。他の番号は通常本文色、前後は#737373、無効は#8a8a8a。
+- projectsも同じページ送り部品を共用する。スタイルはnews.css。
 
 ## 21. プロジェクト（グラント）
 
@@ -440,7 +424,7 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 - 課題名は本文色・太字。トップページはh3、一覧ページはh2。
 - 次の行にグレーのroleを表示し、is_PI=falseの場合だけ間隔を空けて「研究代表者：氏名」を添える。
 - 最後に期間を小さめのグレー文字で表示する。
-- 通常は下の区切り線のみ、ホバー時はグレーの四辺枠と課題名のみの下線を表示する。キーボードフォーカスでも枠と下線を表示する。
+- 通常は区切り線なし、ホバー時はグレーの四辺枠と課題名のみの下線を表示する。キーボードフォーカスでは枠を表示する。
 - トップはラベルなし、リスト末尾に既存CTAショートコードによる一覧へのリンクを1つ配置する。
 - 一覧は継続中を緑の枠ラベル、完了を薄いグレー枠ラベルで表示する。開始予定は緑枠の別文言で表示する。
 - ラベルの緑文字は読みやすい濃さとし、枠はヘッダー色を使う。
@@ -448,20 +432,20 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 - スタイルはprojects.css、共通カード・状態判定・リンク判定は `_partials/projects/` に置く。
 - 既存ダミー課題を新メタデータに移行する。外部URLは架空例としてexample.comを使用し、実際の研究課題へのリンクとはしない。
 
-## 22. 論文データとRecent publications
+## 22. 論文データと注目論文
 
 - 論文情報は日英共通の `data/publications.yaml` で管理する。ユーザー提供の旧サイト用publications.mdから転記した30件を保存する。
-- トップページのRecentと日英の一覧ページは共通YAMLを参照する。既存のpublication個別ダミーページは削除せず保持するが、一覧には自動列挙しない。
+- トップページのWorkと日英の一覧ページは共通YAMLを参照する。既存のpublication個別ダミーページは削除せず保持するが、一覧には自動列挙しない。
 - データにはid・title・authors配列・date・year・kind・language・peer_reviewed・journal・volume・number・pages・article_number・doi・links配列を持てる。
 - dateは引用符付きYYYY-MM-DDで並び順に使用する。出典に年しかなければYYYYだけを保存し、月日を推測しない。yearは書誌情報の発行年として別に扱う。年も不明ならdate/yearを省略する。
-- kind=article、language=en、peer_reviewed=trueの条件をすべて満たすものから、dateの新しい順に各home用Markdownのlimit件を表示する。日英トップは同じ論文を同じ順に表示する。
+- Workはfeatured_articlesショートコードのidsに指定した論文を、その指定順で表示する。1件以上、複数の場合も縦並び。現在はデザイン案の2件を仮選択し、日英トップで揃える。旧publicationsウィジェットの自動抽出（article/en/peer_reviewed=true、date降順、limit件）は互換用に保持する。
 - Recentに該当する論文でdoiがないものは警告して除外する。不正形式のdoiはビルドエラー。doiにはURLではなく10.xxxx/から始まる文字列を記載する。
-- タイトルはh3の本文色・太字。その下にbyと著者名、雑誌情報、その下に大文字の `DOI:` と識別子を表示する。
+- WorkのFeatured articleはh3、各論文タイトルはh4の本文色・太字。その下にbyと著者名、雑誌情報、大文字DOIと識別子を表示する。旧Recentのタイトルはh3のまま保持する。
 - journal・volume・number・pages・yearは存在する項目だけ表示し、欠落した項目のラベルや余分なカンマを出さない。article_numberがあればpagesに優先してArticle表記を使う。
 - 雑誌名はcite要素で、論文のlanguage=enの場合だけ斜体とする。日本語論文は通常体。英語の著者は1名、2名、3名以上の連結を分け、日本語の著者は読点で連結する。Recentのメタデータはグレー。
 - カード全体が `https://doi.org/識別子` へのリンクとなり、同じタブで開く。DOI表示部分を別のリンクにはせず、リンクの入れ子を作らない。
-- 通常時は下の区切り線、ホバー・キーボードフォーカス時はグレーの外枠とタイトルだけの下線を表示する。透明な枠をあらかじめ確保し、配置を変えない。
-- 各論文内にはCTAを置かず、リストの後ろに既存の一覧へのCTAを維持する。
+- Workの論文は通常時から細いグレー外枠を表示し、ホバー時は枠を濃くしてタイトルだけに下線を付ける。フォーカス時も枠を表示する。位置ずれは起こさない。
+- 各論文内にCTAは置かない。リスト後にh3のExplore moreを置き、論文一覧・講演一覧へのCTAを並べる。
 - links配列にはlabelとurlを保存する。Recentには補足リンクを出さず、一覧ではDOIリンクの後ろにデータの順で表示する。
 - 抽出・著者表示・書誌表示は `_partials/publications/`、スタイルはpublications.cssに分ける。
 
@@ -547,3 +531,73 @@ a_b &= c_d + 1 \\
 x &= y + 2
 \end{align*}
 ```
+
+
+## 25. トップページ用ショートコード
+
+### hero_header
+
+```markdown
+{{< hero_header >}}
+准教授
+
+[名城大学](https://www.meijo-u.ac.jp/) [理工学部](https://www.meijo-u.ac.jp/academics/sci_tech/) [数学科](https://sites.gmath.meijo-u.ac.jp/)
+{{< /hero_header >}}
+```
+
+- ページのtitleをh1として自動出力し、内部Markdownと一緒にheader要素で囲む。左の緑の線はheaderの範囲だけに付ける。
+- 所属の3つのリンクは半角スペースで区切る。画像は置かない。アイコンリンクはheaderの外に書く。
+
+### icon_link
+
+```markdown
+{{< icon_link icon="icons/mail.svg" url="#contact" label="連絡先" >}}
+{{< icon_link icon="icons/scholar.svg" url="https://scholar.google.co.jp/citations?user=tNnJyuMAAAAJ" label="Google Scholar" >}}
+```
+
+- icon・url・labelが必須。labelはアイコンのみのリンクのアクセシブル名とツールチップに使用する。
+- iconはthemes/mytheme/assetsからの相対パス。透過SVG等をCSSマスクとして使用し、文字色を継承する。既存の図形を再利用でき、新規JS・アイコンライブラリは不要。
+- urlは内部ページ・#アンカー・HTTP(S)。内部ページは現在言語と/New-site/を反映。外部は同じタブで開く。
+- メール・学帽・ORCID・住所・地球の5アイコンを同梱する。
+
+### keywords
+
+```markdown
+{{< keywords >}}
+- 有限要素法
+- 構造保存解法
+{{< /keywords >}}
+```
+
+- 内部Markdownのul/liを保ち、Flexboxで横並び・折り返し。リスト記号を消し、無彩色の枠を付ける。色付きボタンにはしない。
+
+### featured_articles
+
+```markdown
+### Featured article
+
+{{< featured_articles ids="論文ID1,論文ID2" >}}
+
+### Explore more
+
+{{< cta text="論文一覧" url="/publication" >}}
+{{< cta text="講演一覧" url="/talks" >}}
+```
+
+- idsはdata/publications.yamlのidをカンマ区切りで指定。ID順で並べ、タイトルはh4。本文の書誌情報は転記しない。
+- ID未指定・不明/重複したデータID・有効なDOIなしはビルドエラー。単一・複数とも同じテンプレート。
+- Workそのものは汎用section。headingやCTAはMarkdownに記述する。
+
+### contact
+
+```markdown
+{{< contact icon="icons/mail.svg" text="kemmochi [at] gmath.meijo-u.ac.jp" kind="email" address=false >}}
+{{< contact icon="icons/location.svg" text="〒468-8502\n名古屋市天白区塩釜口1-501" address=true >}}
+```
+
+- icon・textが必須。addressは省略時false、trueのときだけ項目をaddress要素で囲む。住所も通常体で表示する。
+- textの\nは改行として扱う。文字列はHTMLとして解釈しない。
+- urlは省略可能。指定した場合だけ文字をリンクにし、HTTP(S)・内部ページ・#アンカー・mailtoを使える。アイコンは常に非リンクの装飾。
+- kind="email"を指定すると専用クラスを付け、--font-family-monospace（Inconsolata、LINE Seed JP、monospace）を継承する。リンクなしのメールも同じ方法で表示する。code要素は使わない。
+- 現在のメールは旧サイトと同じ[at]表記・リンクなし。大学の住所はaddress=true。アイコンは通常本文色。
+- 本文は日英のcontent/home/contact.*.mdで編集する。

@@ -22,8 +22,6 @@
   --language-gap: 0.5rem;
   --language-padding-block: 0.35rem;
   --language-padding-inline: 0.75rem;
-  --language-border-width: 0.0625rem;
-  --language-border-radius: 0.25rem;
   --footer-padding-block: 1rem;
   --focus-ring-width: 0.125rem;
   --focus-ring-offset: 0.25rem;
@@ -38,13 +36,17 @@
   --font-size-base: 1.25rem;
   --font-size-h1: 2.5rem;
   --font-size-h2: 1.875rem;
+  --font-size-h3: 1.5rem;
+  --font-size-h4: 1.25rem;
+  --font-family-monospace: "Inconsolata", "LINE Seed JP", monospace;
+  --line-height-base: 1.6;
+  --line-height-heading: 1.3;
   --font-size-site-title: 1.25rem;
   --font-size-footer: 0.875rem;
   --font-size-cta: var(--font-size-base);
 
-  /* トップページ：ヒーローより後のセクション */
-  --home-section-background-odd: #ffffff;
-  --home-section-background-even: #f2f2f2;
+  --page-background: #ffffff;
+  --text-color: #222222;
 
   /* ヘッダー */
   --header-background: #37ab5c;
@@ -63,7 +65,7 @@
   --cta-focus-ring-color: var(--link-color);
 
   /* フッター */
-  --footer-background: #f2f2f2;
+  --footer-background: var(--page-background);
   --footer-text-color: #555555;
 }
 
@@ -73,8 +75,11 @@ html {
 }
 
 body {
+  color: var(--text-color);
+  background-color: var(--page-background);
   font-family: "Open Sans", "LINE Seed JP", sans-serif;
   font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
@@ -89,6 +94,7 @@ h4,
 h5,
 h6 {
   margin-block: var(--heading-margin-before) var(--heading-margin-after);
+  line-height: var(--line-height-heading);
 }
 
 p {
@@ -198,8 +204,6 @@ a.cta:focus-visible {
 
 a.cta:active {
   color: var(--cta-active-color);
-  text-decoration: underline;
-  text-underline-offset: var(--cta-underline-offset);
 }
 
 /* メニューバーと見出しの書体 */
@@ -217,6 +221,14 @@ h1 {
 
 h2 {
   font-size: var(--font-size-h2);
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+}
+
+h4 {
+  font-size: var(--font-size-h4);
 }
 
 /* ヘッダー、本文、フッターで共用するコンテナ */
@@ -259,7 +271,8 @@ h2 {
 
 .site-header a:hover {
   color: var(--header-link-hover-color);
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: var(--menu-underline-offset);
 }
 
 .site-title {
@@ -277,6 +290,7 @@ h2 {
   display: flex;
   align-items: center;
   gap: var(--menu-gap);
+  justify-content: flex-end;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -297,13 +311,6 @@ h2 {
   color: var(--header-text-color);
 }
 
-/* 現在のページ、または配下のページを表示中の項目 */
-.site-menu a.is-current,
-.site-menu a.is-ancestor {
-  text-decoration: underline;
-  text-underline-offset: var(--menu-underline-offset);
-}
-
 .language-switcher {
   flex-shrink: 0;
   display: flex;
@@ -312,24 +319,22 @@ h2 {
 }
 
 .language-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--language-gap);
   padding: var(--language-padding-block) var(--language-padding-inline);
-  border: var(--language-border-width) solid currentColor;
-  border-radius: var(--language-border-radius);
   white-space: nowrap;
 }
 
-/* トップページ：見出しのマージンを背景領域の内側に収める */
-.home-sections > .home-section {
-  display: flow-root;
+.language-link .site-icon {
+  --icon-size: 1.5rem;
 }
 
-.home-sections > .home-section:nth-child(odd) {
-  background-color: var(--home-section-background-odd);
-}
-
-.home-sections > .home-section:nth-child(even) {
-  background-color: var(--home-section-background-even);
+@media (max-width: 60rem) {
+  .header-inner { flex-wrap: wrap; }
+  .language-switcher { margin-inline-start: auto; }
+  .site-nav { order: 3; flex-basis: 100%; }
+  .site-menu { flex-wrap: wrap; justify-content: flex-start; }
 }
 
 /* フッター */

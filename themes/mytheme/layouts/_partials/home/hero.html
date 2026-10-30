@@ -1,14 +1,5 @@
 <section class="home-hero" aria-labelledby="hero-title">
   <div class="container">
-    <h1 id="hero-title" class="hero-title">{{ .Title }}</h1>
-    {{ with .Params.affiliation }}
-      <p class="hero-affiliation">{{ . }}</p>
-    {{ end }}
-    {{ with .Params.position }}
-      <p class="hero-position">{{ . }}</p>
-    {{ end }}
-    {{ with .Content }}
-      <div class="hero-description">{{ . }}</div>
-    {{ end }}
+    <div class="hero-content">{{ .Content }}</div>
   </div>
 </section>

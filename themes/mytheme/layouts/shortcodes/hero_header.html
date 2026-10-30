@@ -1,0 +1,4 @@
+<header class="hero-header">
+  <h1 id="hero-title" class="hero-title">{{ .Page.Title }}</h1>
+  {{ .Page.RenderString (dict "display" "block") .Inner }}
+</header>

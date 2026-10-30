@@ -47,7 +47,7 @@
             href="{{ $targetPage.RelPermalink }}"
             lang="{{ .Language.Locale }}"
             hreflang="{{ .Language.Locale }}"
-          >{{ .Language.Label }}</a>
+          >{{ partial "icons/image.html" "icons/globe.svg" }}<span>{{ cond (eq $targetLanguage "ja") "日本語" "English" }}</span></a>
         {{ end }}
       {{ end }}
     </nav>

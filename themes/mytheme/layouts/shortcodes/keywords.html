@@ -1,0 +1,3 @@
+<div class="keyword-list">
+  {{ .Page.RenderString (dict "display" "block") .Inner | replaceRE `<ul>` `<ul role="list">` | safeHTML }}
+</div>

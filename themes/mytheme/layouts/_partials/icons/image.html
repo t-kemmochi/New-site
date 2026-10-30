@@ -1,0 +1,7 @@
+{{- /* 透過アイコンをマスクとして使い、親要素の文字色を継承する。 */ -}}
+{{- $path := . -}}
+{{- with resources.Get $path -}}
+  <span class="site-icon" style="{{ printf "--icon-image: url('%s')" .RelPermalink | safeCSS }}" aria-hidden="true"></span>
+{{- else -}}
+  {{- errorf "icon: assets 内にアイコン %q がありません。" $path -}}
+{{- end -}}

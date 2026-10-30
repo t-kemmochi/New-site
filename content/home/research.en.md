@@ -4,6 +4,17 @@ weight: 10
 widget: "section"
 ---
 
-<!-- Write the content in Markdown here. -->
+### Research area
 
-{{< cta text="View CV" url="/cv" >}}
+Numerical analysis of partial differential equations
+
+### Keywords
+
+{{< keywords >}}
+- Finite element methods
+- Elliptic equations
+- Parabolic equations
+- Stokes equations
+- Discrete maximal regularity
+- Structure-preserving methods
+{{< /keywords >}}

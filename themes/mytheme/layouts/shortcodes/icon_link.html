@@ -1,0 +1,9 @@
+{{- $icon := .Get "icon" -}}
+{{- $url := .Get "url" -}}
+{{- $label := .Get "label" -}}
+{{- if or (not $icon) (not $url) (not $label) -}}
+  {{- errorf "icon_link: icon・url・label（読み上げ用のリンク名）は必須です。%s" .Position -}}
+{{- else -}}
+  {{- $href := partial "links/href.html" (dict "url" $url "page" .Page "mailto" false) -}}
+  <a class="icon-link" href="{{ $href }}" aria-label="{{ $label }}" title="{{ $label }}"{{ if strings.HasPrefix $href "http" }} rel="external"{{ end }}>{{ partial "icons/image.html" $icon }}</a>
+{{- end -}}

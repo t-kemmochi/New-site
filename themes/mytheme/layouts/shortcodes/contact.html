@@ -1,0 +1,27 @@
+{{- $icon := .Get "icon" -}}
+{{- $text := .Get "text" -}}
+{{- $address := false -}}
+{{- $kind := .Get "kind" | default "" -}}
+{{- if isset .Params "address" -}}
+  {{- $flag := printf "%v" (.Get "address") -}}
+  {{- if not (in (slice "true" "false") $flag) -}}
+    {{- errorf "contact: address はtrueまたはfalseにしてください。%s" .Position -}}
+  {{- end -}}
+  {{- $address = eq $flag "true" -}}
+{{- end -}}
+{{- if not (in (slice "" "email") $kind) -}}
+  {{- errorf "contact: kind は省略するかemailにしてください。%s" .Position -}}
+{{- end -}}
+{{- if or (not $icon) (not $text) -}}
+  {{- errorf "contact: icon と text は必須です。%s" .Position -}}
+{{- else -}}
+  {{- $href := "" -}}
+  {{- with .Get "url" -}}
+    {{- $href = partial "links/href.html" (dict "url" . "page" $.Page "mailto" true) -}}
+  {{- end -}}
+  {{- $text = replace $text "\\n" "\n" -}}
+  {{ if $address }}<address class="contact-item">{{ else }}<div class="contact-item">{{ end }}
+    {{ partial "icons/image.html" $icon }}
+    <span class="contact-text{{ if eq $kind "email" }} contact-email{{ end }}">{{ if $href }}<a href="{{ $href }}">{{ $text }}</a>{{ else }}{{ $text }}{{ end }}</span>
+  {{ if $address }}</address>{{ else }}</div>{{ end }}
+{{- end -}}

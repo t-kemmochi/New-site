@@ -1,0 +1,9 @@
+{{ define "main" }}
+  <article class="container news-page">
+    <header>
+      <h1><time datetime="{{ .Date.Format "2006-01-02" }}">{{ partial "page-title.html" . }}</time></h1>
+    </header>
+    {{ .Content }}
+    {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+  </article>
+{{ end }}

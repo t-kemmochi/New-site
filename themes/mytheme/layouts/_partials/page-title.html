@@ -1,0 +1,5 @@
+{{- $title := .Title -}}
+{{- if and .IsPage (eq .Type "news") -}}
+  {{- $title = .Date.Format "2006-01-02" -}}
+{{- end -}}
+{{- return $title -}}
