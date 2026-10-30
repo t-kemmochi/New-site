@@ -1,0 +1,12 @@
+{{- $parts := slice -}}
+{{- with .volume -}}{{- $parts = $parts | append (printf "vol. %v" .) -}}{{- end -}}
+{{- with .number -}}{{- $parts = $parts | append (printf "no. %v" .) -}}{{- end -}}
+{{- if .article_number -}}
+  {{- $parts = $parts | append (printf "Article %v" .article_number) -}}
+{{- else -}}
+  {{- with .pages -}}{{- $parts = $parts | append (printf "pp. %v" .) -}}{{- end -}}
+{{- end -}}
+{{- with .year -}}{{- $parts = $parts | append (printf "%v" .) -}}{{- end -}}
+{{- with .journal -}}<cite lang="{{ $.language }}">{{ . }}</cite>{{ if $parts }}, {{ end }}{{- end -}}
+{{- if $parts -}}{{ delimit $parts ", " }}{{- end -}}
+{{- if or .journal $parts -}}.{{- end -}}

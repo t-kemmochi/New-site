@@ -1,0 +1,31 @@
+{{ $number := .number }}
+{{ with .paper }}
+<li class="publication-archive-item">
+  <span class="publication-archive-number" aria-hidden="true">{{ $number }}.</span>
+  <div class="publication-bibliography">
+    {{ with partial "publications/authors.html" . }}{{ . }}. {{ end }}<strong>{{ .title }}</strong>. {{ partial "publications/citation-details.html" . }}
+  </div>
+  {{ $links := .links | default slice }}
+  {{ $paperID := .id }}
+  {{ with .doi }}
+    {{ if not (findRE `^10\.[0-9]{4,9}/[^\s]+$` .) }}
+      {{ errorf "論文 %q: doi は10.xxxx/から始まる識別子を指定してください。" $paperID }}
+    {{ else }}
+      {{ $links = (slice (dict "label" "DOI" "url" (printf "https://doi.org/%s" .))) | append $links }}
+    {{ end }}
+  {{ end }}
+  {{ with $links }}
+    <div class="publication-links">
+      {{ range . }}
+        {{ $url := urls.Parse (.url | default "") }}
+        {{ if or (not .label) (not (in (slice "http" "https") $url.Scheme)) (not $url.Host) $url.User }}
+          {{ errorf "論文 %q: linksにはlabelとHTTP(S)の絶対URLを指定してください。" $paperID }}
+        {{ else }}
+          <a class="publication-link" href="{{ .url }}" rel="external">{{ .label }}</a>
+        {{ end }}
+      {{ end }}
+    </div>
+  {{ end }}
+</li>
+
+{{ end }}

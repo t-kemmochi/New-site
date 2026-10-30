@@ -1,0 +1,33 @@
+{{- $conditions := dict -}}
+{{- $limit := 0 -}}
+{{- if and .Params (not .IsNamedParams) -}}
+  {{- errorf "publicationsは名前付き引数を使用してください：%s" .Position -}}
+{{- else -}}
+  {{- range $key, $value := .Params -}}
+    {{- if not (in (slice "kind" "language" "peer_reviewed" "limit") $key) -}}
+      {{- errorf "publications: 未対応の引数 %q：%s" $key $.Position -}}
+    {{- else if eq $key "limit" -}}
+      {{- if not (findRE `^[1-9][0-9]*$` (printf "%v" $value)) -}}
+        {{- errorf "publications: limitは1以上の整数です：%s" $.Position -}}
+      {{- else -}}
+        {{- $limit = int $value -}}
+      {{- end -}}
+    {{- else if eq $key "peer_reviewed" -}}
+      {{- $text := printf "%v" $value -}}
+      {{- if not (in (slice "true" "false") $text) -}}
+        {{- errorf "publications: peer_reviewedはtrueかfalseを指定してください：%s" $.Position -}}
+      {{- else -}}
+        {{- $conditions = merge $conditions (dict $key (eq $text "true")) -}}
+      {{- end -}}
+    {{- else -}}
+      {{- $conditions = merge $conditions (dict $key (printf "%v" $value)) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $items := partial "publications/select.html" $conditions -}}
+  {{- if $limit -}}{{- $items = first $limit $items -}}{{- end -}}
+  {{- with $items -}}
+<ol class="publication-archive-list" reversed start="{{ len . }}" role="list">
+  {{ range $i, $paper := . }}{{ partial "publications/archive-item.html" (dict "paper" $paper "number" (sub (len $items) $i)) }}{{ end }}
+</ol>
+  {{- end -}}
+{{- end -}}

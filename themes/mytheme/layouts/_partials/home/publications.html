@@ -6,16 +6,22 @@
     {{ $limit = int .Params.limit }}
   {{ end }}
 {{ end }}
-{{ $pages := where .Site.RegularPages "Type" "publication" }}
-{{ with first $limit $pages.ByDate.Reverse }}
-  <ul class="home-publications-list">
-    {{ range . }}
-      <li class="home-publications-item">
-        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
-        <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
-      </li>
+{{ $items := partial "publications/select.html" (dict "kind" "article" "language" "en" "peer_reviewed" true) }}
+{{ $linked := slice }}
+{{ range $items }}
+  {{ if not .doi }}
+    {{ warnf "Recent publications: DOI未設定の論文 %q はカードのリンク先がないため省略します。" .id }}
+  {{ else if not (findRE `^10\.[0-9]{4,9}/[^\s]+$` .doi) }}
+    {{ errorf "論文 %q: doi はURLではなく10.xxxx/で始まるDOI文字列を指定してください。" .id }}
+  {{ else }}
+    {{ $linked = $linked | append . }}
+  {{ end }}
+{{ end }}
+{{ with first $limit $linked }}
+  <ul class="publication-list home-publications-list" role="list">
+    {{ range $i, $paper := . }}
+      {{ partial "publications/recent-item.html" (dict "paper" $paper "titleID" (printf "recent-publication-%d" $i)) }}
     {{ end }}
   </ul>
 {{ end }}
-
 {{ .Content }}

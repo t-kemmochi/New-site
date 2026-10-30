@@ -1,0 +1,3 @@
+{{ if or .journal .volume .number .pages .article_number .year }}
+  <p class="publication-citation">{{ partial "publications/citation-details.html" . }}</p>
+{{ end }}

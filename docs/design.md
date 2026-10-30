@@ -240,7 +240,7 @@ hugo new content --kind memo memo/example.ja.md
 | widget | 動作 |
 | --- | --- |
 | `section` | Markdown本文をそのまま表示する |
-| `publications` | 本文の前に、現在の言語の `type: publication` を日付の新しい順で表示する |
+| `publications` | 共通YAMLから査読済み英語論文をdate降順で抽出し、Recentのカードを表示する |
 | `news` | 本文の前に、現在の言語の `type: news` を日付の新しい順で、日付・タイトル・手動要約・続きを読む付きで表示する |
 | `projects` | 本文の前に、現在の言語の `type: project` で期間から継続中と判定した課題を、開始年月の新しい順ですべて表示する |
 
@@ -447,3 +447,63 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 - 一覧のpage_sizeは `content/project/_index.*.md` で指定し、省略時3件。NEWSと同じページ送り部品・配色・省略規則を共用し、ナビゲーションのラベルはプロジェクト用にする。
 - スタイルはprojects.css、共通カード・状態判定・リンク判定は `_partials/projects/` に置く。
 - 既存ダミー課題を新メタデータに移行する。外部URLは架空例としてexample.comを使用し、実際の研究課題へのリンクとはしない。
+
+## 22. 論文データとRecent publications
+
+- 論文情報は日英共通の `data/publications.yaml` で管理する。ユーザー提供の旧サイト用publications.mdから転記した30件を保存する。
+- トップページのRecentと日英の一覧ページは共通YAMLを参照する。既存のpublication個別ダミーページは削除せず保持するが、一覧には自動列挙しない。
+- データにはid・title・authors配列・date・year・kind・language・peer_reviewed・journal・volume・number・pages・article_number・doi・links配列を持てる。
+- dateは引用符付きYYYY-MM-DDで並び順に使用する。出典に年しかなければYYYYだけを保存し、月日を推測しない。yearは書誌情報の発行年として別に扱う。年も不明ならdate/yearを省略する。
+- kind=article、language=en、peer_reviewed=trueの条件をすべて満たすものから、dateの新しい順に各home用Markdownのlimit件を表示する。日英トップは同じ論文を同じ順に表示する。
+- Recentに該当する論文でdoiがないものは警告して除外する。不正形式のdoiはビルドエラー。doiにはURLではなく10.xxxx/から始まる文字列を記載する。
+- タイトルはh3の本文色・太字。その下にbyと著者名、雑誌情報、その下に大文字の `DOI:` と識別子を表示する。
+- journal・volume・number・pages・yearは存在する項目だけ表示し、欠落した項目のラベルや余分なカンマを出さない。article_numberがあればpagesに優先してArticle表記を使う。
+- 雑誌名はcite要素で、論文のlanguage=enの場合だけ斜体とする。日本語論文は通常体。英語の著者は1名、2名、3名以上の連結を分け、日本語の著者は読点で連結する。Recentのメタデータはグレー。
+- カード全体が `https://doi.org/識別子` へのリンクとなり、同じタブで開く。DOI表示部分を別のリンクにはせず、リンクの入れ子を作らない。
+- 通常時は下の区切り線、ホバー・キーボードフォーカス時はグレーの外枠とタイトルだけの下線を表示する。透明な枠をあらかじめ確保し、配置を変えない。
+- 各論文内にはCTAを置かず、リストの後ろに既存の一覧へのCTAを維持する。
+- links配列にはlabelとurlを保存する。Recentには補足リンクを出さず、一覧ではDOIリンクの後ろにデータの順で表示する。
+- 抽出・著者表示・書誌表示は `_partials/publications/`、スタイルはpublications.cssに分ける。
+
+## 23. 論文一覧とショートコード
+
+日英の `content/publication/_index.*.md` に見出しとショートコードを置く。論文情報そのものは共通YAMLだけを編集する。
+
+```markdown
+## Preprints
+{{< publications kind="preprint" >}}
+
+## Reviewed articles
+{{< publications kind="article" language="en" peer_reviewed=true >}}
+
+## Reviewed articles in Japanese
+{{< publications kind="article" language="ja" peer_reviewed=true >}}
+
+## Non-reviewed articles
+{{< publications kind="article" peer_reviewed=false >}}
+```
+
+- 名前付き引数kind・language・peer_reviewedをAND条件で絞り込む。条件の省略時はその項目で絞り込まない。引数なしなら全件。
+- peer_reviewed=falseも明示的な検索条件として扱う。
+- dateの降順で表示する。任意のlimitは1以上の整数。未指定なら件数制限なし。
+- 未対応引数や不正な真偽値・limitはビルドエラーとする。
+- 結果がある場合だけ `<ol reversed start="件数">` を出力する。番号はカテゴリごとに件数から1へ減る。
+- 一覧は著者名、太字タイトル、雑誌名、巻号ページまたは記事番号、発行年の順。省略された書誌項目はラベルごと省く。
+- 色は通常本文色を継承し、雑誌名は論文が英語の場合のみ斜体とする。
+- 項目に枠を付けず、ホバー・focus-within時は薄いグレー `#f5f5f5` の背景を表示する。項目全体をリンクにはしない。
+- 書誌情報の後で改行し、doiがあれば大文字DOIリンク、その後にlinks配列のリンクを配置する。HTTP(S)の絶対URLとラベルを検証し、同じタブで開く。
+- 補足リンクは白背景・通常リンク色の細枠と文字。ホバー・フォーカス・押下時にinset box-shadowで枠を内側へ太く見せ、font-weightを700にする。下線と塗りつぶしは行わない。
+- 文字は本文と同じOpen Sans・LINE Seed JPを継承する。太字化による文字幅の変化は今回補正しない。
+- スタイルはpublications.cssで管理し、一覧用テンプレートはpublication/section.htmlを使う。
+
+- 論文一覧のホバー・focus-within背景は番号の領域も含める。olのreversed/startとliの順序は維持し、視覚上の番号はaria-hiddenのspanで描画する。項目を番号列・本文列のGridにし、折り返し行と補足リンクは本文列に揃える。
+
+### 旧サイトの論文データ取り込み
+
+- 添付publications.mdからプレプリント1件、査読済み英語論文22件、査読済み日本語論文2件、査読なし日本語論文5件を転記する。
+- DOI、arXiv番号、MR番号、zbMATH番号を保持する。Journal・arXiv・Movies・Read-only link・PDF・Preprintなどのリンクも保持する。
+- 日本語の講究録記事は研究集会名eventと発行機関publisherも保存する。これらの追加項目は現時点の一覧では表示しない。
+- staticrefのローカルPDFは旧サイトの絶対URLにする。PDFファイル自体の移行とリンクの到達確認は未実施。
+- Shifted LOPBiCGのDOIがTensor product-type methodsのDOIと重複している点は原文どおり保存し、source_noteに確認事項を残す。
+- Modified Strang splittingの最終著者名Siao-Liang Zhangも原文どおり保存する。他論文のShao-Liang Zhangとの表記差は未修正。
+- 書誌情報は資料にない値を補わない。同一年のデータは資料の記載順を保持する。ページ範囲の二重ハイフンや数式記法も元の値を保持する。

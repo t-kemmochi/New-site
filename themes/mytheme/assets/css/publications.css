@@ -1,0 +1,138 @@
+/* Recentの論文カード：書誌情報は日英共通。 */
+.publication-list {
+  --publication-padding: 1rem;
+  --publication-row-gap: 0.75rem;
+  --publication-border-color: #d6d6d6;
+  --publication-hover-border-color: #a6a6a6;
+  --publication-meta-color: #666666;
+  --publication-title-size: var(--font-size-base);
+  padding: 0;
+  margin-block: 0 var(--list-margin-after);
+  list-style: none;
+}
+
+.publication-item + .publication-item {
+  margin-block-start: 0;
+}
+
+.publication-card,
+.publication-card:visited,
+.publication-card:hover,
+.publication-card:focus-visible,
+.publication-card:active {
+  display: grid;
+  gap: var(--publication-row-gap);
+  padding: var(--publication-padding);
+  color: inherit;
+  text-decoration: none;
+  border: 0.0625rem solid transparent;
+  border-block-end-color: var(--publication-border-color);
+  border-radius: 0.25rem;
+  overflow-wrap: anywhere;
+}
+
+.publication-card:hover,
+.publication-card:focus-visible {
+  border-color: var(--publication-hover-border-color);
+}
+
+.publication-card:hover .publication-title,
+.publication-card:focus-visible .publication-title {
+  text-decoration: underline;
+}
+
+.publication-title {
+  margin: 0;
+  font-size: var(--publication-title-size);
+  font-weight: 700;
+}
+
+.publication-card p {
+  margin: 0;
+  color: var(--publication-meta-color);
+}
+
+/* 論文の言語で書体を決める。ページの言語には依存させない。 */
+.publication-citation cite,
+.publication-bibliography cite {
+  font-style: normal;
+}
+
+.publication-citation cite[lang="en"],
+.publication-bibliography cite[lang="en"] {
+  font-style: italic;
+}
+
+
+/* 一覧：本文は通常色、項目全体はリンクにせず補足リンクだけを操作可能にする。 */
+.publication-archive-list {
+  --publication-archive-padding: 1rem;
+  --publication-archive-indent: 2.5rem;
+  --publication-archive-hover-background: #f5f5f5;
+  --publication-link-border-width: 0.0625rem;
+  --publication-link-inset-width: 0.125rem;
+  --publication-link-padding-block: 0.25rem;
+  --publication-link-padding-inline: 0.75rem;
+  --publication-link-background: #ffffff;
+  margin-block-end: var(--list-margin-after);
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+.publication-archive-item {
+  display: grid;
+  grid-template-columns: var(--publication-archive-indent) minmax(0, 1fr);
+  padding: var(--publication-archive-padding);
+  overflow-wrap: anywhere;
+}
+
+.publication-archive-item:hover,
+.publication-archive-item:focus-within {
+  background-color: var(--publication-archive-hover-background);
+}
+
+.publication-archive-number {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.publication-bibliography,
+.publication-archive-item > .publication-links {
+  grid-column: 2;
+}
+
+.publication-bibliography strong {
+  font-weight: 700;
+}
+
+.publication-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block-start: 0.75rem;
+}
+
+.publication-link,
+.publication-link:visited,
+.publication-link:hover,
+.publication-link:focus-visible,
+.publication-link:active {
+  display: inline-block;
+  padding: var(--publication-link-padding-block) var(--publication-link-padding-inline);
+  border: var(--publication-link-border-width) solid var(--link-color);
+  border-radius: 0.1875rem;
+  color: var(--link-color);
+  background-color: var(--publication-link-background);
+  text-decoration: none;
+}
+
+.publication-link:hover,
+.publication-link:focus-visible,
+.publication-link:active {
+  box-shadow: inset 0 0 0 var(--publication-link-inset-width) var(--link-color);
+  font-weight: 700;
+}
+
+.publication-archive {
+  padding-block-end: var(--paragraph-margin-after);
+}

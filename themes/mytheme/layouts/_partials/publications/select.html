@@ -1,0 +1,9 @@
+{{/* 日英のページではなく、言語非依存の共通データを抽出する。 */}}
+{{- $items := hugo.Data.publications | default slice -}}
+{{- $conditions := . -}}
+{{- range slice "kind" "language" "peer_reviewed" -}}
+  {{- if isset $conditions . -}}
+    {{- $items = where $items . (index $conditions .) -}}
+  {{- end -}}
+{{- end -}}
+{{- return (sort $items "date" "desc") -}}

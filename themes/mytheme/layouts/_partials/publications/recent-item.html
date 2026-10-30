@@ -1,0 +1,12 @@
+{{ $paper := .paper }}
+{{ $authors := $paper.authors | default slice }}
+<li class="publication-item">
+  <a class="publication-card" href="https://doi.org/{{ $paper.doi }}" aria-labelledby="{{ .titleID }}" rel="external">
+    <h3 class="publication-title" id="{{ .titleID }}">{{ $paper.title }}</h3>
+    {{ with $authors }}
+      <p class="publication-authors">by {{ partial "publications/authors.html" $paper }}</p>
+    {{ end }}
+    {{ partial "publications/citation.html" $paper }}
+    <p class="publication-doi">DOI: {{ $paper.doi }}</p>
+  </a>
+</li>
