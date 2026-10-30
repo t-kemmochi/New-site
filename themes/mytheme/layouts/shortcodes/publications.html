@@ -26,8 +26,8 @@
   {{- $items := partial "publications/select.html" $conditions -}}
   {{- if $limit -}}{{- $items = first $limit $items -}}{{- end -}}
   {{- with $items -}}
-<ol class="publication-archive-list" reversed start="{{ len . }}" role="list">
-  {{ range $i, $paper := . }}{{ partial "publications/archive-item.html" (dict "paper" $paper "number" (sub (len $items) $i)) }}{{ end }}
+<ol class="publication-archive-list" reversed start="{{ len . }}">
+  {{ range . }}{{ partial "publications/archive-item.html" . }}{{ end }}
 </ol>
   {{- end -}}
 {{- end -}}

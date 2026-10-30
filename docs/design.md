@@ -49,7 +49,7 @@
 
 - メニューバー（サイトタイトル・メニュー・言語切り替え）と全ページの `h1`・`h2` に、Google FontsのMontserratを使用する。
 - ウェイトはnormal（400）、font-styleもnormalとする。Google Fontsから通常体400のみを読み込む。
-- 本文はGoogle FontsのOpen SansとLINE Seed JPを使用する。フォントスタックは `"Open Sans", "LINE Seed JP", sans-serif` とし、英字はOpen Sans、日本語はLINE Seed JPで表示する。日英両サイトに共通で適用する。通常体400と太字700を読み込む。
+- 本文はGoogle FontsのInterとLINE Seed JPを使用する。フォントスタックは `"Inter", "LINE Seed JP", sans-serif` とし、英字はInter、日本語はLINE Seed JPで表示する。日英両サイトに共通で適用する。通常体400と太字700を読み込む。
 - メニューバー・h1・h2はMontserratの通常体400を維持し、日本語はLINE Seed JPへフォールバックする。
 - 共通のコンテンツ最大幅は、ひとまず1200pxとする。
 - 最大幅はサイト全体で共有する変数として定義する。
@@ -62,7 +62,7 @@
 - CSS変数 `--content-max-width` と共通クラス `.container` がある。
 - ヘッダーとフッターには適用済み。
 - トップページのヒーローと各セクションにも適用済み。その他の本文領域への適用は未実装。
-- 本文のフォントはOpen SansとLINE Seed JP。行間、見出し、余白などの詳細は未確定。
+- 本文のフォントはInterとLINE Seed JP。行間、見出し、余白などの詳細は未確定。
 
 ## 4. ヘッダー
 
@@ -264,7 +264,7 @@ hugo new content --kind memo memo/example.ja.md
 ### CTAの使い方
 
 D案（背景・枠線なし、末尾に一重シェブロン）を `cta` ショートコードで表示する。
-CTA自体にfont-familyを指定せず、本文のOpen Sans・LINE Seed JPを継承する。ウェイト・スタイルは通常体とする。シェブロンは空のCSS擬似要素 `::after` にSVGをマスクとして指定する装飾で、読み上げる文字は挿入しない。
+CTA自体にfont-familyを指定せず、本文のInter・LINE Seed JPを継承する。ウェイト・スタイルは通常体とする。シェブロンは空のCSS擬似要素 `::after` にSVGをマスクとして指定する装飾で、読み上げる文字は挿入しない。
 SVGはCSS内のデータURIとして保持し、文字色に追従させる。追加の通信や公開先サブディレクトリに依存しない。
 
 ```markdown
@@ -493,10 +493,10 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 - 項目に枠を付けず、ホバー・focus-within時は薄いグレー `#f5f5f5` の背景を表示する。項目全体をリンクにはしない。
 - 書誌情報の後で改行し、doiがあれば大文字DOIリンク、その後にlinks配列のリンクを配置する。HTTP(S)の絶対URLとラベルを検証し、同じタブで開く。
 - 補足リンクは白背景・通常リンク色の細枠と文字。ホバー・フォーカス・押下時にinset box-shadowで枠を内側へ太く見せ、font-weightを700にする。下線と塗りつぶしは行わない。
-- 文字は本文と同じOpen Sans・LINE Seed JPを継承する。太字化による文字幅の変化は今回補正しない。
+- 文字は本文と同じInter・LINE Seed JPを継承する。太字化による文字幅の変化は今回補正しない。
 - スタイルはpublications.cssで管理し、一覧用テンプレートはpublication/section.htmlを使う。
 
-- 論文一覧のホバー・focus-within背景は番号の領域も含める。olのreversed/startとliの順序は維持し、視覚上の番号はaria-hiddenのspanで描画する。項目を番号列・本文列のGridにし、折り返し行と補足リンクは本文列に揃える。
+- 論文一覧はolのreversed/startと標準のリストマーカーを使用し、liのdisplayはlist-itemを維持する。番号の直書きや表示用spanは設けない。背景だけを空の擬似要素で番号領域まで広げ、番号上のホバーとfocus-withinに対応する。折り返し行・補足リンクは通常のブロック配置で揃える。
 
 ### 旧サイトの論文データ取り込み
 
@@ -507,3 +507,11 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 - Shifted LOPBiCGのDOIがTensor product-type methodsのDOIと重複している点は原文どおり保存し、source_noteに確認事項を残す。
 - Modified Strang splittingの最終著者名Siao-Liang Zhangも原文どおり保存する。他論文のShao-Liang Zhangとの表記差は未修正。
 - 書誌情報は資料にない値を補わない。同一年のデータは資料の記載順を保持する。ページ範囲の二重ハイフンや数式記法も元の値を保持する。
+
+### 標準番号とInterへの変更
+
+- 通常本文と従来のOpen Sans指定箇所は `"Inter", "LINE Seed JP", sans-serif` とする。メニューバーとh1・h2は引き続きMontserratを優先する。
+- Google FontsからInterのopsz 14〜32・wght 400〜700の可変フォントを読み込む。
+- 論文の枠付き補足リンクには `font-optical-sizing: none` を指定する。その他の箇所の光学サイズ調整はブラウザの既定に従う。
+- optical sizingの無効化だけで太字化時の字幅が一定になるとは限らない。従来どおり字幅変化の補正は行わない。
+- 論文番号の余白は `--publication-archive-indent: 3.5rem`。擬似要素は空の装飾であり、番号や文字列は生成しない。親li内で独立した重なり順を確保し、背景を本文・標準マーカーの背面に描く。
