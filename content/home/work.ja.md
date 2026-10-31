@@ -6,7 +6,7 @@ widget: "section"
 
 ### Featured article
 
-{{< featured_articles ids="structure-preserving-numerical-methods-for-constrained-gradient-flows-of-planar-closed-curves-with-e,computing-the-matrix-exponential-with-the-double-exponential-formula" >}}
+{{< featured_articles >}}
 
 ### Explore more
 

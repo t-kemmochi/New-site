@@ -104,6 +104,10 @@
   margin-block-start: var(--paragraph-margin-after);
 }
 
+/* トップのNewsだけ日付を概要の上に置き、通常のh3サイズを使う。 */
+.home-news-list { --news-title-size: var(--font-size-h3); }
+.home-news-list .news-item { grid-template-columns: minmax(0, 1fr); }
+
 .contact-item {
   display: flex;
   align-items: flex-start;

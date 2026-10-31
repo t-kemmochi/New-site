@@ -1,20 +1,24 @@
-{{- $ids := .Get "ids" -}}
-{{- if not $ids -}}
-  {{- errorf "featured_articles: ids に論文IDをカンマ区切りで指定してください。%s" .Position -}}
-{{- else -}}
+{{- $limit := 1 -}}
+{{- range $key, $value := .Params -}}
+  {{- if ne $key "limit" -}}
+    {{- errorf "featured_articles: 未対応の引数 %q です。limit のみ指定できます。%s" $key $.Position -}}
+  {{- end -}}
+{{- end -}}
+{{- if and .IsNamedParams (isset .Params "limit") -}}
+  {{- if not (findRE `^[1-9][0-9]*$` (printf "%v" (.Get "limit"))) -}}
+    {{- errorf "featured_articles: limit は1以上の整数にしてください。%s" .Position -}}
+  {{- else -}}
+    {{- $limit = int (.Get "limit") -}}
+  {{- end -}}
+{{- end -}}
+{{- $papers := partial "publications/select.html" (dict "featured" true) -}}
+{{- with first $limit $papers -}}
   <ul class="publication-list featured-publications-list" role="list">
-    {{ range $i, $id := split $ids "," }}
-      {{ $id = strings.TrimSpace $id }}
-      {{ $matches := where hugo.Data.publications "id" $id }}
-      {{ if ne (len $matches) 1 }}
-        {{ errorf "featured_articles: 論文ID %q はYAMLに1件だけ存在する必要があります。%s" $id $.Position }}
+    {{ range $i, $paper := . }}
+      {{ if not (findRE `^10\.[0-9]{4,9}/[^\s]+$` (default "" $paper.doi)) }}
+        {{ errorf "featured_articles: 論文 %q に有効なDOIがありません。" $paper.id }}
       {{ else }}
-        {{ $paper := index $matches 0 }}
-        {{ if not (findRE `^10\.[0-9]{4,9}/[^\s]+$` (default "" $paper.doi)) }}
-          {{ errorf "featured_articles: 論文 %q に有効なDOIがありません。" $id }}
-        {{ else }}
-          {{ partial "publications/recent-item.html" (dict "paper" $paper "titleID" (printf "featured-%d-%d" $.Ordinal $i) "featured" true) }}
-        {{ end }}
+        {{ partial "publications/recent-item.html" (dict "paper" $paper "titleID" (printf "featured-%d-%d" $.Ordinal $i) "featured" true) }}
       {{ end }}
     {{ end }}
   </ul>

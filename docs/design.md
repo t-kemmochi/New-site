@@ -371,7 +371,7 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 
 ## 20. NEWSの表示とページ送り
 
-- トップとNEWS一覧はnews/item.htmlを共用する。左に日付、右に要約。日付が記事タイトルとなり、front matterのtitleは指定不要。指定されていても表示・HTMLのtitle・RSSでは無視する。
+- トップとNEWS一覧はnews/item.htmlを共用する。トップは日付の下に概要を置き、日付は通常のh3と同じ--font-size-h3（1.5rem）とする。独立した一覧は従来どおり左に日付、右に要約。日付が記事タイトルとなり、front matterのtitleは指定不要。指定されていても表示・HTMLのtitle・RSSでは無視する。
 - 一覧の日付は `<h3><a><time datetime="YYYY-MM-DD">YYYY-MM-DD</time></a></h3>`。個別ページはnews/page.htmlのh1内にtimeで表示し、重複する日付欄は置かない。
 - 日付リンクは全状態で通常本文色。通常時は下線なし、項目ホバー時は日付に下線、キーボードフォーカス時は枠を表示する。
 - 個別項目に「続きを読む」は置かず、項目全体もリンクにしない。日付が個別ページへのリンクとなる。要約は選択・コピーできる。
@@ -438,7 +438,7 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 - トップページのWorkと日英の一覧ページは共通YAMLを参照する。既存のpublication個別ダミーページは削除せず保持するが、一覧には自動列挙しない。
 - データにはid・title・authors配列・date・year・kind・language・peer_reviewed・journal・volume・number・pages・article_number・doi・links配列を持てる。
 - dateは引用符付きYYYY-MM-DDで並び順に使用する。出典に年しかなければYYYYだけを保存し、月日を推測しない。yearは書誌情報の発行年として別に扱う。年も不明ならdate/yearを省略する。
-- Workはfeatured_articlesショートコードのidsに指定した論文を、その指定順で表示する。1件以上、複数の場合も縦並び。現在はデザイン案の2件を仮選択し、日英トップで揃える。旧publicationsウィジェットの自動抽出（article/en/peer_reviewed=true、date降順、limit件）は互換用に保持する。
+- WorkはYAMLのfeaturedが真偽値trueの論文をdateの降順で、featured_articlesショートコードのlimit件だけ表示する。limitの省略時は1件、複数の場合も縦並び。現在は以前の表示対象2件だけfeatured: trueにし、日英トップは引数なしで新しい1件を表示する。featuredの省略・falseは対象外。旧publicationsウィジェットの自動抽出（article/en/peer_reviewed=true、date降順、limit件）は互換用に保持する。
 - Recentに該当する論文でdoiがないものは警告して除外する。不正形式のdoiはビルドエラー。doiにはURLではなく10.xxxx/から始まる文字列を記載する。
 - WorkのFeatured articleはh3、各論文タイトルはh4の本文色・太字。その下にbyと著者名、雑誌情報、大文字DOIと識別子を表示する。旧Recentのタイトルはh3のまま保持する。
 - journal・volume・number・pages・yearは存在する項目だけ表示し、欠落した項目のラベルや余分なカンマを出さない。article_numberがあればpagesに優先してArticle表記を使う。
@@ -576,7 +576,9 @@ x &= y + 2
 ```markdown
 ### Featured article
 
-{{< featured_articles ids="論文ID1,論文ID2" >}}
+{{< featured_articles >}}
+
+<!-- 複数表示する場合：{{< featured_articles limit=3 >}} -->
 
 ### Explore more
 
@@ -584,8 +586,9 @@ x &= y + 2
 {{< cta text="講演一覧" url="/talks" >}}
 ```
 
-- idsはdata/publications.yamlのidをカンマ区切りで指定。ID順で並べ、タイトルはh4。本文の書誌情報は転記しない。
-- ID未指定・不明/重複したデータID・有効なDOIなしはビルドエラー。単一・複数とも同じテンプレート。
+- data/publications.yamlの各論文にfeatured: true/falseを指定する（省略時は対象外）。trueの論文だけをdateの降順で表示し、同じdateならデータの記載順を保つ。タイトルはh4。本文の書誌情報は転記しない。
+- limitは省略時1、1以上の整数。表示件数は対象論文数を上限とし、該当なしなら空のulも出さない。日付不明の論文は日付があるものの後に置く。
+- 旧ids引数は使わない。未対応引数・不正なlimit・表示対象の有効なDOIなしはビルドエラー。単一・複数とも同じテンプレート。
 - Workそのものは汎用section。headingやCTAはMarkdownに記述する。
 
 ### contact

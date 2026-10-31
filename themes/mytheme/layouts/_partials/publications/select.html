@@ -1,7 +1,7 @@
 {{/* 日英のページではなく、言語非依存の共通データを抽出する。 */}}
 {{- $items := hugo.Data.publications | default slice -}}
 {{- $conditions := . -}}
-{{- range slice "kind" "language" "peer_reviewed" -}}
+{{- range slice "kind" "language" "peer_reviewed" "featured" -}}
   {{- if isset $conditions . -}}
     {{- $items = where $items . (index $conditions .) -}}
   {{- end -}}
