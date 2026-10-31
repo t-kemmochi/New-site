@@ -1,0 +1,33 @@
+{{- $title := .Get "title" -}}
+{{- $layout := .Get "layout" | default "timeline" -}}
+{{- if and .Params (not .IsNamedParams) -}}
+  {{- errorf "cv_section: title・layoutの名前付き引数を使ってください。%s" .Position -}}
+{{- else -}}
+  {{- range $key, $value := .Params -}}
+    {{- if not (in (slice "title" "layout") $key) -}}
+      {{- errorf "cv_section: 未対応の引数 %q です。%s" $key $.Position -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if not $title -}}
+    {{- errorf "cv_section: titleは必須です。%s" .Position -}}
+  {{- else if not (in (slice "timeline" "list") $layout) -}}
+    {{- errorf "cv_section: layoutはtimelineまたはlistにしてください。%s" .Position -}}
+  {{- else -}}
+    {{- $id := printf "cv-%s-%d" (urlize $title) .Ordinal -}}
+    {{- /* 子のHTMLを直接再度Markdownに通すとGoldmarkに除去されるため、
+         entryはプレースホルダーを返し、Markdown描画後に差し込む。 */ -}}
+    {{- $markdown := .Inner -}}
+    {{- $content := .Page.RenderString (dict "display" "block") $markdown -}}
+    {{- range $token, $html := .Scratch.Get "cvEntries" -}}
+      {{- $placeholder := printf "<p>%s</p>" $token -}}
+      {{- if not (strings.Contains (string $content) $placeholder) -}}
+        {{- errorf "cv_entryは独立した段落として記述してください。%s" $.Position -}}
+      {{- end -}}
+      {{- $content = replace (string $content) $placeholder (string $html) -}}
+    {{- end -}}
+    <section class="cv-section cv-section--{{ $layout }}" aria-labelledby="{{ $id }}">
+      <h2 id="{{ $id }}" class="cv-section-title">{{ $title }}</h2>
+      <div class="cv-section-content">{{ $content | safeHTML }}</div>
+    </section>
+  {{- end -}}
+{{- end -}}

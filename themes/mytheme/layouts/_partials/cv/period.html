@@ -1,0 +1,7 @@
+<p class="cv-entry-period">
+  {{- with .date -}}
+    <time datetime="{{ . }}">{{ replace . "-" "." }}</time>
+  {{- else -}}
+    <time datetime="{{ .start }}">{{ replace .start "-" "." }}</time> — {{ if eq .end "present" }}<span class="cv-present">{{ if eq .language "ja" }}現在{{ else }}Present{{ end }}</span>{{ else }}<time datetime="{{ .end }}">{{ replace .end "-" "." }}</time>{{ end }}
+  {{- end -}}
+</p>

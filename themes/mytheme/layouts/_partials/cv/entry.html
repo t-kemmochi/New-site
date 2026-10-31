@@ -1,0 +1,5 @@
+<div class="cv-entry{{ if .current }} is-current{{ end }}">
+  {{ if eq .layout "timeline" }}{{ partial "cv/period.html" .period }}{{ end }}
+  <div class="cv-entry-body">{{ .body }}</div>
+  {{ if eq .layout "list" }}{{ partial "cv/period.html" .period }}{{ end }}
+</div>

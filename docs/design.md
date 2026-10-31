@@ -95,7 +95,7 @@
 ### 未完成・未確定
 
 - メニューのリンク先は作成済み。CV（日英）は準備中の通常ページ、publication・project・memo・newsは日英の一覧ページを出力する。
-- publication・project・news・talksは専用テンプレートを使用する。CV・Memoは汎用テンプレートを使用する。
+- publication・project・news・talks・CVは専用テンプレートを使用する。Memoは汎用テンプレートを使用する。
 - メニューの表示名・pageRefは日英ともCV・`/cv`。content/cv/index.ja.mdとindex.en.mdを翻訳ペアとして管理する。英語版の旧aboutページはcvへ移動する。
 - 小さい画面ではメニューを折り返す。ハンバーガーメニューは未実装。
 
@@ -670,3 +670,65 @@ x &= y + 2
 - talks.cssは講演一覧とショートコードのスタイルを担当する。リスト記号はブラウザ標準を使用し、番号の直書きはしない。
 - Invitedバッジの内側余白は旧サイトに合わせて上下0・左右0.25rem（4px）。色・書体・ウェイトは維持する。
 - 講演項目のホバー・focus-within時に論文一覧と同じ#f5f5f5背景を表示する。空の擬似要素で番号領域まで背景を広げ、通常時の文字位置・標準のol/liを維持する。
+
+## 27. CVと経歴用ショートコード
+
+### ページ構成
+
+- content/cv/index.ja.md・index.en.mdにMarkdownで記述する。typeはpageのまま、layout: cvで専用テンプレートlayouts/cv.htmlを使う。
+- CVはh1、Career・Education・Academic service・Awards・Grantsはh2。セクション見出しを左、内容を右に配置し、55rem以下では縦配置にする。
+- 職歴・学歴はtimeline、委員歴・受賞歴・外部資金獲得歴はlist。記載順をそのまま表示し、自動並べ替えはしない。
+- 現在のCV本文は表示確認用のダミー。職歴3件・学歴3件・委員歴5件・受賞歴3件・外部資金獲得歴3件を日英で同じ年月・順序に揃え、ページ先頭に全項目が架空のデータであると明記する。
+- 在籍・役職・助成期間はstart/end、学位取得・受賞はdate。委員歴は活動ごとにまとめ、重複する期間も独立したentryとして表示する。
+- 外部資金は研究代表者・研究分担者に分け、架空の助成名・役割・課題番号を本文に記述する。プロジェクトデータとの自動連携は設けない。
+- 旧公開CVからの実データ移行は現在のダミー本文には含めない。実データへの置き換えは日英のMarkdown本文で行う。
+- 元のmath: trueを維持する。CVテンプレートではページ作成日を自動表示せず、entryに指定した時期だけを表示する。
+
+### cv_section
+
+```markdown
+{{< cv_section title="Career" layout="timeline" >}}
+
+{{< cv_entry start="2025-04" end="present" >}}
+**所属名**
+
+職位
+{{< /cv_entry >}}
+
+{{< /cv_section >}}
+```
+
+- titleは必須。h2とaria-labelledbyに対応するIDを出力する。同名セクションでもIDが重複しない。
+- layoutはtimelineまたはlist。省略時はtimeline。
+- セクション内では通常のMarkdownでh3・h4の活動名、リンク、段落、リストを記述できる。
+- timelineは各entryの時期を本文の前に配置し、点と線をCSSで装飾する。end="present"の点だけ緑。直後に別のentryがある場合だけ線でつなぎ、活動グループをまたいで線を伸ばさない。
+- listは点・線を使わず、entryの本文の下に時期を表示する。委員歴の役職と時期の順序はこの設定で決まる。
+
+### cv_entry
+
+```markdown
+{{< cv_section title="Academic service" layout="list" >}}
+
+### 学会名
+
+#### 研究部会名
+
+{{< cv_entry start="2025-04" end="present" >}}
+主査
+{{< /cv_entry >}}
+
+{{< cv_entry start="2023-04" end="2025-03" >}}
+幹事運営委員
+{{< /cv_entry >}}
+
+{{< /cv_section >}}
+```
+
+- cv_sectionの直接の子として使う。表示形式は親から引き継ぐ。
+- 本文はHugoのMarkdownとして描画する。太字・斜体・リンク・見出し・箇条書き・コード・数式などを記述できる。数式は表示先ページのmath: trueで有効化する。
+- 期間はstart="YYYY-MM"とend="YYYY-MM"、継続中はend="present"。単一時点はdate="YYYY-MM"のみ。dateとstart/endは混在させない。終了年月の省略を継続中とは解釈しない。
+- 年月はYYYY-MMの文字列で管理し、表示はYYYY.MM。presentは日本語版で「現在」、英語版で「Present」と表示する。年月は標準のtime要素、presentは通常のテキスト。
+- 不正な年月、終了が開始より前、日付指定の不足・混在、親セクションなし、未対応引数・layoutはビルドエラー。
+- 追加時はentryを希望の位置へ追記する。役職変更時は旧entryのpresentを終了年月に置き換え、新しいentryを先頭に追加する。
+- 入れ子のentryはHTMLを内部プレースホルダーに保存し、セクションのMarkdown描画後に組み立てる。Goldmarkのunsafe設定を変更せず、生成したHTMLの欠落や段落内へのdivの混入を防ぐ。
+- スタイルはassets/css/cv.css。列幅・セクションやentryの間隔・時期の文字サイズ・タイムラインの寸法と色はCSS変数で変更できる。

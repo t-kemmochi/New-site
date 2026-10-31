@@ -1,0 +1,38 @@
+{{- if not (and .Parent (eq .Parent.Name "cv_section")) -}}
+  {{- errorf "cv_entry: cv_sectionの中に記述してください。%s" .Position -}}
+{{- else -}}
+  {{- range $key, $value := .Params -}}
+    {{- if not (in (slice "date" "start" "end") $key) -}}
+      {{- errorf "cv_entry: 未対応の引数 %q です。%s" $key $.Position -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $date := .Get "date" | default "" -}}
+  {{- $start := .Get "start" | default "" -}}
+  {{- $end := .Get "end" | default "" -}}
+  {{- $layout := .Parent.Get "layout" | default "timeline" -}}
+  {{- $valid := true -}}
+  {{- if or (and $date (or $start $end)) (and (not $date) (or (not $start) (not $end))) -}}
+    {{- errorf "cv_entry: dateのみ、またはstartとendの組を指定してください。%s" .Position -}}
+    {{- $valid = false -}}
+  {{- end -}}
+  {{- range $key, $value := dict "date" $date "start" $start "end" $end -}}
+    {{- if and $value (not (and (eq $key "end") (eq $value "present"))) -}}
+      {{- if not (findRE `^[1-9][0-9]{3}-(0[1-9]|1[0-2])$` (printf "%v" $value)) -}}
+        {{- errorf "cv_entry: %sはYYYY-MM形式にしてください。endのみpresentも使えます。%s" $key $.Position -}}
+        {{- $valid = false -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if and $start $end (ne $end "present") (gt $start $end) -}}
+    {{- errorf "cv_entry: endがstartより前になっています。%s" .Position -}}
+    {{- $valid = false -}}
+  {{- end -}}
+  {{- if $valid -}}
+    {{- $period := dict "date" $date "start" $start "end" $end "language" .Page.Site.Language.Lang -}}
+    {{- $body := .Page.RenderString (dict "display" "block") .Inner -}}
+    {{- $html := partial "cv/entry.html" (dict "period" $period "layout" $layout "body" $body "current" (eq $end "present")) -}}
+    {{- $token := printf "CV_ENTRY_%d_%d" .Parent.Ordinal .Ordinal -}}
+    {{- .Parent.Scratch.SetInMap "cvEntries" $token $html -}}
+    {{- printf "\n\n%s\n\n" $token -}}
+  {{- end -}}
+{{- end -}}
