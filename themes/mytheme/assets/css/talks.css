@@ -1,0 +1,57 @@
+.talks-archive,
+.talk-year {
+  --talk-year-gap: 3rem;
+  --talk-item-gap: 1.75rem;
+  --talk-hover-background: #f5f5f5;
+  --talk-hover-padding: 0.5rem;
+  --talk-list-indent: 2.5rem;
+  --talk-line-gap: 0.375rem;
+  --talk-meta-color: #555555;
+  --talk-date-size: 1rem;
+  --talk-badge-background: #f9dbe7;
+  --talk-badge-color: #78304b;
+  --talk-badge-size: 1rem;
+  --talk-badge-padding-block: 0;
+  --talk-badge-padding-inline: 0.25rem;
+  --talk-badge-radius: 0.25rem;
+  --talk-badge-gap: 0.5rem;
+  --talk-canceled-color: #78304b;
+}
+
+.talks-archive { padding-block-end: var(--talk-year-gap); }
+.talk-year + .talk-year { margin-block-start: var(--talk-year-gap); }
+.talk-list { padding-inline-start: var(--talk-list-indent); list-style: decimal outside; }
+.talk-item { position: relative; isolation: isolate; overflow-wrap: anywhere; }
+/* 標準の番号と文字位置を保ち、背景だけを番号の領域まで広げる。 */
+.talk-item::before {
+  content: "";
+  position: absolute;
+  inset-block: calc(-1 * var(--talk-hover-padding));
+  inset-inline-start: calc(-1 * var(--talk-list-indent));
+  inset-inline-end: calc(-1 * var(--talk-hover-padding));
+  z-index: -1;
+}
+.talk-item:hover::before,
+.talk-item:focus-within::before { background-color: var(--talk-hover-background); }
+.talk-item + .talk-item { margin-block-start: var(--talk-item-gap); }
+.talk-item p { margin: 0; }
+.talk-item p + p { margin-block-start: var(--talk-line-gap); }
+.talk-title { font-weight: 700; }
+.talk-dates { color: var(--talk-meta-color); font-size: var(--talk-date-size); }
+.talk-links { display: flex; flex-wrap: wrap; gap: var(--talk-badge-gap); }
+.talk-cancellation { color: var(--talk-canceled-color); }
+/* inline-blockのバッジにも、周囲のs要素と同じ取り消し線を付ける。 */
+.talk-item--canceled .talk-invited { text-decoration: line-through; }
+
+.talk-invited {
+  display: inline-block;
+  margin-inline-end: var(--talk-badge-gap);
+  padding: var(--talk-badge-padding-block) var(--talk-badge-padding-inline);
+  border-radius: var(--talk-badge-radius);
+  background-color: var(--talk-badge-background);
+  color: var(--talk-badge-color);
+  font-family: "Montserrat", "Open Sans", sans-serif;
+  font-size: var(--talk-badge-size);
+  font-weight: 300;
+  font-style: normal;
+}

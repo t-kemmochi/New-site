@@ -48,7 +48,7 @@
 ### 仕様
 
 - メニューバー（サイトタイトル・メニュー・言語切り替え）と全ページの `h1`・`h2` に、Google FontsのMontserratを使用する。
-- ウェイトはnormal（400）、font-styleもnormalとする。Google Fontsから通常体400のみを読み込む。
+- ウェイトはnormal（400）、font-styleもnormalとする。Google Fontsから通常体400を読み込む。講演一覧のInvitedバッジ用にMontserratの300も追加するが、メニューとh1・h2は400を維持する。
 - 本文はGoogle FontsのOpen SansとLINE Seed JPを使用する。フォントスタックは `"Open Sans", "LINE Seed JP", sans-serif` とし、英字はOpen Sans、日本語はLINE Seed JPで表示する。日英両サイトに共通で適用する。通常体400と太字700を読み込む。
 - メニューバー・h1・h2はMontserratの通常体400を維持し、日本語はLINE Seed JPへフォールバックする。
 - 共通のコンテンツ最大幅は、ひとまず1200pxとする。
@@ -214,7 +214,7 @@
 - 通常のページは従来のデフォルトarchetypeを利用できる。
 - news・memoはカテゴリではなく種別で区別する。newsは専用のnews/page.htmlを使い、memoは既存のpage.htmlを使う。
 - カテゴリやタグは、必要に応じて種別とは別に付けられる。
-- Talksはcontent/talks/_index.*.mdによる日英の一覧ページを用意し、現時点の本文は準備中とする。
+- Talksはcontent/talks/_index.*.mdによる日英の一覧ページを用意し、共通のdata/talks.yamlからtalksショートコードで年別に表示する。
 
 ### 作成方法
 
@@ -604,3 +604,69 @@ x &= y + 2
 - kind="email"を指定すると専用クラスを付け、--font-family-monospace（Inconsolata、LINE Seed JP、monospace）を継承する。リンクなしのメールも同じ方法で表示する。code要素は使わない。
 - 現在のメールは旧サイトと同じ[at]表記・リンクなし。大学の住所はaddress=true。アイコンは通常本文色。
 - 本文は日英のcontent/home/contact.*.mdで編集する。
+
+
+## 26. 講演データと年別一覧
+
+### データ
+
+- 日英共通のdata/talks.yamlを使用する。ユーザー提供の旧日本語サイトindex.mdから2014〜2025年の83件を転記した。招待講演36件、英語題目25件、キャンセル2件。languageは題目の表記をもとに分類し、実際の発表言語は外部確認していない。
+- ページの表示言語と講演そのもののlanguageは別。日英ページは同じデータを参照し、日本語の題名や固有名詞を勝手に英訳しない。日付・「発表」等のラベルだけページの言語に合わせる。
+- 招待フラグはinviteに統一する（invitedという別フィールドは設けない）。
+
+| 項目 | 形式・意味 |
+| --- | --- |
+| id | 講演ごとの識別子 |
+| invite | 真偽値。省略時false |
+| authors | 著者名の配列。原文の○・◯も保持 |
+| title | 講演題目。Markdown・インライン数式も使用可 |
+| workshop | 研究集会名 |
+| url | 研究集会へのリンク。任意 |
+| venue | 開催会場。原文にない場合は省略 |
+| city | 開催都市・地域。原文にない場合は省略 |
+| period_start | 開催初日。引用符付きYYYY-MM-DD |
+| period_end | 最終日。1日開催の場合は省略 |
+| date | 発表日。任意、引用符付きYYYY-MM-DD |
+| language | 講演言語。省略時ja |
+| year | 年別一覧への分類に使う4桁の年 |
+| canceled | 任意。キャンセル理由の文字列（真偽値ではない） |
+
+- 元資料のリンクをurl・venue_url・links配列で保持する。ポスター発表はformat: poster、原文の不整合はsource_noteに保存する。
+- 日付・期間は推測で補わない。原文の2017年RIMS講演の発表日が開催期間外、2015年A3講演の開催年が2016年となっている点は未修正。yearは原文の年見出しを維持する。
+
+```yaml
+- id: example-talk
+  year: 2025
+  invite: true
+  authors:
+    - 剱持智哉
+  title: 講演題目
+  workshop: 研究集会名
+  venue: 開催会場
+  city: 開催都市
+  period_start: '2025-03-18'
+  # 複数日ならperiod_end、発表日が分かればdateも指定する。
+  # language: ja
+  # canceled: キャンセルの理由
+```
+
+### ショートコード
+
+```markdown
+{{< talks year=2025 >}}
+{{< talks year=2024 language="en" >}}
+{{< talks year=2024 language="ja" >}}
+```
+
+- yearは必須。languageは省略するとその年の全言語、指定すると講演のlanguageと一致するものだけを表示する。データのlanguage省略はjaとして抽出する。
+- 日本語版一覧はlanguage引数を省略して全83件を表示し、英語版一覧はlanguage="en"を指定して英語の25件だけを表示する。英語の言語コードはenに統一する。
+- yearをh2にし、日付の新しい順で標準のol/liを出力する。番号は1から増える。該当なしでも年見出しは出すが、空のolは出さない。
+- ソートはdateがあればdate、なければperiod_startの降順。同日のものはデータの記載順を保つ。年の分類はyearを使う。
+- 複数の同年ショートコードを置いても見出しIDが重複しない。
+- 表示は先頭の招待バッジ、著者、太字題目、集会・会場・都市、開催期間・任意の発表日。元の補足リンクも表示する。
+- invite=trueだけにピンク背景のInvitedバッジ。Montserratの300（細字）、背景色・文字色・寸法はtalks.cssの変数で指定。メニューと通常見出しの400は維持する。
+- canceled指定時は講演情報全体（招待バッジ・著者・題目・集会・会場・都市・日付・補足リンク）に取り消し線を付ける。各段落のテキストをs要素で囲み、標準のリスト番号を維持する。「中止／Canceled」と理由は別行に取り消し線なしで表示する。キャンセルされた講演も年別一覧に保持する。
+- データ由来のHTMLをそのまま挿入しない。titleだけHugoのMarkdown処理を通し、ほかはテキストとして出力。数式を含むので日英のTalksでmath: trueを指定する。
+- talks.cssは講演一覧とショートコードのスタイルを担当する。リスト記号はブラウザ標準を使用し、番号の直書きはしない。
+- Invitedバッジの内側余白は旧サイトに合わせて上下0・左右0.25rem（4px）。色・書体・ウェイトは維持する。
+- 講演項目のホバー・focus-within時に論文一覧と同じ#f5f5f5背景を表示する。空の擬似要素で番号領域まで背景を広げ、通常時の文字位置・標準のol/liを維持する。

@@ -1,0 +1,26 @@
+{{- $talk := .talk -}}
+{{- $page := .page -}}
+{{- $ja := eq $page.Site.Language.Lang "ja" -}}
+<li class="talk-item{{ if $talk.canceled }} talk-item--canceled{{ end }}" data-talk-id="{{ $talk.id }}" lang="{{ $talk.language }}">
+  <p class="talk-citation">
+    {{ if $talk.canceled }}<s>{{ end }}
+    {{ if $talk.invite }}<span class="talk-invited" lang="en">Invited</span>{{ end }}
+    <span class="talk-authors">{{ partial "publications/authors.html" $talk }}</span>.
+    <strong class="talk-title">{{ $page.RenderString $talk.title }}</strong>.
+    {{ if $talk.canceled }}</s>{{ end }}
+  </p>
+  <p class="talk-event">
+    {{ if $talk.canceled }}<s>{{ end }}
+    {{ if $talk.url }}{{ $href := partial "links/href.html" (dict "url" $talk.url "page" $page "mailto" false) }}<a href="{{ $href }}" rel="external">{{ $talk.workshop }}</a>{{ else }}{{ $talk.workshop }}{{ end }}{{ with $talk.venue }}, {{ if $talk.venue_url }}{{ $href := partial "links/href.html" (dict "url" $talk.venue_url "page" $page "mailto" false) }}<a href="{{ $href }}" rel="external">{{ . }}</a>{{ else }}{{ . }}{{ end }}{{ end }}{{ with $talk.city }}, {{ . }}{{ end }}.
+    {{ if $talk.canceled }}</s>{{ end }}
+  </p>
+  <p class="talk-dates" lang="{{ $page.Site.Language.Lang }}">
+    {{ if $talk.canceled }}<s>{{ end }}
+    {{ partial "talks/date.html" (dict "date" $talk.period_start "language" $page.Site.Language.Lang) }}{{ with $talk.period_end }}–{{ partial "talks/date.html" (dict "date" . "language" $page.Site.Language.Lang) }}{{ end }}{{ with $talk.date }} <span class="talk-presentation-date">({{ if $ja }}発表：{{ else }}Talk: {{ end }}{{ partial "talks/date.html" (dict "date" . "language" $page.Site.Language.Lang) }})</span>{{ end }}{{ if eq $talk.format "poster" }} <span class="talk-format">({{ if $ja }}ポスター{{ else }}Poster{{ end }})</span>{{ end }}
+    {{ if $talk.canceled }}</s>{{ end }}
+  </p>
+  {{ with $talk.links }}
+    <p class="talk-links">{{ range . }}{{ $href := partial "links/href.html" (dict "url" .url "page" $page "mailto" false) }}<a href="{{ $href }}" rel="external">{{ if $talk.canceled }}<s>{{ end }}{{ .label }}{{ if $talk.canceled }}</s>{{ end }}</a>{{ end }}</p>
+  {{ end }}
+  {{ with $talk.canceled }}<p class="talk-cancellation"><strong>{{ if $ja }}中止：{{ else }}Canceled: {{ end }}</strong>{{ . }}</p>{{ end }}
+</li>

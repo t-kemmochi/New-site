@@ -1,0 +1,40 @@
+{{- $conditions := . -}}
+{{- $items := slice -}}
+{{- range hugo.Data.talks | default slice -}}
+  {{- $talk := . -}}
+  {{- if not (findRE `^[1-9][0-9]{3}$` (printf "%v" $talk.year)) -}}
+    {{- errorf "talks: %q のyearは4桁の年で指定してください。" $talk.id -}}
+  {{- end -}}
+  {{- if eq (int $talk.year) $conditions.year -}}
+    {{- $language := $talk.language | default "ja" -}}
+    {{- $invite := false -}}
+    {{- if isset $talk "invite" -}}
+      {{- if ne (printf "%T" $talk.invite) "bool" -}}
+        {{- errorf "talks: %q のinviteはtrueまたはfalseにしてください。" $talk.id -}}
+      {{- end -}}
+      {{- $invite = eq $talk.invite true -}}
+    {{- end -}}
+    {{- if and (isset $talk "canceled") (ne (printf "%T" $talk.canceled) "string") -}}
+      {{- errorf "talks: %q のcanceledには理由の文字列を指定してください。" $talk.id -}}
+    {{- end -}}
+    {{- if or (not $talk.title) (not $talk.authors) (not $talk.workshop) (not $talk.period_start) -}}
+      {{- errorf "talks: %q のtitle・authors・workshop・period_startは必須です。" $talk.id -}}
+    {{- end -}}
+    {{- range slice "period_start" "period_end" "date" -}}
+      {{- with index $talk . -}}
+        {{- if not (findRE `^[0-9]{4}-[0-9]{2}-[0-9]{2}$` (printf "%v" .)) -}}
+          {{- errorf "talks: %q の日付は引用符付きYYYY-MM-DDで指定してください。" $talk.id -}}
+        {{- else -}}
+          {{- $parsed := time.AsTime . -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if and $talk.period_end (gt $talk.period_start $talk.period_end) -}}
+      {{- errorf "talks: %q の開催終了日が開始日より前です。" $talk.id -}}
+    {{- end -}}
+    {{- if or (not $conditions.language) (eq $language $conditions.language) -}}
+      {{- $items = $items | append (merge $talk (dict "language" $language "invite" $invite "sort_date" ($talk.date | default $talk.period_start))) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return (sort $items "sort_date" "desc") -}}

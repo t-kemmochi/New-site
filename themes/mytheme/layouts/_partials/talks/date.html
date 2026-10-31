@@ -1,0 +1,2 @@
+{{- $format := cond (eq .language "ja") "2006年1月2日" "January 2, 2006" -}}
+<time datetime="{{ .date }}">{{ time.Format $format .date }}</time>

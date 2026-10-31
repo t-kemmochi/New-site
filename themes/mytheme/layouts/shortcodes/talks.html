@@ -1,0 +1,26 @@
+{{- $year := printf "%v" (.Get "year") -}}
+{{- $language := "" -}}
+{{- if and .Params (not .IsNamedParams) -}}
+  {{- errorf "talks: year・languageの名前付き引数を使ってください。%s" .Position -}}
+{{- else -}}
+  {{- range $key, $value := .Params -}}
+    {{- if not (in (slice "year" "language") $key) -}}
+      {{- errorf "talks: 未対応の引数 %q です。%s" $key $.Position -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if not (findRE `^[1-9][0-9]{3}$` $year) -}}
+    {{- errorf "talks: yearは必須です。4桁の年を指定してください。%s" .Position -}}
+  {{- else -}}
+    {{- with .Get "language" -}}{{- $language = printf "%v" . -}}{{- end -}}
+    {{- $items := partial "talks/select.html" (dict "year" (int $year) "language" $language) -}}
+    {{- $headingID := printf "talks-%s-%d" $year .Ordinal -}}
+    <section class="talk-year" aria-labelledby="{{ $headingID }}">
+      <h2 id="{{ $headingID }}">{{ $year }}</h2>
+      {{ with $items }}
+        <ol class="talk-list">
+          {{ range . }}{{ partial "talks/item.html" (dict "talk" . "page" $.Page) }}{{ end }}
+        </ol>
+      {{ end }}
+    </section>
+  {{- end -}}
+{{- end -}}

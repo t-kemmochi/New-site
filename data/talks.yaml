@@ -1,0 +1,998 @@
+# 日英の講演一覧で共用するデータ。ユーザー提供の旧サイトindex.mdから83件を転記。
+# inviteは省略時false、languageは省略時ja。
+# language: enは原文の英語題目をもとに分類し、実際の発表言語の外部確認はしていません。
+# period_startは開催初日、period_endは最終日（1日開催は省略）。dateは発表日（任意）。
+# 日付はすべて引用符付きYYYY-MM-DD。dateがあればdate、なければperiod_startの降順で表示。
+# yearは一覧に分類する発表年。出典に不一致がある2件はsource_noteを確認。
+# authorsの○・◯は原文の発表者マーク。場所・都市の不明値は推測しない。
+# url・venue_url・links・formatは原文のリンクやPoster表記を保持する補助項目。
+# canceledはキャンセル理由の文字列。未指定ならキャンセル表示なし。
+
+- id: talk-2025-01
+  year: 2025
+  invite: true
+  authors:
+  - 剱持智哉
+  title: 有限要素法の調和解析学的取り扱いの試み
+  workshop: 第39回 岩手数理科学セミナー
+  url: http://web.cc.iwate-u.ac.jp/~miyajima/seminar.html
+  venue: 岩手大学
+  period_start: '2025-03-18'
+- id: talk-2025-02
+  year: 2025
+  invite: true
+  authors:
+  - T. Kemmochi
+  title: Structure-preserving numerical methods for gradient flows of planar closed curves
+  workshop: Gradient Flows in Geometry and PDE
+  url: https://www.matrix-inst.org.au/events/gradient-flows-in-geometry-and-pde/
+  venue: MATRIX, The University of Melbourne
+  city: Creswick, Australia
+  period_start: '2025-01-20'
+  period_end: '2025-01-30'
+  date: '2025-01-24'
+  language: en
+- id: talk-2024-01
+  year: 2024
+  invite: true
+  authors:
+  - 剱持智哉
+  title: １次元の有限要素法をFourier解析学的に取り扱う試み
+  workshop: 2024年度 数値解析研究会
+  url: https://sites.google.com/view/numerical-analysis-2024
+  venue: 北海道大学
+  period_start: '2024-12-07'
+- id: talk-2024-02
+  year: 2024
+  invite: true
+  authors:
+  - T. Kemmochi
+  title: An introduction to the discontinuous Galerkin time-stepping method for linear ordinary differential equations
+  workshop: Nagoya International Workshop on Numerical Analysis 2024
+  venue: Nagoya University
+  city: Nagoya, Japan
+  period_start: '2024-10-11'
+  language: en
+- id: talk-2024-03
+  year: 2024
+  invite: true
+  authors:
+  - ○T. Kemmochi
+  - T. Kashiwabara
+  title: Discrete maximal regularity for the discontinuous Galerkin time-stepping method without logarithmic factor
+  workshop: 2024 Dalian International Conference on Mathematics
+  venue: Dalian University of Technology
+  city: Dalian, China
+  period_start: '2024-09-24'
+  period_end: '2024-09-27'
+  date: '2024-09-25'
+  language: en
+- id: talk-2024-04
+  year: 2024
+  invite: true
+  authors:
+  - ○T. Kemmochi
+  - T. Kashiwabara
+  title: Discrete maximal regularity for the discontinuous Galerkin time-stepping method without logarithmic factor
+  workshop: Workshop on Numerical Methods and Analysis for PDEs
+  venue: Harbin Institute of Technology
+  city: Shenzhen, China
+  period_start: '2024-06-26'
+  period_end: '2024-06-27'
+  date: '2024-06-27'
+  language: en
+- id: talk-2023-01
+  year: 2023
+  invite: true
+  authors:
+  - 剱持智哉
+  title: 微分方程式に対する不連続Galerkin法による時間離散化法
+  workshop: 名古屋大学 応物談話会
+  url: https://www.ap.pse.nagoya-u.ac.jp/ap_danwa_2023.html
+  venue: 名古屋大学
+  period_start: '2023-10-24'
+- id: talk-2023-02
+  year: 2023
+  authors:
+  - T. Kemmochi
+  - Y. Miyatake
+  - K. Sakakibara
+  title: Structure-preserving numerical methods for constrained gradient flows of planar closed curves with explicit
+    tangential velocities
+  workshop: ICIAM 2023
+  url: https://iciam2023.org/
+  venue: Waseda University
+  period_start: '2023-08-20'
+  period_end: '2023-08-25'
+  date: '2023-08-24'
+  language: en
+- id: talk-2023-03
+  year: 2023
+  authors:
+  - 剱持智哉
+  title: Stokes作用素の有限要素近似に対する離散最大正則性
+  workshop: 日本応用数理学会 第19回 研究部会連合発表会
+  url: https://jsiam.org/union2023
+  venue: 岡山理科大学
+  period_start: '2023-03-08'
+  period_end: '2023-03-10'
+  date: '2023-03-09'
+- id: talk-2022-01
+  year: 2022
+  authors:
+  - 剱持智哉
+  title: Stokes作用素の有限要素近似に対する離散最大正則性
+  workshop: 2022年度応用数学合同研究集会
+  url: https://www.mathsoc.jp/section/appliedmath/CAM/2022/
+  venue: 龍谷大学瀬田キャンパス
+  period_start: '2022-12-15'
+  period_end: '2022-12-17'
+  date: '2022-12-17'
+- id: talk-2022-02
+  year: 2022
+  invite: true
+  authors:
+  - T. Kemmochi
+  title: $L^p$-resolvent estimate for finite element approximation of the Stokes operator
+  workshop: 基础论坛 第233期
+  url: https://www.iffs.uestc.edu.cn/info/1050/5133.htm
+  venue: Institute of Fundamental and Frontier Sciences, the University of Electronic Science and Technology of
+    China (online)
+  period_start: '2022-12-07'
+  language: en
+- id: talk-2022-03
+  year: 2022
+  invite: true
+  authors:
+  - T. Kemmochi
+  title: Higher-order discrete gradient methods by discontinuous Galerkin time-stepping methods
+  workshop: 'JSPS seminar: Topics in computational methods for stochastic and deterministic differential equations'
+  url: https://www.chalmers.se/sv/institutioner/math/forskning/konferenser-pa-MV/Sidor/JSPS22.aspx
+  venue: Chalmers University of Technology / University of Gothenburg
+  city: Gothenburg, Sweden
+  period_start: '2022-10-24'
+  period_end: '2022-10-25'
+  date: '2022-10-24'
+  language: en
+- id: talk-2022-04
+  year: 2022
+  invite: true
+  authors:
+  - 剱持智哉
+  title: Stokes作用素の有限要素近似に対する$L^p$リゾルベント評価
+  workshop: RIMS共同研究 (公開型) 「数値解析が拓く次世代情報社会～エッジから富岳まで～」
+  url: http://sudalab.is.s.u-tokyo.ac.jp/~rims2022/
+  venue: 京都大学数理解析研究所
+  period_start: '2022-10-12'
+  period_end: '2022-10-14'
+  date: '2022-10-14'
+- id: talk-2022-05
+  year: 2022
+  authors:
+  - 剱持智哉
+  title: Stokes作用素の有限要素近似に対する$L^p$リゾルベント評価
+  workshop: 日本数学会2022年度秋季総合分科会
+  url: https://www.mathsoc.jp/activity/meeting/hokudai22sept/
+  venue: 北海道大学
+  period_start: '2022-09-13'
+  period_end: '2022-09-16'
+  date: '2022-09-15'
+- id: talk-2022-06
+  year: 2022
+  authors:
+  - 剱持智哉
+  title: 偏微分方程式に対する有限要素法の$L^p$理論
+  workshop: 第3回若手研究交流会
+  url: https://sites.google.com/view/jsiam-wakate-3rd/
+  venue: 北海道大学 (ハイブリッド)
+  period_start: '2022-09-11'
+- id: talk-2022-07
+  year: 2022
+  authors:
+  - 剱持智哉
+  title: Stokes作用素の有限要素近似に対する$L^p$リゾルベント評価
+  workshop: 日本応用数理学会2022年度年会
+  url: https://jsiam.org/annual2022/
+  venue: 北海道大学
+  period_start: '2022-09-08'
+  period_end: '2022-09-10'
+  date: '2022-09-08'
+- id: talk-2022-08
+  year: 2022
+  invite: true
+  authors:
+  - 剱持智哉
+  title: Stokes作用素の有限要素近似に対する$L^p$リゾルベント評価
+  workshop: 名古屋微分方程式セミナー
+  url: https://www.math.nagoya-u.ac.jp/~jkato/NDES/index.html
+  venue: 名古屋大学大学院多元数理科学研究科
+  period_start: '2022-06-06'
+- id: talk-2021-01
+  year: 2021
+  invite: true
+  authors:
+  - 剱持智哉
+  title: 不連続Galerkin時間離散化手法による離散勾配法の高精度化
+  workshop: 第83回 京大応用数学セミナー
+  url: https://www.math.kyoto-u.ac.jp/applied-math/kuams/records2021.html
+  venue: オンライン
+  period_start: '2021-10-26'
+- id: talk-2021-02
+  year: 2021
+  authors:
+  - 剱持智哉
+  title: 不連続Galerkin時間離散化手法による離散勾配法の高精度化
+  workshop: 応用数理学会2021年度年会
+  url: https://annual2021.jsiam.org/
+  venue: オンライン
+  period_start: '2021-09-07'
+  period_end: '2021-09-09'
+  date: '2021-09-09'
+- id: talk-2021-03
+  year: 2021
+  authors:
+  - 剱持智哉
+  title: Cahn-Hilliard方程式に対して構造保存解法とアダプティブ有限要素法を両立させたい
+  workshop: 第2回若手研究交流会
+  url: http://wakate.jsiam.org/?p=49
+  venue: オンライン
+  period_start: '2021-09-06'
+- id: talk-2020-01
+  year: 2020
+  invite: true
+  authors:
+  - T. Kemmochi
+  title: Structure-preserving numerical methods for constrained gradient flows of planar curves
+  workshop: ZOOM online colloquium at Department of Applied Mathematics, The Hong Kong Polytechnic University
+  venue: online
+  period_start: '2020-09-30'
+  language: en
+- id: talk-2020-02
+  year: 2020
+  invite: true
+  authors:
+  - 剱持智哉
+  title: 平面曲線の制約条件付き勾配流に対する構造保存数値解法
+  workshop: '数値解析セミナー #122'
+  url: http://www.infsup.jp/utnas/
+  venue: オンライン
+  period_start: '2020-07-21'
+- id: talk-2020-03
+  year: 2020
+  invite: true
+  authors:
+  - 剱持智哉
+  title: 平面曲線の勾配流方程式に対するエネルギー散逸的な数値解法
+  workshop: 未来の社会システム創造のための応用数理
+  url: https://sites.google.com/view/2020324/
+  venue: 東京大学大学院数理科学研究科
+  city: 東京都目黒区
+  period_start: '2020-03-24'
+  canceled: 新型コロナウイルスのため
+- id: talk-2019-01
+  year: 2019
+  invite: true
+  authors:
+  - 剱持智哉
+  title: 重調和方程式に対する$C^0$内部ペナルティ法の解析
+  workshop: 若手応用数学研究会
+  url: https://sites.google.com/site/koyasakakibara/seminar/workshop_on_applied_mathematics_by_young_researcher
+  venue: 金沢大学サテライト・プラザ
+  city: 石川県金沢市
+  period_start: '2019-12-01'
+  period_end: '2019-12-02'
+  date: '2019-12-01'
+- id: talk-2019-02
+  year: 2019
+  invite: true
+  authors:
+  - 剱持智哉
+  title: Scalar auxiliary variable approach の紹介とその拡張
+  workshop: RIMS共同研究 (公開型) 諸科学分野を結ぶ基礎学問としての数値解析学
+  url: http://www.sr3.t.u-tokyo.ac.jp/rims2019/
+  venue: 京都大学数理解析研究所
+  city: 京都府京都市
+  period_start: '2019-11-06'
+  period_end: '2019-11-08'
+  date: '2019-11-08'
+- id: talk-2019-03
+  year: 2019
+  authors:
+  - 剱持智哉
+  title: Hamilton 系に対する SAV 法
+  workshop: 日本数学会2019年度秋季総合分科会
+  url: http://mathsoc.jp/meeting/kanazawa19sept/
+  venue: 金沢大学角間キャンパス
+  city: 石川県金沢市
+  period_start: '2019-09-17'
+  period_end: '2019-09-20'
+  date: '2019-09-17'
+- id: talk-2019-04
+  year: 2019
+  authors:
+  - ○佐竹祐樹
+  - 曽我部知広
+  - 剱持智哉
+  - 張紹良
+  title: 未知の行列とその複素共役転置を同時に含むSylvester方程式について
+  workshop: 日本応用数理学会2019年度年会
+  url: https://annual2019.jsiam.org/
+  venue: 東京大学駒場キャンパス
+  city: 東京都目黒区
+  period_start: '2019-09-03'
+  period_end: '2019-09-05'
+  date: '2019-09-05'
+- id: talk-2019-05
+  year: 2019
+  authors:
+  - 剱持智哉
+  title: Hamilton 系に対する SAV 法
+  workshop: 日本応用数理学会2019年度年会
+  url: https://annual2019.jsiam.org/
+  venue: 東京大学駒場キャンパス
+  city: 東京都目黒区
+  period_start: '2019-09-03'
+  period_end: '2019-09-05'
+  date: '2019-09-05'
+- id: talk-2019-06
+  year: 2019
+  authors:
+  - Tomoya Kemmochi
+  title: Structure-preserving numerical scheme for the area-preserving curve shortening flow
+  workshop: The 9th International Congress on Industrial and Applied Mathematics (ICIAM 2019)
+  url: https://iciam2019.org/
+  city: Valencia, Spain
+  period_start: '2019-07-15'
+  period_end: '2019-07-19'
+  date: '2019-07-16'
+  language: en
+- id: talk-2019-07
+  year: 2019
+  invite: true
+  authors:
+  - ○Tomoya Kemmochi
+  - Takahito Kashiwabara
+  title: Maximum norm error estimates for linear finite element semi-discretization of parabolic problems on smooth
+    domains
+  workshop: Conference on Mathematical, Physical and Intelligent Sciences 2019
+  url: http://pjsci.dlut.edu.cn/info/1131/2181.htm
+  venue: Dalian University of Technology
+  city: Dalian/Panjin, China
+  period_start: '2019-06-26'
+  period_end: '2019-06-30'
+  date: '2019-06-29'
+  language: en
+- id: talk-2019-08
+  year: 2019
+  authors:
+  - ○立岡文理
+  - 曽我部知広
+  - 剱持智哉
+  - 張紹良
+  title: 行列実数乗に対する二重指数関数型公式の定数倍による前処理について
+  workshop: 第48回数値解析シンポジウム (NAS2019)
+  url: http://www.na.scitec.kobe-u.ac.jp/nas2019/
+  venue: AOSSA
+  city: 福井県福井市
+  period_start: '2019-06-10'
+  period_end: '2019-06-12'
+  date: '2019-06-12'
+- id: talk-2019-09
+  year: 2019
+  authors:
+  - 剱持智哉
+  title: Hamilton 系に対する SAV 法
+  workshop: 第48回数値解析シンポジウム (NAS2019)
+  url: http://www.na.scitec.kobe-u.ac.jp/nas2019/
+  venue: AOSSA
+  city: 福井県福井市
+  period_start: '2019-06-10'
+  period_end: '2019-06-12'
+  date: '2019-06-11'
+- id: talk-2019-10
+  year: 2019
+  authors:
+  - 剱持智哉
+  title: 面積保存曲率流方程式に対する構造保存数値解法
+  workshop: 不連続Galerkin 有限要素法の数学理論とその周辺：これからの展開
+  url: http://www.infsup.jp/saito/ws/190213_15hakata_v4.pdf
+  venue: アクロス福岡
+  city: 福岡県福岡市
+  period_start: '2019-02-13'
+  period_end: '2019-02-15'
+  date: '2019-02-15'
+- id: talk-2018-01
+  year: 2018
+  authors:
+  - ○中野航輔
+  - 宮武勇登
+  - 剱持智哉
+  - 曽我部知広
+  - 張紹良
+  title: 反応拡散方程式に対する修正 Strang splitting 解法について
+  workshop: 日本数学会2018年度年会
+  url: http://annual2018.jsiam.org/
+  venue: 名古屋大学東山キャンパス
+  city: 愛知県名古屋市
+  period_start: '2018-09-03'
+  period_end: '2018-09-05'
+- id: talk-2018-02
+  year: 2018
+  authors:
+  - 剱持智哉
+  title: 滑らかな領域における放物型方程式に対する有限要素法の誤差評価
+  workshop: 常微分方程式の数値解法とその周辺 2018
+  url: https://sites.google.com/view/odejp2018/
+  venue: 大阪大学豊中キャンパス
+  city: 大阪府豊中市
+  period_start: '2018-07-09'
+  period_end: '2018-07-11'
+- id: talk-2018-03
+  year: 2018
+  invite: true
+  authors:
+  - T. Kemmochi
+  title: Energy dissipative numerical schemes for gradient flows of planar curves
+  workshop: 'RIMS workshop: Analysis on Shapes of Solutions to Partial Differential Equations'
+  url: https://www.math.tohoku.ac.jp/research/2018/meeting/RIMS/program_e.pdf
+  venue: Research Institute for Mathematical Science (RIMS), Kyoto University
+  city: Kyoto, Japan
+  period_start: '2018-06-27'
+  period_end: '2018-06-29'
+  date: '2018-06-28'
+  language: en
+- id: talk-2018-04
+  year: 2018
+  invite: true
+  authors:
+  - T. Kashiwabara
+  - ○T. Kemmochi
+  title: Maximum norm error estimates for the finite element approximation of parabolic problems on smooth domains
+  workshop: Workshop on Numerical Analysis for Partial Differential Equations
+  url: http://daisy.math.sci.ehime-u.ac.jp/kanseto-WS/
+  venue: Ehime University
+  city: Ehime, Japan
+  period_start: '2018-06-26'
+  language: en
+- id: talk-2018-05
+  year: 2018
+  authors:
+  - T. Kemmochi
+  title: Asymptotic behavior of numerical solutions for the Allen-Cahn equation with coarse meshes
+  workshop: The 13th SIAM East Asian Section Conference (EASIAM 2018)
+  url: http://sr3.t.u-tokyo.ac.jp/EASIAM2018/
+  venue: The University of Tokyo
+  city: Tokyo, Japan
+  period_start: '2018-06-22'
+  period_end: '2018-06-25'
+  date: '2018-06-24'
+  language: en
+- id: talk-2018-06
+  year: 2018
+  authors:
+  - ◯佐竹祐樹
+  - 曽我部知広
+  - 宮武勇登
+  - 剱持智哉
+  - 張紹良
+  title: T-congruence Sylvester方程式と一般化Sylvester方程式の関係について
+  workshop: 第47回数値解析シンポジウム (NAS2018)
+  url: http://nas.sr3.t.u-tokyo.ac.jp/2018/
+  venue: あわら温泉 まつや千千
+  city: 福井県あわら市
+  period_start: '2018-06-06'
+  period_end: '2018-06-08'
+- id: talk-2018-07
+  year: 2018
+  authors:
+  - 剱持智哉
+  title: DG time-stepping法に対する解析半群論的なアプローチ
+  workshop: 日本数学会2018年度年会 (応用数学分科会)
+  url: http://mathsoc.jp/meeting/tokyo18mar/
+  venue: 東京大学駒場キャンパス
+  city: 東京都目黒区
+  period_start: '2018-03-18'
+  period_end: '2018-03-21'
+  date: '2018-03-20'
+- id: talk-2018-08
+  year: 2018
+  invite: true
+  authors:
+  - T. Kemmochi
+  title: An analytic semigroup approach for DG time-stepping methods
+  workshop: Workshop on recent progresses in modern numerical analysis
+  url: http://www.sr3.t.u-tokyo.ac.jp/matsuo/?page_id=542&lang=en
+  venue: The University of Tokyo (Hongo campus)
+  city: Tokyo, Japan
+  period_start: '2018-03-12'
+  language: en
+- id: talk-2018-09
+  year: 2018
+  invite: true
+  authors:
+  - 剱持智哉
+  title: 放物型方程式に対する有限要素法の$L^\infty$解析について
+  workshop: 不連続Galerkin有限要素法の数学理論とその周辺
+  url: http://www.infsup.jp/saito/ws/180213_15nagasaki_v2.pdf
+  venue: コンフォートホテル長崎
+  city: 長崎県長崎市
+  period_start: '2018-03-13'
+  period_end: '2018-03-15'
+  date: '2018-03-15'
+- id: talk-2018-10
+  year: 2018
+  invite: true
+  authors:
+  - 剱持智哉
+  title: 平面曲線に対する勾配流方程式の数値計算
+  workshop: 不連続Galerkin有限要素法の数学理論とその周辺
+  url: http://www.infsup.jp/saito/ws/180213_15nagasaki_v2.pdf
+  venue: コンフォートホテル長崎
+  city: 長崎県長崎市
+  period_start: '2018-03-13'
+  period_end: '2018-03-15'
+  date: '2018-03-13'
+- id: talk-2018-11
+  year: 2018
+  invite: true
+  authors:
+  - 剱持智哉
+  title: 平面曲線の勾配流に対する構造保存的な数値解法
+  workshop: 数学と現象 in 清里
+  url: https://sites.google.com/site/mathandphenomenaoshima/
+  venue: 明治大学 清里セミナーハウス
+  city: 山梨県北杜市
+  period_start: '2018-02-02'
+  period_end: '2018-02-04'
+  date: '2018-02-04'
+- id: talk-2018-12
+  year: 2018
+  authors:
+  - T. Kemmochi
+  title: Numerical analysis for evolution equations
+  workshop: Thesis defense
+  url: http://www.ms.u-tokyo.ac.jp/seminar/2018/sem18-044.html
+  venue: Graduate School of Mathematical Sciences, The University of Tokyo
+  city: Tokyo, Japan
+  period_start: '2018-02-02'
+  language: en
+- id: talk-2017-01
+  year: 2017
+  authors:
+  - 剱持智哉
+  title: DG time-stepping法に対する半群論的なアプローチ
+  workshop: 2017年度応用数学合同研究集会
+  url: http://infoshako.sk.tsukuba.ac.jp/~cam/2017/
+  venue: 龍谷大学瀬田キャンパス
+  city: 滋賀県大津市
+  period_start: '2017-12-14'
+  period_end: '2017-12-16'
+  date: '2017-12-15'
+- id: talk-2017-02
+  year: 2017
+  authors:
+  - 剱持智哉
+  title: 発展方程式に対する不連続Galerkin法による時間離散化について
+  workshop: 応用数学フレッシュマンセミナー
+  venue: 京都大学理学部数学教室
+  city: 京都府京都市
+  period_start: '2017-11-11'
+- id: talk-2017-03
+  year: 2017
+  invite: true
+  authors:
+  - 剱持智哉
+  title: Allen-Cahn方程式の数値解に対する漸近的な誤差解析
+  workshop: RIMS研究集会「数値解析学の最前線 ---理論・方法・応用---」
+  url: http://ri2t.kyushu-u.ac.jp/~watanabe/WorkShop/RIMS2017/
+  venue: 京都大学数理解析研究所
+  city: 京都府京都市
+  period_start: '2017-11-08'
+  period_end: '2017-11-10'
+  date: '2017-09-09'
+  source_note: 原文の発表日2017-09-09が開催期間2017-11-08–2017-11-10の外。未修正。
+- id: talk-2017-04
+  year: 2017
+  authors:
+  - 剱持智哉
+  title: 放物型方程式に対する有限要素法の時間について一様な誤差評価
+  workshop: 日本数学会2017年度秋季総合分科会 (応用数学分科会)
+  url: http://mathsoc.jp/meeting/yamagata17sept/
+  venue: 山形大学小白川キャンパス
+  city: 山形県山形市
+  period_start: '2017-09-11'
+  period_end: '2017-09-14'
+  date: '2017-09-13'
+- id: talk-2017-05
+  year: 2017
+  authors:
+  - 剱持智哉
+  title: Allen-Cahn方程式に対する数値解の漸近挙動
+  workshop: 日本応用数理学会2017年度年会
+  url: http://annual2017.jsiam.org/
+  venue: 武蔵野大学有明キャンパス
+  city: 東京都江東区
+  period_start: '2017-09-06'
+  period_end: '2017-09-08'
+  date: '2017-09-08'
+- id: talk-2017-06
+  year: 2017
+  invite: true
+  authors:
+  - T. Kemmochi
+  title: Energy dissipative numerical schemes for gradient flows of planar curves
+  workshop: SIAM East Asian Section Conference 2017 (EASIAM2017)
+  url: http://conference.math.snu.ac.kr/index.php?mid=EASIAM2017
+  venue: Seoul National University
+  city: Seoul, Korea
+  period_start: '2017-06-22'
+  period_end: '2017-06-25'
+  date: '2017-06-23'
+  language: en
+- id: talk-2017-07
+  year: 2017
+  invite: true
+  authors:
+  - 剱持智哉
+  title: 平面曲線の勾配流に対する構造保存数値解法
+  workshop: 東京大学情報理工学系研究科 3研輪講
+  url: http://www.sr3.t.u-tokyo.ac.jp/?p=812
+  venue: 東京大学情報理工学系研究科
+  city: 東京都文京区
+  period_start: '2017-06-07'
+- id: talk-2017-08
+  year: 2017
+  authors:
+  - T. Kashiwabara
+  - ○T. Kemmochi
+  title: $L^\infty$-error estimates for the finite element method of parabolic problems on domains with smooth boundaries
+  workshop: The Third International Conference on Engineering and Computational Mathematics (ECM2017)
+  url: http://www.polyu.edu.hk/ama/events/conference/ECM2017/
+  venue: The Hong Kong Polytechnic University
+  city: Hong Kong, China
+  period_start: '2017-05-31'
+  period_end: '2017-06-02'
+  date: '2017-06-01'
+  language: en
+- id: talk-2017-09
+  year: 2017
+  invite: true
+  authors:
+  - 剱持智哉
+  title: 有限要素法の誤差解析
+  workshop: 張研コロキウム
+  url: http://na.nuap.nagoya-u.ac.jp/index.php/colloquium/
+  venue: 名古屋大学工学部
+  city: 愛知県名古屋市
+  period_start: '2017-05-17'
+- id: talk-2017-10
+  year: 2017
+  invite: true
+  authors:
+  - T. Kemmochi
+  title: Error estimate for the finite element semi-discretization of the nonstationary hydrostatic Stokes equation
+  workshop: The 14th Japanese-German International Workshop on Mathematical Fluid Dynamics
+  url: http://www.japan-germany.sci.waseda.ac.jp/event/201703/
+  venue: Waseda University
+  city: Tokyo, Japan
+  period_start: '2017-03-08'
+  period_end: '2017-03-10'
+  language: en
+- id: talk-2017-11
+  year: 2017
+  invite: true
+  authors:
+  - 剱持智哉
+  title: Juliaによる発展方程式の数値計算と可視化
+  workshop: 非線形現象と高精度高品質数値解析
+  url: http://www.infsup.jp/saito/ws/170213_15toyama_full3.pdf
+  venue: 富山大学人間発達科学部
+  period_start: '2017-02-13'
+  period_end: '2017-02-15'
+- id: talk-2016-01
+  year: 2016
+  invite: true
+  authors:
+  - 剱持智哉
+  title: 偏微分方程式に対する有限要素法における諸問題
+  workshop: 研究集会「数学と諸科学の融合 2016」
+  venue: 早稲田大学早稲田キャンパス
+  period_start: '2016-12-19'
+- id: talk-2016-02
+  year: 2016
+  authors:
+  - ○剱持智哉
+  - 柏原崇人
+  title: 滑らかな領域における放物型問題の有限要素近似に対する$L^\infty$誤差評価
+  workshop: 2016年度応用数学合同研究集会
+  url: http://infoshako.sk.tsukuba.ac.jp/~cam/2016/
+  venue: 龍谷大学瀬田キャンパス
+  period_start: '2016-12-15'
+  period_end: '2016-12-17'
+- id: talk-2016-03
+  year: 2016
+  invite: true
+  authors:
+  - T. Kemmochi
+  title: Discretization of maximal regularity and its application to the finite element method
+  workshop: The 13th Japanese-German International Workshop on Mathematical Fluid Dynamics
+  url: http://www.mathematik.tu-darmstadt.de/~igk/japanesegermanworkshop2016/
+  venue: Darmstadtium
+  city: Darmstadt, Germany
+  period_start: '2016-11-30'
+  period_end: '2016-12-02'
+  language: en
+- id: talk-2016-04
+  year: 2016
+  invite: true
+  authors:
+  - T. Kemmochi
+  title: Discrete maximal regularity and its application to the finite element method
+  workshop: IRTG seminar
+  url: http://www.mathematik.tu-darmstadt.de/~igk/seminars.php
+  venue: TU Darmstadt
+  city: Darmstadt, Germany
+  period_start: '2016-10-27'
+  language: en
+- id: talk-2016-05
+  year: 2016
+  authors:
+  - ○剱持智哉
+  - 齊藤宣一
+  title: 最大正則性と作用素の分数べきによる, 放物型方程式に対する有限要素法の誤差解析
+  workshop: 日本数学会2016年度秋季総合分科会 (応用数学分科会)
+  url: http://mathsoc.jp/meeting/kansai16sept/
+  venue: 関西大学千里山キャンパス
+  period_start: '2016-09-15'
+  period_end: '2016-09-18'
+- id: talk-2016-06
+  year: 2016
+  authors:
+  - 剱持智哉
+  title: 平面曲線の勾配流に対するB-splineによる構造保存数値解法
+  workshop: 日本応用数理学会2016年度年会
+  url: http://annual2016.jsiam.org/
+  venue: 北九州国際会議場
+  period_start: '2016-09-12'
+  period_end: '2016-09-14'
+  links:
+  - label: '[動画'
+    url: https://www.youtube.com/playlist?list=PLMF3dSqWEii686A8QWzhNzXQmQ97Hr9CV
+- id: talk-2016-07
+  year: 2016
+  authors:
+  - 剱持智哉
+  title: 平面曲線の勾配流に対するB-splineによる構造保存数値解法
+  workshop: 第38回発展方程式若手セミナー
+  url: https://sites.google.com/a/salesio-sp.ac.jp/38wakate/
+  venue: あうる京北
+  period_start: '2016-08-28'
+  period_end: '2016-08-31'
+  links:
+  - label: '[動画'
+    url: https://www.youtube.com/playlist?list=PLMF3dSqWEii5_xUibPn7xLi6_J7qJwctJ
+- id: talk-2016-08
+  year: 2016
+  authors:
+  - ○N. Saito
+  - T. Kemmochi
+  title: Discrete maximal regularity and the finite element method for parabolic problems
+  workshop: The Sixth China-Japan-Korea Joint Conference on Numerical Mathematics (CJK2016)
+  url: https://camp.nims.re.kr/activities/eventpages/?id=207728&action=overview
+  venue: NIMS
+  venue_url: https://www.nims.re.kr/eng/index
+  city: Daejeon, Korea
+  period_start: '2016-08-22'
+  period_end: '2016-08-26'
+  language: en
+- id: talk-2016-09
+  year: 2016
+  authors:
+  - T. Kemmochi
+  title: Discrete maximal regularity and the finite element method for parabolic problems
+  workshop: EASIAM 2016
+  url: http://161.64.198.10/EASIAM2016/
+  venue: University of Macau
+  city: Macau, China
+  period_start: '2016-06-20'
+  period_end: '2016-06-22'
+  language: en
+- id: talk-2016-10
+  year: 2016
+  invite: true
+  authors:
+  - 剱持智哉
+  title: 2階楕円型方程式の有限要素近似に対する離散最大値原理とその応用
+  workshop: 偏微分方程式の最大値原理とその周辺
+  url: http://www.math.sci.hokudai.ac.jp/sympo/160304/
+  venue: 北海道大学理学部
+  period_start: '2016-03-04'
+- id: talk-2015-01
+  year: 2015
+  authors:
+  - T. Kemmochi
+  title: Numerical analysis on shapes of membranes on rippled surfaces with adhesion
+  workshop: The 2nd Joint Workshop of A3 Foresight Program
+  url: http://www.wpi-aimr.tohoku.ac.jp/mathematics_unit/A3foresight_en/workshop/20151126-29.html
+  venue: Xiamen Golden Bay Hotel/Xiameng University
+  city: Xiamen, China
+  period_start: '2016-11-26'
+  period_end: '2016-11-29'
+  language: en
+  format: poster
+  source_note: 原文の年見出しは2015年、開催年月日はNovember 26-29, 2016。年の不一致は未修正。
+- id: talk-2015-02
+  year: 2015
+  authors:
+  - 剱持智哉
+  title: 付着の影響のある基板上の薄膜の形状決定問題に関する数値解析
+  workshop: RIMS研究集会「現象解明に向けた数値解析学の新展開」
+  url: https://sites.google.com/site/rims2015na/
+  venue: 京都大学数理解析研究所
+  period_start: '2015-11-18'
+  period_end: '2015-11-20'
+  links:
+  - label: '[講究録pdf'
+    url: http://www.kurims.kyoto-u.ac.jp/~kyodo/kokyuroku/contents/pdf/1995-05.pdf
+- id: talk-2015-03
+  year: 2015
+  invite: true
+  authors:
+  - 剱持智哉
+  title: 付着の影響下における基板上の薄膜の形状決定問題について
+  workshop: ワークショップ「数理モデルとシミュレーション」
+  venue: 休暇村伊良湖
+  period_start: '2015-10-31'
+  period_end: '2015-11-02'
+- id: talk-2015-04
+  year: 2015
+  invite: true
+  authors:
+  - T. Kemmochi
+  title: Numerical analysis on shapes of membranes on rippled surfaces with adhesion
+  workshop: Mathematical Aspects of Surface and Interface Dynamics 10
+  url: http://www.ms.u-tokyo.ac.jp/~labgiga/conf_etc_info/sympo_mdv15/sympo_mdv15_hp.html
+  venue: Univ. of Tokyo
+  city: Tokyo, Japan
+  period_start: '2015-10-28'
+  period_end: '2015-10-30'
+  language: en
+- id: talk-2015-05
+  year: 2015
+  authors:
+  - 剱持智哉
+  title: 高階項を持つ付着性障害物問題の離散化について
+  workshop: 日本数学会2015年度秋季総合分科会 (応用数学分科会)
+  url: http://mathsoc.jp/meeting/kyoto-sangyo15sept/
+  venue: 京都産業大学
+  period_start: '2015-09-13'
+  period_end: '2015-09-16'
+- id: talk-2015-06
+  year: 2015
+  authors:
+  - 剱持智哉
+  title: 高階項を持つ付着性障害物問題の離散化について
+  workshop: 応用数理学会2015年度年会
+  url: http://annual2015.jsiam.org/
+  venue: 金沢大学角間キャンパス
+  venue_url: http://annual2015.jsiam.org/program
+  period_start: '2015-09-09'
+  period_end: '2015-09-11'
+- id: talk-2015-07
+  year: 2015
+  authors:
+  - ○T. Kemmochi
+  - N. Saito
+  title: Discrete maximal regularity for abstract Cauchy problems and its application to the finite element method
+  workshop: ICIAM2015
+  url: http://www.iciam2015.cn/
+  venue: China National Convention Center
+  period_start: '2015-08-10'
+  period_end: '2015-08-14'
+  language: en
+- id: talk-2015-08
+  year: 2015
+  authors:
+  - ○剱持智哉
+  - 齊藤宣一
+  title: 離散最大正則性の半線形熱方程式への応用
+  workshop: 日本数学会2015年度年会 (応用数学分科会)
+  url: http://mathsoc.jp/meeting/meiji15mar/
+  venue: 明治大学駿河台キャンパス
+  period_start: '2015-03-21'
+  period_end: '2015-03-24'
+- id: talk-2015-09
+  year: 2015
+  authors:
+  - 剱持智哉
+  title: 抽象的Cauchy問題に対する離散最大正則性と有限要素法への応用
+  workshop: 第2回JST CREST「数学」領域横断若手合宿
+  url: https://www.math.kyoto-u.ac.jp/~obayashi/crest-wakate-2015/index.html
+  venue: 休暇村志賀島
+  period_start: '2015-03-09'
+  period_end: '2015-03-11'
+  canceled: インフルエンザのため
+  format: poster
+- id: talk-2015-10
+  year: 2015
+  authors:
+  - 剱持智哉
+  title: 抽象的Cauchy問題に対する離散最大正則性と有限要素法への応用
+  workshop: FMSP院生集中講義
+  url: http://fmsp.ms.u-tokyo.ac.jp/FMSP1503.pdf
+  venue: 東京大学数理科学研究科
+  period_start: '2015-03-05'
+  period_end: '2015-03-06'
+- id: talk-2014-01
+  year: 2014
+  authors:
+  - ○剱持智哉
+  - 齊藤宣一
+  title: 離散最大正則性の半線形熱方程式への応用
+  workshop: 2014年度応用数学合同研究集会
+  url: http://www-mmc.es.hokudai.ac.jp/CAM/2014/index.html
+  venue: 龍谷大学瀬田キャンパス
+  period_start: '2014-12-18'
+  period_end: '2014-12-20'
+- id: talk-2014-02
+  year: 2014
+  authors:
+  - 剱持智哉
+  title: 抽象的Cauchy問題に対する離散最大正則性と有限要素法への応用
+  workshop: 日本数学会異分野・異業種研究交流会2014
+  url: http://mathsoc.jp/administration/career/kouryukai2014.html
+  venue: 東京大学数理科学研究科
+  period_start: '2014-10-25'
+  format: poster
+- id: talk-2014-03
+  year: 2014
+  authors:
+  - ○剱持智哉
+  - 齊藤宣一
+  title: 抽象的Cauchy問題に対する離散最大正則性と有限要素法への応用
+  workshop: 日本数学会2014年度秋季総合分科会 (応用数学分科会)
+  url: http://mathsoc.jp/meeting/hiroshima14sept/
+  venue: 広島大学東広島キャンパス
+  period_start: '2014-09-25'
+  period_end: '2014-09-28'
+- id: talk-2014-04
+  year: 2014
+  authors:
+  - ○剱持智哉
+  - 齊藤宣一
+  title: 抽象的Cauchy問題に対する離散最大正則性と有限要素法への応用
+  workshop: 日本応用数理学会2014年度年会
+  url: http://jsiam2014.jsiam.org/
+  venue: 政策研究大学院大学
+  period_start: '2014-09-03'
+  period_end: '2014-09-05'
+- id: talk-2014-05
+  year: 2014
+  authors:
+  - 剱持智哉
+  title: 抽象的Cauchy問題に対する離散最大正則性と有限要素法への応用
+  workshop: 第36回発展方程式若手セミナー
+  url: https://sites.google.com/site/36wakateseminar/home
+  venue: 休暇村南阿蘇
+  period_start: '2014-08-28'
+  period_end: '2014-08-31'
+- id: talk-2014-06
+  year: 2014
+  authors:
+  - 剱持智哉
+  title: 抽象的Cauchy問題に対する離散最大正則性と有限要素法への応用
+  workshop: FMSP交流会
+  url: http://fmsp.ms.u-tokyo.ac.jp/FMSP_forum0619.pdf
+  venue: 東京大学数理科学研究科
+  period_start: '2014-07-19'
+  format: poster
+- id: talk-2014-07
+  year: 2014
+  authors:
+  - 剱持智哉
+  title: 有限要素法における最大値原理
+  workshop: ワークショップ「数値流体シミュレーション手法とその数学的基盤」
+  url: http://www.infsup.jp/fvm/
+  venue: 公共の宿「ふるさと荘」
+  period_start: '2014-05-17'
+  period_end: '2014-05-19'
