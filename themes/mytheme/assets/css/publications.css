@@ -70,8 +70,8 @@
   --publication-archive-hover-background: #f5f5f5;
   --publication-link-border-width: 0.0625rem;
   --publication-link-inset-width: 0.125rem;
-  --publication-link-padding-block: 0.25rem;
-  --publication-link-padding-inline: 0.75rem;
+  --publication-link-padding-block: 0.125rem;
+  --publication-link-padding-inline: 0.375rem;
   --publication-link-background: #ffffff;
   margin-block-end: var(--list-margin-after);
   padding-inline-start: var(--publication-archive-indent);
