@@ -1,0 +1,23 @@
+{{- $page := . -}}
+{{- $languageLabel := cond (eq .Site.Language.Lang "ja") "言語切り替え" "Language selection" -}}
+    <nav class="language-switcher" aria-label="{{ $languageLabel }}">
+      {{ range hugo.Sites }}
+        {{ if ne .Language.Lang $page.Site.Language.Lang }}
+          {{- $targetLanguage := .Language.Lang -}}
+          {{- $targetPage := .Home -}}
+
+          {{- range $page.Translations -}}
+            {{- if eq .Language.Lang $targetLanguage -}}
+              {{- $targetPage = . -}}
+            {{- end -}}
+          {{- end -}}
+
+          <a
+            class="language-link"
+            href="{{ $targetPage.RelPermalink }}"
+            lang="{{ .Language.Locale }}"
+            hreflang="{{ .Language.Locale }}"
+          >{{ partial "icons/image.html" "icons/globe.svg" }}<span>{{ cond (eq $targetLanguage "ja") "日本語" "English" }}</span></a>
+        {{ end }}
+      {{ end }}
+    </nav>

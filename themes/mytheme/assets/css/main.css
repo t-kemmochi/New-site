@@ -349,13 +349,6 @@ h4 {
   --icon-size: 1.5rem;
 }
 
-@media (max-width: 60rem) {
-  .header-inner { flex-wrap: wrap; }
-  .language-switcher { margin-inline-start: auto; }
-  .site-nav { order: 3; flex-basis: 100%; }
-  .site-menu { flex-wrap: wrap; justify-content: flex-start; }
-}
-
 /* フッター */
 .site-footer {
   background-color: var(--footer-background);

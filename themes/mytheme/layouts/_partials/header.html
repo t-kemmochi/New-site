@@ -1,55 +1,23 @@
-{{- $page := . -}}
-{{- $isJapanese := eq .Site.Language.Lang "ja" -}}
-{{- $navLabel := cond $isJapanese "メインナビゲーション" "Main navigation" -}}
-{{- $languageLabel := cond $isJapanese "言語切り替え" "Language selection" -}}
-
+{{- $ja := eq .Site.Language.Lang "ja" -}}
 <header class="site-header">
   <div class="container header-inner">
-    <a class="site-title" href="{{ .Site.Home.RelPermalink }}">
-      {{ .Site.Title }}
-    </a>
-
-    <nav class="site-nav" aria-label="{{ $navLabel }}">
-      <ul class="site-menu">
-        {{ range .Site.Menus.main }}
-          {{- $isCurrent := $page.IsMenuCurrent "main" . -}}
-          {{- $isAncestor := $page.HasMenuCurrent "main" . -}}
-
-          <li class="site-menu-item">
-            <a
-              href="{{ .URL }}"
-              {{ if $isCurrent }}
-                class="is-current"
-                aria-current="page"
-              {{ else if $isAncestor }}
-                class="is-ancestor"
-              {{ end }}
-            >{{ .Name }}</a>
-          </li>
-        {{ end }}
-      </ul>
-    </nav>
-
-    <nav class="language-switcher" aria-label="{{ $languageLabel }}">
-      {{ range hugo.Sites }}
-        {{ if ne .Language.Lang $page.Site.Language.Lang }}
-          {{- $targetLanguage := .Language.Lang -}}
-          {{- $targetPage := .Home -}}
-
-          {{- range $page.Translations -}}
-            {{- if eq .Language.Lang $targetLanguage -}}
-              {{- $targetPage = . -}}
-            {{- end -}}
-          {{- end -}}
-
-          <a
-            class="language-link"
-            href="{{ $targetPage.RelPermalink }}"
-            lang="{{ .Language.Locale }}"
-            hreflang="{{ .Language.Locale }}"
-          >{{ partial "icons/image.html" "icons/globe.svg" }}<span>{{ cond (eq $targetLanguage "ja") "日本語" "English" }}</span></a>
-        {{ end }}
-      {{ end }}
-    </nav>
+    <a class="site-title" href="{{ .Site.Home.RelPermalink }}">{{ .Site.Title }}</a>
+    {{ partial "header/navigation.html" . }}
+    {{ partial "header/language-switcher.html" . }}
+    <button class="menu-toggle" type="button" aria-label="{{ if $ja }}メニューを開く{{ else }}Open menu{{ end }}" aria-controls="mobile-menu" aria-haspopup="dialog" aria-expanded="false" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+    </button>
   </div>
 </header>
+
+<dialog class="menu-dialog" id="mobile-menu" aria-label="{{ if $ja }}サイトメニュー{{ else }}Site menu{{ end }}">
+  <div class="menu-panel">
+    <div class="menu-topline">
+      {{ partial "header/language-switcher.html" . }}
+      <button class="menu-close" type="button" aria-label="{{ if $ja }}メニューを閉じる{{ else }}Close menu{{ end }}" autofocus>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+    </div>
+    {{ partial "header/navigation.html" . }}
+  </div>
+</dialog>
