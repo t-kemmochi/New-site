@@ -3,11 +3,11 @@
 {{- $ja := eq $page.Site.Language.Lang "ja" -}}
 <li class="talk-item{{ if $talk.canceled }} talk-item--canceled{{ end }}" data-talk-id="{{ $talk.id }}" lang="{{ $talk.language }}">
   <p class="talk-citation">
-    {{ if $talk.canceled }}<s>{{ end }}
-    {{ if $talk.invite }}<span class="talk-invited" lang="en">Invited</span>{{ end -}}
-    <span class="talk-authors">{{ partial "publications/authors.html" $talk }}</span>.
+    {{- if $talk.canceled }}<s>{{ end -}}
+    {{- if $talk.invite }}<span class="talk-invited" lang="en">Invited</span>{{ " " }}{{ end -}}
+    <span class="talk-authors">{{ partial "publications/authors.html" $talk | strings.TrimSpace }}</span>.{{ " " -}}
     <strong class="talk-title">{{ $page.RenderString $talk.title }}</strong>.
-    {{ if $talk.canceled }}</s>{{ end }}
+    {{- if $talk.canceled }}</s>{{ end -}}
   </p>
   <p class="talk-event">
     {{ if $talk.canceled }}<s>{{ end }}

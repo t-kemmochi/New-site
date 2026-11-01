@@ -44,7 +44,6 @@
 
 .talk-invited {
   display: inline-block;
-  margin-inline-end: var(--talk-badge-gap);
   padding: var(--talk-badge-padding-block) var(--talk-badge-padding-inline);
   border-radius: var(--talk-badge-radius);
   background-color: var(--talk-badge-background);
