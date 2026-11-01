@@ -45,7 +45,7 @@
   --font-size-footer: 0.875rem;
   --font-size-cta: var(--font-size-base);
   --font-size-code: 1.125rem;
-  --code-block-padding: 1rem;
+  --code-block-padding: 1.5rem;
   --code-block-radius: 0.25rem;
 
   --page-background: #ffffff;
@@ -145,7 +145,8 @@ dd {
 }
 
 /* 配色はHugoのMonokaiを使用。長い行はブロック内で横スクロールする。 */
-pre {
+pre,
+.highlight > pre {
   max-width: 100%;
   padding: var(--code-block-padding);
   margin-block: 0 var(--paragraph-margin-after);

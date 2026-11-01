@@ -130,7 +130,8 @@
 - hugo.tomlのmarkup.highlightでcodeFences=true、noClasses=true、style='monokai'を指定する。色は生成HTMLのインラインスタイルに含める。
 - 追加のコード用CSS・JavaScriptを読み込まないため、codeフロントマターは不要。未指定のページでもコードフェンスを表示できる。mathの条件付き読み込みとは独立する。
 - コードブロックの書体は--font-family-monospace。文字サイズ・内側余白・角丸はmain.cssの--font-size-code・--code-block-padding・--code-block-radiusで指定する。長い行はブロック内だけを横スクロールする。
-- 日英のcontent/memo/sample-memo-2.*.mdにC言語のサンプルを記載する。手動要約の区切りより後に置き、一覧の要約には含めない。
+- 内側余白の初期値は四辺とも1.5rem（ルート16px時に24px）。通常のpreとHugoが生成する.highlight直下のpreに明示して適用する。noClasses=true・Monokaiの配色を維持する。
+- 日英のcontent/memo/sample-memo-2.*.mdにC・Bash・PowerShell（pwsh）・LaTeX・Juliaのサンプルを記載する。PowerShellのコードフェンスにはpowershellを指定する。手動要約の区切りより後に置き、一覧の要約には含めない。
 
 ### 補助機能
 
