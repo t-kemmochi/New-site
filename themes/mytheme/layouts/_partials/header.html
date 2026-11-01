@@ -13,11 +13,11 @@
 <dialog class="menu-dialog" id="mobile-menu" aria-label="{{ if $ja }}サイトメニュー{{ else }}Site menu{{ end }}">
   <div class="menu-panel">
     <div class="menu-topline">
-      {{ partial "header/language-switcher.html" . }}
       <button class="menu-close" type="button" aria-label="{{ if $ja }}メニューを閉じる{{ else }}Close menu{{ end }}" autofocus>
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18" /></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 3 18 18M21 3 3 21" /></svg>
       </button>
     </div>
     {{ partial "header/navigation.html" . }}
+    {{ partial "header/language-switcher.html" . }}
   </div>
 </dialog>

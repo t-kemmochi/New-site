@@ -6,7 +6,12 @@
   --menu-button-top: calc((var(--header-compact-height) - var(--menu-button-size)) / 2);
   --menu-button-radius: 0.5rem;
   --menu-icon-size: 1.5rem;
+  --menu-close-icon-size: 2rem;
   --menu-border-width: 0.0625rem;
+  --menu-toggle-color: var(--header-background);
+  --menu-toggle-background: var(--header-text-color);
+  --menu-toggle-halo-color: var(--header-text-color);
+  --menu-toggle-halo-width: 0.125rem;
   --drawer-width: 22rem;
   --drawer-backdrop-space: 3rem;
   --drawer-padding: 1rem;
@@ -15,9 +20,11 @@
   --drawer-item-padding-block: 0.75rem;
   --drawer-item-padding-inline: 0.5rem;
   --drawer-language-size: 1rem;
-  --drawer-background: #ffffff;
+  --drawer-background: var(--header-background);
+  --drawer-text-color: var(--header-text-color);
+  --drawer-link-hover-color: var(--header-link-hover-color);
   --drawer-backdrop-color: rgb(0 0 0 / 45%);
-  --drawer-current-background: #f2f2f2;
+  --drawer-current-background: color-mix(in srgb, var(--drawer-background), var(--drawer-text-color) 12%);
   --drawer-duration: 200ms;
 }
 
@@ -41,13 +48,15 @@
   inset-block-start: var(--menu-button-top);
   inset-inline-end: var(--menu-edge-gap);
   z-index: 10;
-  color: var(--header-text-color);
-  background: var(--header-background);
+  color: var(--menu-toggle-color);
+  background: var(--menu-toggle-background);
+  box-shadow: 0 0 0 var(--menu-toggle-halo-width) var(--menu-toggle-halo-color);
 }
 
 .menu-close {
-  color: var(--link-color);
-  background: var(--drawer-background);
+  border: 0;
+  color: var(--drawer-text-color);
+  background: transparent;
 }
 
 .menu-toggle svg,
@@ -60,13 +69,18 @@
   stroke-linecap: round;
 }
 
+.menu-close svg {
+  width: var(--menu-close-icon-size);
+  height: var(--menu-close-icon-size);
+}
+
 .menu-toggle:focus-visible,
 .menu-close:focus-visible {
-  outline: var(--focus-ring-width) solid var(--link-color);
+  outline: var(--focus-ring-width) solid currentColor;
   outline-offset: var(--focus-ring-offset);
 }
 
-/* 全画面の透明なdialogで操作を受け止め、白いパネルだけを右端に置く。 */
+/* 全画面の透明なdialogで操作を受け止め、パネルだけを右端に置く。 */
 .menu-dialog {
   position: fixed;
   inset: 0;
@@ -77,7 +91,8 @@
   max-height: none;
   padding: 0;
   margin: 0;
-  overflow: hidden;
+  /* hiddenはフォーカス時の横スクロールを許す。画面外のパネルはclipで切る。 */
+  overflow: clip;
   border: 0;
   color: var(--text-color);
   background: transparent;
@@ -95,6 +110,7 @@
   width: min(var(--drawer-width), calc(100% - var(--drawer-backdrop-space)));
   height: 100%;
   padding: var(--menu-button-top) var(--drawer-padding) var(--drawer-padding);
+  padding-block-end: calc(var(--drawer-padding) + env(safe-area-inset-bottom, 0px));
   margin-inline-start: auto;
   overflow: hidden;
   background: var(--drawer-background);
@@ -104,11 +120,26 @@
 
 .menu-dialog.is-open .menu-panel { transform: translateX(0); }
 
+.menu-dialog a,
+.menu-dialog a:visited,
+.menu-dialog a:focus-visible,
+.menu-dialog a:active {
+  color: var(--drawer-text-color);
+}
+
+.menu-dialog a:hover {
+  color: var(--drawer-link-hover-color);
+}
+
+.menu-dialog a:focus-visible {
+  outline-color: var(--drawer-text-color);
+}
+
 .menu-topline {
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: var(--language-gap);
 }
 
@@ -117,6 +148,10 @@
   border: var(--menu-border-width) solid currentColor;
   border-radius: var(--menu-button-radius);
   font-size: var(--drawer-language-size);
+}
+
+.menu-panel > .language-switcher {
+  flex-shrink: 0;
 }
 
 .menu-dialog .site-nav {
@@ -183,4 +218,8 @@ body.menu-is-open {
 
 @media (prefers-reduced-motion: reduce) {
   .menu-dialog { --drawer-duration: 0ms; }
+}
+
+@media (height < 30rem) {
+  .menu-panel { gap: var(--drawer-padding); }
 }
