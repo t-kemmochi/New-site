@@ -1,17 +1,20 @@
-{{- range slice "css/reset.css" "css/main.css" "css/header.css" "css/news.css" "css/projects.css" "css/publications.css" "css/home.css" "css/talks.css" "css/cv.css" "css/archive.css" "css/memo.css" }}
-{{- with resources.Get . }}
+{{- $styles := slice -}}
+{{- range slice "css/main.css" "css/header.css" "css/news.css" "css/projects.css" "css/publications.css" "css/home.css" "css/talks.css" "css/cv.css" "css/archive.css" "css/memo.css" -}}
+  {{- $styles = $styles | append (resources.Get .) -}}
+{{- end -}}
+{{- $site := $styles | resources.Concat "css/site.css" -}}
+{{- range slice (resources.Get "css/reset.css") $site -}}
   {{- $opts := dict
     "minify" (cond hugo.IsDevelopment false true)
     "sourceMap" (cond hugo.IsDevelopment "linked" "none")
-  }}
-  {{- with . | css.Build $opts }}
-    {{- if hugo.IsDevelopment }}
+  -}}
+  {{- with . | css.Build $opts -}}
+    {{- if hugo.IsDevelopment -}}
       <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{- else }}
-      {{- with . | fingerprint }}
+    {{- else -}}
+      {{- with . | fingerprint -}}
         <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
 {{- end }}

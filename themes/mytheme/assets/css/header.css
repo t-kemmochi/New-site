@@ -63,21 +63,16 @@
   pointer-events: none;
 }
 
-.menu-toggle svg { position: relative; }
+.menu-toggle .site-icon { position: relative; }
 
 .menu-close {
   color: var(--drawer-text-color);
   background: transparent;
 }
 
-.menu-toggle svg,
-.menu-close svg {
-  width: var(--menu-icon-size);
-  height: var(--menu-icon-size);
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linecap: round;
+.menu-toggle .site-icon,
+.menu-close .site-icon {
+  --icon-size: var(--menu-icon-size);
 }
 
 .menu-toggle:focus-visible,

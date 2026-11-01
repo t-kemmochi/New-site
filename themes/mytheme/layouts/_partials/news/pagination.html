@@ -5,9 +5,9 @@
     <ul class="news-pagination-list" role="list">
       <li>
         {{ if $pager.HasPrev }}
-          <a class="news-pagination-direction" href="{{ $pager.Prev.URL }}" rel="prev"><span aria-hidden="true">‹</span>{{ if $ja }}前へ{{ else }}Previous{{ end }}</a>
+          <a class="news-pagination-direction" href="{{ $pager.Prev.URL }}" rel="prev">{{ partial "icons/image.html" "icon/chevron-left.svg" }}{{ if $ja }}前へ{{ else }}Previous{{ end }}</a>
         {{ else }}
-          <span class="news-pagination-direction" aria-disabled="true"><span aria-hidden="true">‹</span>{{ if $ja }}前へ{{ else }}Previous{{ end }}</span>
+          <span class="news-pagination-direction" aria-disabled="true">{{ partial "icons/image.html" "icon/chevron-left.svg" }}{{ if $ja }}前へ{{ else }}Previous{{ end }}</span>
         {{ end }}
       </li>
       {{ $previous := 0 }}
@@ -29,9 +29,9 @@
       {{ end }}
       <li>
         {{ if $pager.HasNext }}
-          <a class="news-pagination-direction" href="{{ $pager.Next.URL }}" rel="next">{{ if $ja }}次へ{{ else }}Next{{ end }}<span aria-hidden="true">›</span></a>
+          <a class="news-pagination-direction" href="{{ $pager.Next.URL }}" rel="next">{{ if $ja }}次へ{{ else }}Next{{ end }}{{ partial "icons/image.html" "icon/chevron-right.svg" }}</a>
         {{ else }}
-          <span class="news-pagination-direction" aria-disabled="true">{{ if $ja }}次へ{{ else }}Next{{ end }}<span aria-hidden="true">›</span></span>
+          <span class="news-pagination-direction" aria-disabled="true">{{ if $ja }}次へ{{ else }}Next{{ end }}{{ partial "icons/image.html" "icon/chevron-right.svg" }}</span>
         {{ end }}
       </li>
     </ul>

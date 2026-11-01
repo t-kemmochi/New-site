@@ -9,8 +9,9 @@
   --talk-date-size: var(--font-size-base);
   --talk-badge-background: #f9dbe7;
   --talk-badge-color: #78304b;
-  --talk-badge-size: 1rem;
-  --talk-badge-padding-block: 0;
+  --talk-badge-size: var(--font-size-base);
+  --talk-badge-line-height: 1.2;
+  --talk-badge-padding-block: 0.125rem;
   --talk-badge-padding-inline: 0.25rem;
   --talk-badge-radius: 0.25rem;
   --talk-badge-gap: 0.5rem;
@@ -50,6 +51,7 @@
   color: var(--talk-badge-color);
   font-family: "Montserrat", "Open Sans", sans-serif;
   font-size: var(--talk-badge-size);
-  font-weight: 300;
+  line-height: var(--talk-badge-line-height);
+  font-weight: normal;
   font-style: normal;
 }

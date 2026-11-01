@@ -28,6 +28,6 @@
     {{- end -}}
   {{- end -}}
   {{- with $href -}}
-<a class="cta" href="{{ . }}"{{ if $external }} target="_blank" rel="external noopener noreferrer"{{ end }}>{{ $text }}</a>
+<a class="cta" style="{{ printf "--cta-icon-image: url('%s')" (resources.Get "icon/chevron-right.svg").RelPermalink | safeCSS }}" href="{{ . }}"{{ if $external }} target="_blank" rel="external noopener noreferrer"{{ end }}>{{ $text }}</a>
   {{- end -}}
 {{- end -}}

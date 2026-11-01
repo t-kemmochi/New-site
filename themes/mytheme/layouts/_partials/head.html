@@ -7,3 +7,6 @@
 {{ partialCached "head/css.html" . }}
 {{ partialCached "head/js.html" . }}
 {{ partial "head/math.html" . }}
+{{ if and hugo.IsProduction (not hugo.IsServer) }}
+  {{ template "_internal/google_analytics.html" . }}
+{{ end }}

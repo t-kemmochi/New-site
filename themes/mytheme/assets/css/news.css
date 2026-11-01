@@ -143,3 +143,5 @@
     gap: 0.5rem;
   }
 }
+
+.news-pagination-direction .site-icon { --icon-size: 1rem; }

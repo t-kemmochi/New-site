@@ -8,6 +8,10 @@ defaultContentLanguageInSubdir = true
 # 日付の解釈に使用するタイムゾーン。
 timeZone = 'Asia/Tokyo'
 
+# GA4の測定ID（例：G-XXXXXXXXXX）。空欄なら計測コードを出力しません。
+[services.googleAnalytics]
+  id = ''
+
 [languages]
   [languages.ja]
     label = 'JP'

@@ -167,7 +167,10 @@
 
 - 通常のCSSとHugoのアセット処理を使用している。
 - Tailwind CSSとDart Sassはサイトのスタイル処理には使用していない。
-- `assets/js/main.js` はコンソール出力のみ。
+- `assets/js/main.js` はハンバーガーメニューの開閉を制御する。
+- CSSの編集用ファイルは役割ごとに分けて維持し、配信時はHugo Pipesで `reset.css` と、それ以外を既存の読み込み順に結合した `site.css` の2本にする。resetを先に読み込む。
+- 上記2本のCSSとassets/js/main.jsは、従来どおりhugo.IsDevelopmentで処理を切り替える。開発環境ではminify・fingerprintを行わず、ソースマップを出力する。それ以外（通常の本番ビルド）ではminify後にfingerprintを付け、ハッシュ付きURLとintegrity属性で読み込む。下書きを含める--buildDraftsとは独立する。
+- JavaScriptはdeferで読み込む。MathJax設定ファイルは従来どおり環境によらずminify・fingerprint・deferを適用する。Google Fonts・MathJax本体・Google Analyticsは外部サービスの配信方式を使用する。
 - `assets/css/components/` のCSSは現在読み込まれていない。
 
 ## 9. レスポンシブ対応
@@ -261,7 +264,7 @@ hugo new content --kind memo memo/example.ja.md
 
 D案（背景・枠線なし、末尾に一重シェブロン）を `cta` ショートコードで表示する。
 CTA自体にfont-familyを指定せず、本文のOpen Sans・LINE Seed JPを継承する。ウェイト・スタイルは通常体とする。シェブロンは空のCSS擬似要素 `::after` にSVGをマスクとして指定する装飾で、読み上げる文字は挿入しない。
-SVGはCSS内のデータURIとして保持し、文字色に追従させる。追加の通信や公開先サブディレクトリに依存しない。
+SVGはassets/icon/chevron-right.svgをCSSマスクで参照し、文字色に追従させる。Hugoが生成するURLを使用し、公開先サブディレクトリにも対応する。
 
 ```markdown
 {{< cta text="View publications" url="/publication" >}}
@@ -339,7 +342,7 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 ## 17. リセットCSS
 
 - 外部依存を増やさず、サイト向けの軽量リセットを `assets/css/reset.css` に保存する。
-- CSS読み込みパーシャルで `reset.css` → `main.css` の順に読み込む。両方に既存の圧縮・ハッシュ付与処理を適用する。
+- CSS読み込みパーシャルで `reset.css` → `site.css` の順に読み込む。site.cssはmain.cssを先頭にした結合ファイル。両方に§8の環境別の圧縮・ハッシュ付与処理を適用する。
 - 全要素と擬似要素にborder-boxを適用し、bodyの既定マージンを除く。これらはmain.cssから移した設定。
 - モバイルブラウザの自動文字拡大を100%に揃える。ユーザーのズーム操作は制限しない。
 - 画像・動画は最大幅100%・高さautoとし、縦横比を維持する。
@@ -668,11 +671,11 @@ x &= y + 2
 - 複数の同年ショートコードを置いても見出しIDが重複しない。
 - 表示は先頭の招待バッジ、著者、太字題目、集会・会場・都市、開催期間・任意の発表日。元の補足リンクも表示する。
 - talks/date.htmlはtime要素の前後に空白・改行を出力しない。開催期間の区切り「–」の前後や発表日の閉じカッコ直前に意図しない空白を入れず、英語の日付表記内など必要なスペースは保つ。
-- invite=trueだけにピンク背景のInvitedバッジ。Montserratの300（細字）、背景色・文字色・寸法はtalks.cssの変数で指定。メニューと通常見出しの400は維持する。
+- invite=trueだけにピンク背景のInvitedバッジ。Montserratの400（normal）、背景色・文字色・寸法はtalks.cssの変数で指定。メニューと通常見出しの400は維持する。
 - canceled指定時は講演情報全体（招待バッジ・著者・題目・集会・会場・都市・日付・補足リンク）に取り消し線を付ける。各段落のテキストをs要素で囲み、標準のリスト番号を維持する。「中止／Canceled」と理由は別行に取り消し線なしで表示する。キャンセルされた講演も年別一覧に保持する。
 - データ由来のHTMLをそのまま挿入しない。titleだけHugoのMarkdown処理を通し、ほかはテキストとして出力。数式を含むので日英のTalksでmath: trueを指定する。
 - talks.cssは講演一覧とショートコードのスタイルを担当する。リスト記号はブラウザ標準を使用し、番号の直書きはしない。
-- Invitedバッジの内側余白は旧サイトに合わせて上下0・左右0.25rem（4px）。色・書体・ウェイトは維持する。
+- Invitedバッジは本文と同じ文字サイズ・Montserrat 400（normal）とし、専用の行高1.2と上下0.125rem（2px）・左右0.25rem（4px）のパディングで上下に余白を付ける。本文とベースラインを揃え、本文の行高1.6をそのまま継承しない。色と角丸は既存の変数で指定する。
 - 講演項目のホバー・focus-within時に論文一覧と同じ#f5f5f5背景を表示する。空の擬似要素で番号領域まで背景を広げ、通常時の文字位置・標準のol/liを維持する。
 
 ## 27. CVと経歴用ショートコード
@@ -788,7 +791,7 @@ x &= y + 2
 - ハンバーガーの3本線の間隔は狭めにする。ボタン本体と緑背景は2.75rem角（ルート16px時に44×44px）。背景は擬似要素で描き、--menu-toggle-background-inset-block・--menu-toggle-background-inset-inlineの初期値はともに0。角丸は--menu-toggle-background-radiusで指定し初期値0.375rem（6px）。操作範囲は44×44px。画面端からの位置は維持する。
 - 右側にヘッダーと同じ緑背景のパネルを表示する。幅はタブレット22rem、スマートフォン20remを上限とし、狭い画面でも左側に最低3remの背景を残す。閉じるボタンは開くボタンと同じ位置に置き、通常時の枠と背景をなくした白いバツ印とする。操作範囲は2.75rem角を保ち、ハンバーガーと閉じるボタンのSVGは--menu-icon-size（初期値2rem）を共用する。
 - パネルは画面の高さいっぱいに表示する。下端の余白にはsafe-area-inset-bottomを加え、言語リンクをホームインジケーターと重ねない。高さ30rem未満では段間の余白を縮め、ナビゲーション部分だけをスクロールする。
-- 上段左側にサイト名（.Site.Title）と現在の言語のトップページへのリンク、右側に閉じるボタンを置く。その下にCV・Publications・Projects・Memo・Newsを縦に並べ、地球アイコン付きの言語リンクを最下部左側に置く。言語の表示・リンク先・現在位置の判定はPCと共通のパーシャルを使う。ハンバーガーと閉じるボタンのアイコンは既存のインラインSVGを使う。
+- 上段左側にサイト名（.Site.Title）と現在の言語のトップページへのリンク、右側に閉じるボタンを置く。その下にCV・Publications・Projects・Memo・Newsを縦に並べ、地球アイコン付きの言語リンクを最下部左側に置く。言語の表示・リンク先・現在位置の判定はPCと共通のパーシャルを使う。ハンバーガーと閉じるボタンはassets/icon/のSVGファイルをCSSマスクで参照する。
 - ナビゲーションの文字はMontserrat 400・白。言語リンクの文字・地球アイコン・枠も白。ホバー時のみ既存のヘッダーと同じ淡い白緑色と下線を使う。現在の項目・祖先の項目はパネル背景に白を12%混ぜた、少し明るい緑背景とする。色は--drawer-background・--drawer-text-color・--drawer-link-hover-color・--drawer-current-backgroundで指定する。言語リンクは1rem、メニュー項目は--font-size-h3。高さの小さい画面ではナビゲーション部分だけをスクロールし、閉じるボタンは上部、言語リンクは下部に残す。
 - パネル外は黒・不透明度45%で覆う。標準のdialog.showModal()で背景を操作不可にし、bodyを固定して背景スクロールを止める。閉じたら元のスクロール位置へ戻す。
 - 背景タップ・閉じるボタン・Escで閉じる。リンク選択時も閉じる。開いた際は閉じるボタンへフォーカスし、Tab/Shift+Tabはパネル内で循環させる。閉じたら開くボタンへフォーカスを戻す。PC幅へ広げた場合はパネルとスクロール固定を解除する。
@@ -802,3 +805,22 @@ x &= y + 2
 
 - 講演一覧の日付とCVの時期は--font-size-baseと同じサイズで表示する。CVのタイムラインの点は日付の行高の中央に揃える。
 - Invitedバッジと著者名の間は、外側マージンを使わず、明示的な半角スペース（U+0020）を1文字出力する。コピーした文字列でも単語を区切れるようにする。意図しない改行と著者名全体の前後の空白は除き、著者名と題目の間にも必要なスペースを明示する。--talk-badge-gapは補足リンク間の間隔に使用する。
+
+
+## 32. Google Analytics（GA4）
+
+- hugo.tomlの[services.googleAnalytics]のidにGA4の測定ID（G-で始まる文字列）を指定する。初期値は空文字。
+- 本番環境でのビルド時に、Hugo組み込みの_internal/google_analytics.htmlを共通headから呼び出す。日英の各ページのhead内に、非同期のgtag.js読み込みと測定IDを指定する初期化コードを出力する。
+- ID未設定・空欄、開発環境、hugo serverでは計測コードを出力しない。実際の計測IDはユーザーが設定する。
+
+```toml
+[services.googleAnalytics]
+  id = 'G-XXXXXXXXXX'
+```
+
+
+## 33. 操作用SVGのファイル管理
+
+- 自作テーマのassets/icon/にmenu.svg・close.svg・chevron-right.svg・chevron-left.svgを置く。既存の所属・連絡先等のassets/icons/は維持する。
+- メニューボタンとページ送りはicons/image.htmlからSVGリソースのURLを参照する。CTAはCSS変数に同じchevron-right.svgのURLを渡す。CSSマスクとcurrentColorにより状態色を継承し、装飾アイコンは読み上げ対象から外す。
+- インラインSVG・CSSのSVGデータURI・ページ送りの文字記号による描画をファイル参照へ統一する。HugoのRelPermalinkによりGitHub Pagesの/New-site/配下へ公開する。
