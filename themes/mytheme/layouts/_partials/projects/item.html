@@ -32,8 +32,8 @@
     </div>
     {{ if $archive }}
       <div class="project-meta project-period-row">
-        <span class="project-period">{{ $period }}</span>
         <span class="project-status project-status--{{ $state }}">{{ if eq $state "current" }}{{ if $ja }}継続中{{ else }}Current{{ end }}{{ else if eq $state "upcoming" }}{{ if $ja }}開始予定{{ else }}Upcoming{{ end }}{{ else }}{{ if $ja }}完了{{ else }}Completed{{ end }}{{ end }}</span>
+        <span class="project-period">{{ $period }}</span>
       </div>
     {{ else }}
       <div class="project-meta project-period">{{ $period }}</div>
