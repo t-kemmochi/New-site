@@ -5,7 +5,7 @@
     {{ partial "header/navigation.html" . }}
     {{ partial "header/language-switcher.html" . }}
     <button class="menu-toggle" type="button" aria-label="{{ if $ja }}メニューを開く{{ else }}Open menu{{ end }}" aria-controls="mobile-menu" aria-haspopup="dialog" aria-expanded="false" hidden>
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 5h18M3 12h18M3 19h18" /></svg>
     </button>
   </div>
 </header>
@@ -13,6 +13,7 @@
 <dialog class="menu-dialog" id="mobile-menu" aria-label="{{ if $ja }}サイトメニュー{{ else }}Site menu{{ end }}">
   <div class="menu-panel">
     <div class="menu-topline">
+      <a class="site-title" href="{{ .Site.Home.RelPermalink }}">{{ .Site.Title }}</a>
       <button class="menu-close" type="button" aria-label="{{ if $ja }}メニューを閉じる{{ else }}Close menu{{ end }}" autofocus>
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 3 18 18M21 3 3 21" /></svg>
       </button>
