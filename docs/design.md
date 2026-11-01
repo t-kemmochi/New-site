@@ -796,3 +796,9 @@ x &= y + 2
 - 外側のdialogはoverflow: clipとし、スクロールコンテナーにしない。overflow: hiddenでは、画面外にある閉じるボタンへのautofocusがdialogを横スクロールさせ、スライド中の位置がぶれるため。ナビゲーション部分の縦スクロールは維持する。
 - スタイルはassets/css/header.css。色・寸法・時間はCSS変数で指定する。開閉制御はassets/js/main.jsのvanilla JavaScriptだけを使用し、deferで読み込む。ライブラリは追加しない。
 - JavaScriptが使えない場合はハンバーガーボタンを隠し、従来のリンクをヘッダー内で折り返して表示する。
+
+
+## 31. 講演・CVの日付とInvitedの空白
+
+- 講演一覧の日付とCVの時期は--font-size-baseと同じサイズで表示する。CVのタイムラインの点は日付の行高の中央に揃える。
+- Invitedバッジと著者名の間にテンプレートの改行・空白を出力しない。見た目の間隔は既存の--talk-badge-gapで指定する。

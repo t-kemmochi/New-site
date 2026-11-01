@@ -2,13 +2,13 @@
   --cv-list-gap: 3rem;
   --cv-entry-gap: 2rem;
   --cv-period-gap: 0.375rem;
-  --cv-period-size: 1rem;
+  --cv-period-size: var(--font-size-base);
   --cv-period-color: #666666;
   --cv-timeline-inset: 2rem;
   --cv-line-width: 0.0625rem;
   --cv-line-color: #d6d6d6;
   --cv-node-size: 0.875rem;
-  --cv-node-offset: 0.8125rem;
+  --cv-node-offset: calc(var(--cv-period-size) * var(--line-height-base) / 2);
   --cv-node-color: #b6bcbc;
   --cv-current-color: var(--header-background);
 }
