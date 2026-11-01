@@ -479,7 +479,7 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 - 書誌情報の後で改行し、doiがあれば大文字DOIリンク、その後にlinks配列のリンクを配置する。HTTP(S)の絶対URLとラベルを検証し、同じタブで開く。
 - 補足リンクのラベルは前後の空白を除き、リンク要素同士の間にはテンプレート由来の空白・改行を出力しない。表示上の間隔はpublication-linksのCSSのgapで指定する。ラベル内の単語間スペースは維持する。
 - 補足リンクは白背景・通常リンク色の細枠と文字。ホバー・フォーカス・押下時にinset box-shadowで枠を内側へ太く見せ、font-weightを700にする。下線と塗りつぶしは行わない。
-- 枠付き補足リンクのパディングは上下0.125rem・左右0.375rem（ルート16px時に2px・6px）とし、--publication-link-padding-block・--publication-link-padding-inlineで指定する。
+- 枠付き補足リンクのパディングは上下0.25rem・左右0.5rem（ルート16px時に4px・8px）とし、--publication-link-padding-block・--publication-link-padding-inlineで指定する。行高は本文と独立した--publication-link-line-heightで指定し、初期値は1.1。文字サイズ20pxでは行ボックス22px・枠を含む全高32pxとなる。
 - 論文の枠付き補足リンクはGoogle FontsのInconsolataを使い、日本語文字はLINE Seed JPへフォールバックする。その他の本文・CTAはOpen Sans・LINE Seed JPを継承する。太字化による文字幅の変化は補正しない。
 - スタイルはpublications.cssで管理する。一覧ページは通常の共通テンプレートでMarkdownとpublicationsショートコードを描画し、専用のページテンプレートは使わない。
 

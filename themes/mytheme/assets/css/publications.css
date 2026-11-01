@@ -70,8 +70,9 @@
   --publication-archive-hover-background: #f5f5f5;
   --publication-link-border-width: 0.0625rem;
   --publication-link-inset-width: 0.125rem;
-  --publication-link-padding-block: 0.125rem;
-  --publication-link-padding-inline: 0.375rem;
+  --publication-link-padding-block: 0.25rem;
+  --publication-link-padding-inline: 0.5rem;
+  --publication-link-line-height: 1.1;
   --publication-link-background: #ffffff;
   margin-block-end: var(--list-margin-after);
   padding-inline-start: var(--publication-archive-indent);
@@ -120,6 +121,7 @@
   display: inline-block;
   font-family: var(--font-family-monospace);
   font-optical-sizing: auto;
+  line-height: var(--publication-link-line-height);
   padding: var(--publication-link-padding-block) var(--publication-link-padding-inline);
   border: var(--publication-link-border-width) solid var(--link-color);
   border-radius: 0.1875rem;
