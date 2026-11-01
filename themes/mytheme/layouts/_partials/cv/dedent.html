@@ -1,0 +1,15 @@
+{{- /* Remove only the indentation shared by all nonblank lines. */ -}}
+{{- $content := . -}}
+{{- $indent := -1 -}}
+{{- range split $content "\n" -}}
+  {{- if strings.TrimSpace . -}}
+    {{- $prefix := replaceRE `[^\t ].*$` "" . -}}
+    {{- if or (lt $indent 0) (lt (len $prefix) $indent) -}}
+      {{- $indent = len $prefix -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if gt $indent 0 -}}
+  {{- $content = replaceRE (printf `(?m)^[\t ]{%d}` $indent) "" $content -}}
+{{- end -}}
+{{- return $content -}}

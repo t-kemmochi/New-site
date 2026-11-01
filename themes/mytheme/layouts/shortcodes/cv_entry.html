@@ -29,7 +29,7 @@
   {{- end -}}
   {{- if $valid -}}
     {{- $period := dict "date" $date "start" $start "end" $end "language" .Page.Site.Language.Lang -}}
-    {{- $body := .Page.RenderString (dict "display" "block") .Inner -}}
+    {{- $body := .Page.RenderString (dict "display" "block") (partial "cv/dedent.html" .Inner) -}}
     {{- $html := partial "cv/entry.html" (dict "period" $period "layout" $layout "body" $body "current" (eq $end "present")) -}}
     {{- $token := printf "CV_ENTRY_%d_%d_END" .Parent.Ordinal .Ordinal -}}
     {{- .Parent.Scratch.SetInMap "cvEntries" $token $html -}}

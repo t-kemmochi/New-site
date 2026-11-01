@@ -1,6 +1,7 @@
 :root {
   --cv-list-gap: 3rem;
   --cv-entry-gap: 2rem;
+  --cv-group-heading-gap: 0.75rem;
   --cv-period-gap: 0.375rem;
   --cv-period-size: var(--font-size-base);
   --cv-period-color: #666666;
@@ -33,6 +34,21 @@
 .cv-list--timeline .cv-entry { padding-inline-start: var(--cv-timeline-inset); }
 .cv-list--timeline .cv-entry-period { margin-block-end: var(--cv-period-gap); }
 .cv-list--list .cv-entry-period { margin-block-start: var(--cv-period-gap); }
+.cv-list--list .cv-entry-period:first-child { margin-block-start: 0; }
+
+/* Markdownの箇条書きを活動名のグループとして使えるようにする。 */
+ul:has(> li > .cv-list) {
+  padding-inline-start: 0;
+  list-style: none;
+}
+li:has(> .cv-list) { font-weight: 700; }
+li > .cv-list {
+  margin-block: var(--cv-group-heading-gap) 0;
+  font-weight: normal;
+}
+ul:has(> li > .cv-list) > li + li {
+  margin-block-start: var(--cv-list-gap);
+}
 
 /* 点と線は装飾。年月や項目の順序はHTML本文に保持する。 */
 .cv-list--timeline .cv-entry::after {
