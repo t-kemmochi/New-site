@@ -3,13 +3,14 @@ title: "CV"
 date: 2026-10-24T00:00:00+09:00
 draft: false
 type: page
-layout: cv
 math: true
 ---
 
 **表示確認用のダミーCVです。以下の経歴・所属・委員歴・受賞・研究費はすべて架空のもので、実際の実績を示しません。**
 
-{{< cv_section title="Career" layout="timeline" >}}
+## Career
+
+{{< cv_list layout="timeline" >}}
 
 {{< cv_entry start="2025-04" end="present" >}}
 **[A大学 理工学部 数学科](https://example.com/university-a)**
@@ -29,9 +30,11 @@ math: true
 研究員
 {{< /cv_entry >}}
 
-{{< /cv_section >}}
+{{< /cv_list >}}
 
-{{< cv_section title="Education" layout="timeline" >}}
+## Education
+
+{{< cv_list layout="timeline" >}}
 
 {{< cv_entry date="2018-03" >}}
 **博士（数理科学）**
@@ -53,13 +56,15 @@ D大学 大学院理学研究科
 D大学 理学部 数学科
 {{< /cv_entry >}}
 
-{{< /cv_section >}}
+{{< /cv_list >}}
 
-{{< cv_section title="Academic service" layout="list" >}}
+## Academic service
 
 ### [A学会](https://example.com/society-a)
 
 #### 若手研究部会
+
+{{< cv_list layout="list" >}}
 
 {{< cv_entry start="2025-04" end="present" >}}
 主査
@@ -73,19 +78,29 @@ D大学 理学部 数学科
 運営委員
 {{< /cv_entry >}}
 
+{{< /cv_list >}}
+
 #### [Journal A](https://example.com/journal-a)
+
+{{< cv_list layout="list" >}}
 
 {{< cv_entry start="2021-04" end="present" >}}
 編集委員
 {{< /cv_entry >}}
 
+{{< /cv_list >}}
+
+{{< cv_list layout="list" >}}
+
 {{< cv_entry start="2022-04" end="present" >}}
 #### 代表会員
 {{< /cv_entry >}}
 
-{{< /cv_section >}}
+{{< /cv_list >}}
 
-{{< cv_section title="Awards" layout="list" >}}
+## Awards
+
+{{< cv_list layout="list" >}}
 
 {{< cv_entry date="2024-06" >}}
 **研究奨励賞（ダミー）**
@@ -105,11 +120,13 @@ B学会
 D大学
 {{< /cv_entry >}}
 
-{{< /cv_section >}}
+{{< /cv_list >}}
 
-{{< cv_section title="Grants" layout="list" >}}
+## Grants
 
 ### 研究代表者
+
+{{< cv_list layout="list" >}}
 
 {{< cv_entry start="2025-04" end="present" >}}
 **[構造保存型数値解法に関する研究（ダミー）](https://example.com/grants/dummy-2025-01)**
@@ -127,7 +144,11 @@ D大学
 課題番号：`DUMMY-2020-02`
 {{< /cv_entry >}}
 
+{{< /cv_list >}}
+
 ### 研究分担者
+
+{{< cv_list layout="list" >}}
 
 {{< cv_entry start="2022-04" end="2026-03" >}}
 **科学技術計算の基盤手法（ダミー）**
@@ -139,4 +160,4 @@ D大学
 課題番号：`DUMMY-2022-03`
 {{< /cv_entry >}}
 
-{{< /cv_section >}}
+{{< /cv_list >}}

@@ -1,0 +1,28 @@
+{{- $layout := .Get "layout" | default "timeline" -}}
+{{- if and .Params (not .IsNamedParams) -}}
+  {{- errorf "cv_list: layoutの名前付き引数を使ってください。%s" .Position -}}
+{{- else -}}
+  {{- range $key, $value := .Params -}}
+    {{- if ne $key "layout" -}}
+      {{- errorf "cv_list: 未対応の引数 %q です。%s" $key $.Position -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if not (in (slice "timeline" "list") $layout) -}}
+    {{- errorf "cv_list: layoutはtimelineまたはlistにしてください。%s" .Position -}}
+  {{- else -}}
+    {{- /* 見出しはMarkdown側。ここでは子entryが生成したHTMLだけを組み立てる。 */ -}}
+    {{- $content := .Inner -}}
+    {{- $remaining := $content -}}
+    {{- range $token, $html := .Scratch.Get "cvEntries" -}}
+      {{- $content = replace $content $token (string $html) -}}
+      {{- $remaining = replace $remaining $token "" -}}
+    {{- end -}}
+    {{- if strings.TrimSpace $remaining -}}
+      {{- errorf "cv_list: 中にはcv_entryだけを記述し、グループ見出しはリストの外に置いてください。%s" .Position -}}
+    {{- else if .Scratch.Get "cvEntries" -}}
+      {{ if eq $layout "timeline" }}<ol class="cv-list cv-list--timeline" role="list">{{ else }}<ul class="cv-list cv-list--list" role="list">{{ end }}
+        {{ $content | safeHTML }}
+      {{ if eq $layout "timeline" }}</ol>{{ else }}</ul>{{ end }}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

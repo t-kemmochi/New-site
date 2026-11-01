@@ -61,7 +61,7 @@
 
 - CSS変数 `--content-max-width` と共通クラス `.container` がある。
 - ヘッダーとフッターには適用済み。
-- トップページのヒーローと各セクションにも適用済み。その他の本文領域への適用は未実装。
+- トップページのヒーロー・各セクションと、通常ページ・専用一覧の本文領域にも適用済み。
 - 本文のフォントはOpen SansとLINE Seed JP。行間、見出し、余白などの詳細は未確定。
 
 ## 4. ヘッダー
@@ -94,8 +94,8 @@
 
 ### 未完成・未確定
 
-- メニューのリンク先は作成済み。CV（日英）は準備中の通常ページ、publication・project・memo・newsは日英の一覧ページを出力する。
-- publication・project・news・talks・CVは専用テンプレートを使用する。Memoは汎用テンプレートを使用する。
+- メニューのリンク先は作成済み。CV（日英）はダミー本文の通常ページ、publication・project・memo・newsは日英の一覧ページを出力する。
+- 専用のHTMLページテンプレートを使うのはトップページ・project一覧・news一覧・memo一覧。CV・publication一覧・talks一覧と通常の個別ページは共通テンプレートを使用する。
 - メニューの表示名・pageRefは日英ともCV・`/cv`。content/cv/index.ja.mdとindex.en.mdを翻訳ペアとして管理する。英語版の旧aboutページはcvへ移動する。
 - 小さい画面ではメニューを折り返す。ハンバーガーメニューは未実装。
 
@@ -212,7 +212,7 @@
 - `publication`・`project`・`news`・`memo` はHugoのコンテンツ種別（`type`）として扱う。
 - 推奨配置は、それぞれ `content/publication/`・`content/project/`・`content/news/`・`content/memo/`。
 - 通常のページは従来のデフォルトarchetypeを利用できる。
-- news・memoはカテゴリではなく種別で区別する。newsは専用のnews/page.htmlを使い、memoは既存のpage.htmlを使う。
+- news・memoはカテゴリではなく種別で区別する。個別記事はどちらも共通のpage.htmlを使う。
 - カテゴリやタグは、必要に応じて種別とは別に付けられる。
 - Talksはcontent/talks/_index.*.mdによる日英の一覧ページを用意し、共通のdata/talks.yamlからtalksショートコードで年別に表示する。
 
@@ -372,7 +372,7 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 ## 20. NEWSの表示とページ送り
 
 - トップとNEWS一覧はnews/item.htmlを共用する。トップは日付の下に概要を置き、日付は通常のh3と同じ--font-size-h3（1.5rem）とする。独立した一覧は従来どおり左に日付、右に要約。日付が記事タイトルとなり、front matterのtitleは指定不要。指定されていても表示・HTMLのtitle・RSSでは無視する。
-- 一覧の日付は `<h3><a><time datetime="YYYY-MM-DD">YYYY-MM-DD</time></a></h3>`。個別ページはnews/page.htmlのh1内にtimeで表示し、重複する日付欄は置かない。
+- 一覧の日付は `<h3><a><time datetime="YYYY-MM-DD">YYYY-MM-DD</time></a></h3>`。個別ページは共通ページのh1内にtimeで表示し、重複する日付欄は置かない。Newsの日付をタイトルにする既存ルールは共通のタイトル処理で維持する。
 - 日付リンクは全状態で通常本文色。通常時は下線なし、項目ホバー時は日付に下線、キーボードフォーカス時は枠を表示する。
 - 個別項目に「続きを読む」は置かず、項目全体もリンクにしない。日付が個別ページへのリンクとなる。要約は選択・コピーできる。
 - 要約はMarkdownの `<!--more-->` までをHugoの.Summaryで表示する。区切りがなければ全文を表示し、文字数指定の自動要約やCSSによる切り詰めは使わない。
@@ -478,7 +478,7 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 - 書誌情報の後で改行し、doiがあれば大文字DOIリンク、その後にlinks配列のリンクを配置する。HTTP(S)の絶対URLとラベルを検証し、同じタブで開く。
 - 補足リンクは白背景・通常リンク色の細枠と文字。ホバー・フォーカス・押下時にinset box-shadowで枠を内側へ太く見せ、font-weightを700にする。下線と塗りつぶしは行わない。
 - 論文の枠付き補足リンクはGoogle FontsのInconsolataを使い、日本語文字はLINE Seed JPへフォールバックする。その他の本文・CTAはOpen Sans・LINE Seed JPを継承する。太字化による文字幅の変化は補正しない。
-- スタイルはpublications.cssで管理し、一覧用テンプレートはpublication/section.htmlを使う。
+- スタイルはpublications.cssで管理する。一覧ページは通常の共通テンプレートでMarkdownとpublicationsショートコードを描画し、専用のページテンプレートは使わない。
 
 - 論文一覧はolのreversed/startと標準のリストマーカーを使用し、liのdisplayはlist-itemを維持する。番号の直書きや表示用spanは設けない。背景だけを空の擬似要素で番号領域まで広げ、番号上のホバーとfocus-withinに対応する。折り返し行・補足リンクは通常のブロック配置で揃える。
 
@@ -610,7 +610,7 @@ x &= y + 2
 
 ### データ
 
-- 日英共通のdata/talks.yamlを使用する。ユーザー提供の旧日本語サイトindex.mdから2014〜2025年の83件を転記した。招待講演36件、英語題目25件、キャンセル2件。languageは題目の表記をもとに分類し、実際の発表言語は外部確認していない。
+- 日英共通のdata/talks.yamlを使用する。講演一覧ページは共通の通常ページテンプレートにMarkdownとtalksショートコードを記述し、専用ページテンプレートは使わない。ユーザー提供の旧日本語サイトindex.mdから2014〜2025年の83件を転記した。招待講演36件、英語題目25件、キャンセル2件。languageは題目の表記をもとに分類し、実際の発表言語は外部確認していない。
 - ページの表示言語と講演そのもののlanguageは別。日英ページは同じデータを参照し、日本語の題名や固有名詞を勝手に英訳しない。日付・「発表」等のラベルだけページの言語に合わせる。
 - 招待フラグはinviteに統一する（invitedという別フィールドは設けない）。
 
@@ -675,19 +675,21 @@ x &= y + 2
 
 ### ページ構成
 
-- content/cv/index.ja.md・index.en.mdにMarkdownで記述する。typeはpageのまま、layout: cvで専用テンプレートlayouts/cv.htmlを使う。
-- CVはh1、Career・Education・Academic service・Awards・Grantsはh2。セクション見出しを左、内容を右に配置し、55rem以下では縦配置にする。
-- 職歴・学歴はtimeline、委員歴・受賞歴・外部資金獲得歴はlist。記載順をそのまま表示し、自動並べ替えはしない。
-- 現在のCV本文は表示確認用のダミー。職歴3件・学歴3件・委員歴5件・受賞歴3件・外部資金獲得歴3件を日英で同じ年月・順序に揃え、ページ先頭に全項目が架空のデータであると明記する。
-- 在籍・役職・助成期間はstart/end、学位取得・受賞はdate。委員歴は活動ごとにまとめ、重複する期間も独立したentryとして表示する。
+- content/cv/index.ja.md・index.en.mdにMarkdownで記述する。typeはpageのまま共通の通常ページテンプレートを使用し、layout指定は置かない。
+- h1はページタイトル、Career・Education・Academic service・Awards・Grantsは通常のMarkdownの `##` でh2を出力する。見出しは内容の上に置き、左右の列には分けない。
+- タイムライン・縦リストだけをcv_listで出力する。各項目はcv_entryで記述し、表示形式は親から引き継ぐ。旧cv_sectionはcv_listへ置き換える。
+- 職歴・学歴はtimeline、委員歴・受賞歴・外部資金獲得歴はlist。Markdownの記載順を維持し、自動並べ替えはしない。
+- 本文は表示確認用のダミー。職歴3件・学歴3件・委員歴5件・受賞歴3件・外部資金獲得歴3件を日英で同じ年月・順序に揃え、架空であることをページ先頭に明記する。
+- 在籍・役職・助成期間はstart/end、学位取得・受賞はdate。委員歴は活動ごとに別のcv_listを置き、重複する期間も独立した項目として表示する。
 - 外部資金は研究代表者・研究分担者に分け、架空の助成名・役割・課題番号を本文に記述する。プロジェクトデータとの自動連携は設けない。
-- 旧公開CVからの実データ移行は現在のダミー本文には含めない。実データへの置き換えは日英のMarkdown本文で行う。
-- 元のmath: trueを維持する。CVテンプレートではページ作成日を自動表示せず、entryに指定した時期だけを表示する。
+- 元のmath: trueを維持する。通常ページは作成日を自動表示せず、CVではentryに指定した時期だけを表示する。
 
-### cv_section
+### cv_list
 
 ```markdown
-{{< cv_section title="Career" layout="timeline" >}}
+## Career
+
+{{< cv_list layout="timeline" >}}
 
 {{< cv_entry start="2025-04" end="present" >}}
 **所属名**
@@ -695,23 +697,26 @@ x &= y + 2
 職位
 {{< /cv_entry >}}
 
-{{< /cv_section >}}
+{{< /cv_list >}}
 ```
 
-- titleは必須。h2とaria-labelledbyに対応するIDを出力する。同名セクションでもIDが重複しない。
-- layoutはtimelineまたはlist。省略時はtimeline。
-- セクション内では通常のMarkdownでh3・h4の活動名、リンク、段落、リストを記述できる。
-- timelineは各entryの時期を本文の前に配置し、点と線をCSSで装飾する。end="present"の点だけ緑。直後に別のentryがある場合だけ線でつなぎ、活動グループをまたいで線を伸ばさない。
-- listは点・線を使わず、entryの本文の下に時期を表示する。委員歴の役職と時期の順序はこの設定で決まる。
+- layoutはtimelineまたはlist。省略時はtimeline。title引数や見出し生成は設けない。
+- cv_listの中にはcv_entryだけを記述する。セクション見出しや活動グループのh3・h4は外側に通常のMarkdownで書く。
+- timelineはol/liで時期を本文の前に表示し、点と線をCSSで装飾する。end="present"の点だけ緑。隣り合う項目だけをつなぎ、別のリストまで線を延ばさない。
+- listはul/liで本文の下に時期を表示し、点・線は付けない。
+- 標準のリスト要素を使い、番号や記号はCSSで非表示。role="list"を明示して読み上げ時のリスト構造を保つ。
+- cv_entryがない空のリストは出力しない。
 
 ### cv_entry
 
 ```markdown
-{{< cv_section title="Academic service" layout="list" >}}
+## Academic service
 
 ### 学会名
 
 #### 研究部会名
+
+{{< cv_list layout="list" >}}
 
 {{< cv_entry start="2025-04" end="present" >}}
 主査
@@ -721,14 +726,36 @@ x &= y + 2
 幹事運営委員
 {{< /cv_entry >}}
 
-{{< /cv_section >}}
+{{< /cv_list >}}
 ```
 
-- cv_sectionの直接の子として使う。表示形式は親から引き継ぐ。
-- 本文はHugoのMarkdownとして描画する。太字・斜体・リンク・見出し・箇条書き・コード・数式などを記述できる。数式は表示先ページのmath: trueで有効化する。
-- 期間はstart="YYYY-MM"とend="YYYY-MM"、継続中はend="present"。単一時点はdate="YYYY-MM"のみ。dateとstart/endは混在させない。終了年月の省略を継続中とは解釈しない。
-- 年月はYYYY-MMの文字列で管理し、表示はYYYY.MM。presentは日本語版で「現在」、英語版で「Present」と表示する。年月は標準のtime要素、presentは通常のテキスト。
-- 不正な年月、終了が開始より前、日付指定の不足・混在、親セクションなし、未対応引数・layoutはビルドエラー。
+- cv_listの直接の子として使う。本文はHugoのMarkdownで描画し、太字・斜体・リンク・見出し・箇条書き・コード・数式などを記述できる。数式は表示先ページのmath: trueで有効化する。
+- 期間はstart="YYYY-MM"とend="YYYY-MM"、継続中はend="present"。単一時点はdate="YYYY-MM"のみ。dateとstart/endは混在させず、終了年月の省略を継続中とは解釈しない。
+- 年月はYYYY-MMで管理し、YYYY.MMで表示する。presentは日本語版で「現在」、英語版で「Present」。年月はtime要素、presentは通常のテキスト。
+- 不正な年月、期間の逆転、日付指定の不足・混在、親リストなし、未対応引数・layoutはビルドエラー。
 - 追加時はentryを希望の位置へ追記する。役職変更時は旧entryのpresentを終了年月に置き換え、新しいentryを先頭に追加する。
-- 入れ子のentryはHTMLを内部プレースホルダーに保存し、セクションのMarkdown描画後に組み立てる。Goldmarkのunsafe設定を変更せず、生成したHTMLの欠落や段落内へのdivの混入を防ぐ。
-- スタイルはassets/css/cv.css。列幅・セクションやentryの間隔・時期の文字サイズ・タイムラインの寸法と色はCSS変数で変更できる。
+- entryが生成した安全なHTMLを内部プレースホルダー経由でリストに組み立てる。Goldmarkのunsafe設定は変更しない。
+- スタイルはassets/css/cv.css。リスト間・項目間の余白、時期の文字サイズ、点・線の寸法と色をCSS変数で指定する。見出しやページ幅は通常ページの共通スタイルに従う。
+
+
+## 28. 通常ページと専用一覧テンプレートの境界
+
+- 通常ページのHTMLはlayouts/_partials/page-content.htmlに集約する。単独ページのpage.htmlと汎用セクションのsection.htmlは、どちらもこの共通部品を呼び出す。taxonomy.html・term.htmlも共通部品に統一し、分類一覧を自動挿入しない。
+- 共通部品は既存の.container（最大幅--content-max-width: 75rem）でh1とMarkdown本文だけを表示する。h1・h2のMontserrat 400、共通ヘッダー・フッターは既存のmain.css・baseof.htmlから継承する。
+- 作成日・タグ一覧・子ページ一覧を通常ページへ自動追加しない。必要な内容はMarkdownまたはショートコードで明示する。
+- News個別記事は、既存の「dateをタイトルに使い、titleは無視する」ルールを共通のタイトル処理で維持する。これはh1の内容であり、別の日付欄は追加しない。
+
+| 対象 | ページテンプレート・内容の置き場所 |
+| --- | --- |
+| CV | 共通page.html、content/cv/index.*.mdのMarkdown見出しとcv_list/cv_entry |
+| 論文一覧 | 共通section.html、content/publication/_index.*.mdとpublications |
+| 講演一覧 | 共通section.html、content/talks/_index.*.mdとtalks |
+| 通常の個別記事・任意の汎用セクション | 共通page.html/section.htmlとMarkdown本文 |
+| トップページ | 専用home.html |
+| プロジェクト一覧 | 専用project/section.html |
+| NEWS一覧 | 専用news/section.html（ページ送りも維持） |
+| メモ一覧 | 専用memo/section.html（従来の子記事一覧を維持） |
+
+- CV・publication一覧・talks一覧・News個別記事の専用ページテンプレートは削除する。CVのlayout: cvも削除する。
+- 経歴、論文、講演のデータ抽出・項目デザインは既存のショートコード・パーシャル・CSSで維持する。ページ専用ラッパーのクラスには依存させない。
+- CVと講演一覧の末尾余白は各ショートコード自身が担当する。Hugoの_index.mdはセクションとして管理するまま、URLや既存コンテンツは移動しない。

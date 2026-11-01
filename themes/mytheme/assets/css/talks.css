@@ -1,4 +1,3 @@
-.talks-archive,
 .talk-year {
   --talk-year-gap: 3rem;
   --talk-item-gap: 1.75rem;
@@ -18,7 +17,7 @@
   --talk-canceled-color: #78304b;
 }
 
-.talks-archive { padding-block-end: var(--talk-year-gap); }
+.talk-year:last-child { padding-block-end: var(--talk-year-gap); }
 .talk-year + .talk-year { margin-block-start: var(--talk-year-gap); }
 .talk-list { padding-inline-start: var(--talk-list-indent); list-style: decimal outside; }
 .talk-item { position: relative; isolation: isolate; overflow-wrap: anywhere; }

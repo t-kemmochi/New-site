@@ -1,5 +1,5 @@
-{{- if not (and .Parent (eq .Parent.Name "cv_section")) -}}
-  {{- errorf "cv_entry: cv_sectionの中に記述してください。%s" .Position -}}
+{{- if not (and .Parent (eq .Parent.Name "cv_list")) -}}
+  {{- errorf "cv_entry: cv_listの中に記述してください。%s" .Position -}}
 {{- else -}}
   {{- range $key, $value := .Params -}}
     {{- if not (in (slice "date" "start" "end") $key) -}}
@@ -31,7 +31,7 @@
     {{- $period := dict "date" $date "start" $start "end" $end "language" .Page.Site.Language.Lang -}}
     {{- $body := .Page.RenderString (dict "display" "block") .Inner -}}
     {{- $html := partial "cv/entry.html" (dict "period" $period "layout" $layout "body" $body "current" (eq $end "present")) -}}
-    {{- $token := printf "CV_ENTRY_%d_%d" .Parent.Ordinal .Ordinal -}}
+    {{- $token := printf "CV_ENTRY_%d_%d_END" .Parent.Ordinal .Ordinal -}}
     {{- .Parent.Scratch.SetInMap "cvEntries" $token $html -}}
     {{- printf "\n\n%s\n\n" $token -}}
   {{- end -}}

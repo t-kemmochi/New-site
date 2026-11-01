@@ -134,7 +134,3 @@
   box-shadow: inset 0 0 0 var(--publication-link-inset-width) var(--link-color);
   font-weight: 700;
 }
-
-.publication-archive {
-  padding-block-end: var(--paragraph-margin-after);
-}

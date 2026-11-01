@@ -3,13 +3,14 @@ title: "CV"
 date: 2026-10-24T00:00:00+09:00
 draft: false
 type: page
-layout: cv
 math: true
 ---
 
 **This is a dummy CV for layout testing. All appointments, institutions, service roles, awards, and grants below are fictional and do not represent actual achievements.**
 
-{{< cv_section title="Career" layout="timeline" >}}
+## Career
+
+{{< cv_list layout="timeline" >}}
 
 {{< cv_entry start="2025-04" end="present" >}}
 **[Department of Mathematics, Faculty of Science and Technology, University A](https://example.com/university-a)**
@@ -29,9 +30,11 @@ Assistant Professor
 Research Fellow
 {{< /cv_entry >}}
 
-{{< /cv_section >}}
+{{< /cv_list >}}
 
-{{< cv_section title="Education" layout="timeline" >}}
+## Education
+
+{{< cv_list layout="timeline" >}}
 
 {{< cv_entry date="2018-03" >}}
 **Ph.D. in Mathematical Sciences**
@@ -53,13 +56,15 @@ Graduate School of Science, University D
 Department of Mathematics, Faculty of Science, University D
 {{< /cv_entry >}}
 
-{{< /cv_section >}}
+{{< /cv_list >}}
 
-{{< cv_section title="Academic service" layout="list" >}}
+## Academic service
 
 ### [Society A](https://example.com/society-a)
 
 #### Young Researchers Group
+
+{{< cv_list layout="list" >}}
 
 {{< cv_entry start="2025-04" end="present" >}}
 Chair
@@ -73,19 +78,29 @@ Organizing Committee Member
 Steering Committee Member
 {{< /cv_entry >}}
 
+{{< /cv_list >}}
+
 #### [Journal A](https://example.com/journal-a)
+
+{{< cv_list layout="list" >}}
 
 {{< cv_entry start="2021-04" end="present" >}}
 Editorial Board Member
 {{< /cv_entry >}}
 
+{{< /cv_list >}}
+
+{{< cv_list layout="list" >}}
+
 {{< cv_entry start="2022-04" end="present" >}}
 #### Representative Member
 {{< /cv_entry >}}
 
-{{< /cv_section >}}
+{{< /cv_list >}}
 
-{{< cv_section title="Awards" layout="list" >}}
+## Awards
+
+{{< cv_list layout="list" >}}
 
 {{< cv_entry date="2024-06" >}}
 **Research Encouragement Award (Sample)**
@@ -105,11 +120,13 @@ Society B
 University D
 {{< /cv_entry >}}
 
-{{< /cv_section >}}
+{{< /cv_list >}}
 
-{{< cv_section title="Grants" layout="list" >}}
+## Grants
 
 ### Principal Investigator
+
+{{< cv_list layout="list" >}}
 
 {{< cv_entry start="2025-04" end="present" >}}
 **[Structure-Preserving Numerical Methods (Sample)](https://example.com/grants/dummy-2025-01)**
@@ -127,7 +144,11 @@ Fictional Research Grant B · Principal Investigator
 Grant ID: `DUMMY-2020-02`
 {{< /cv_entry >}}
 
+{{< /cv_list >}}
+
 ### Co-Investigator
+
+{{< cv_list layout="list" >}}
 
 {{< cv_entry start="2022-04" end="2026-03" >}}
 **Foundations of Scientific Computing (Sample)**
@@ -139,4 +160,4 @@ Principal Investigator: Sample Researcher B
 Grant ID: `DUMMY-2022-03`
 {{< /cv_entry >}}
 
-{{< /cv_section >}}
+{{< /cv_list >}}
