@@ -2,11 +2,21 @@
   <div class="container memo-archive">
     <h1>{{ .Title }}</h1>
     {{ .Content }}
-    {{ range .Pages }}
-      <section>
-        <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-        {{ .Summary }}
-      </section>
+    {{ $size := 3 }}
+    {{ if isset .Params "page_size" }}{{ $size = .Params.page_size }}{{ end }}
+    {{ if not (findRE `^[1-9][0-9]*$` (printf "%v" $size)) }}
+      {{ errorf "memo: page_size は1以上の整数を指定してください：%s" .Path }}
+    {{ else }}
+      {{ $pager := .Paginate .RegularPages.ByDate.Reverse (int $size) }}
+      {{ with $pager.Pages }}
+        <div class="archive-list">
+          {{ range . }}
+            {{ partial "memo/item.html" . }}
+          {{ end }}
+        </div>
+      {{ end }}
+      {{ $label := cond (eq .Site.Language.Lang "ja") "メモのページ送り" "Memo pagination" }}
+      {{ partial "news/pagination.html" (dict "pager" $pager "lang" .Site.Language.Lang "label" $label) }}
     {{ end }}
   </div>
 {{ end }}

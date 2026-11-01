@@ -8,11 +8,11 @@
     {{ else }}
       {{ $pager := .Paginate .RegularPages.ByDate.Reverse (int $size) }}
       {{ with $pager.Pages }}
-        <ul class="news-list" role="list">
+        <div class="archive-list">
           {{ range . }}
-            {{ partial "news/item.html" . }}
+            {{ partial "news/item.html" (dict "page" . "archive" true) }}
           {{ end }}
-        </ul>
+        </div>
       {{ end }}
       {{ partial "news/pagination.html" (dict "pager" $pager "lang" .Site.Language.Lang) }}
     {{ end }}

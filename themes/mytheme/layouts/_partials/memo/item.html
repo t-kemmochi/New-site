@@ -1,0 +1,8 @@
+<article class="archive-card memo-item">
+  <h2 class="archive-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+  {{ partial "memo/dates.html" . }}
+  <div class="archive-summary">
+    {{ partial "content/summary.html" . }}
+  </div>
+  <a class="memo-read-more" href="{{ .RelPermalink }}" aria-label="{{ if eq .Site.Language.Lang "ja" }}続きを読む：{{ .Title }}{{ else }}Read more: {{ .Title }}{{ end }}">{{ if eq .Site.Language.Lang "ja" }}続きを読む{{ else }}Read more{{ end }}</a>
+</article>

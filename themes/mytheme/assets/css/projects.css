@@ -21,18 +21,21 @@
   margin-block-start: var(--project-item-gap);
 }
 
+.project-card {
+  display: grid;
+  gap: var(--project-row-gap);
+  padding: var(--project-padding);
+  border: 0.0625rem solid transparent;
+  border-radius: 0.25rem;
+}
+
 .project-card,
 .project-card:visited,
 .project-card:hover,
 .project-card:focus-visible,
 .project-card:active {
-  display: grid;
-  gap: var(--project-row-gap);
-  padding: var(--project-padding);
   color: inherit;
   text-decoration: none;
-  border: 0.0625rem solid transparent;
-  border-radius: 0.25rem;
 }
 
 .project-card:hover,

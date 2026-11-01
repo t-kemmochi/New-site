@@ -1,0 +1,66 @@
+/* Memo・News・Projectsの一覧専用。トップページの項目には適用しない。 */
+.archive-list {
+  --archive-card-padding: 1rem;
+  --archive-card-gap: 0.75rem;
+  --archive-item-gap: 1.5rem;
+  --archive-border-color: #a6a6a6;
+  --archive-border-radius: 0.25rem;
+  --archive-title-size: var(--font-size-h2);
+  display: grid;
+  gap: var(--archive-item-gap);
+  margin-block: 0 var(--list-margin-after);
+}
+
+.archive-list > .project-item + .project-item {
+  margin-block-start: 0;
+}
+
+.archive-card {
+  display: grid;
+  gap: var(--archive-card-gap);
+  min-width: 0;
+  padding: var(--archive-card-padding);
+  border: 0.0625rem solid transparent;
+  border-radius: var(--archive-border-radius);
+}
+
+.archive-card:hover,
+.archive-card:focus-within {
+  border-color: var(--archive-border-color);
+}
+
+.archive-card .archive-title {
+  margin: 0;
+  color: var(--link-color);
+  font-family: "Montserrat", "Open Sans", "LINE Seed JP", sans-serif;
+  font-size: var(--archive-title-size);
+  font-weight: normal;
+  overflow-wrap: anywhere;
+}
+
+.archive-title a,
+.archive-title a:visited,
+.archive-title a:hover,
+.archive-title a:focus-visible,
+.archive-title a:active {
+  color: inherit;
+}
+
+.archive-card:hover .archive-title {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+.archive-summary {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.archive-summary > :last-child {
+  margin-block-end: 0;
+}
+
+.archive-summary pre {
+  max-width: 100%;
+  overflow-x: auto;
+}

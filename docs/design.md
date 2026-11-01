@@ -95,7 +95,7 @@
 ### 未完成・未確定
 
 - メニューのリンク先は作成済み。CV（日英）はダミー本文の通常ページ、publication・project・memo・newsは日英の一覧ページを出力する。
-- 専用のHTMLページテンプレートを使うのはトップページ・project一覧・news一覧・memo一覧。CV・publication一覧・talks一覧と通常の個別ページは共通テンプレートを使用する。
+- 専用のHTMLページテンプレートを使うのはトップページ・project一覧・news一覧・memo一覧・memo個別ページ。memo個別は共通の本文部品に日付だけを追加する。CV・publication一覧・talks一覧と通常の個別ページは共通テンプレートを使用する。
 - メニューの表示名・pageRefは日英ともCV・`/cv`。content/cv/index.ja.mdとindex.en.mdを翻訳ペアとして管理する。英語版の旧aboutページはcvへ移動する。
 - 小さい画面ではメニューを折り返す。ハンバーガーメニューは未実装。
 
@@ -126,15 +126,14 @@
 
 ### 仕様
 
-- コードブロックを使用するページがある。
-- コード表示用の追加アセットを読み込むかどうかは、ページのフロントマターで指定する。
-- 既定は無効とし、有効なページだけ追加アセットを読み込む。
+- コードフェンスに言語名（例：`c`）を指定すると、Hugo内蔵のChromaでビルド時にハイライトする。配色はMonokai。
+- hugo.tomlのmarkup.highlightでcodeFences=true、noClasses=true、style='monokai'を指定する。色は生成HTMLのインラインスタイルに含める。
+- 追加のコード用CSS・JavaScriptを読み込まないため、codeフロントマターは不要。未指定のページでもコードフェンスを表示できる。mathの条件付き読み込みとは独立する。
+- コードブロックの書体は--font-family-monospace。文字サイズ・内側余白・角丸はmain.cssの--font-size-code・--code-block-padding・--code-block-radiusで指定する。長い行はブロック内だけを横スクロールする。
+- 日英のcontent/memo/sample-memo-2.*.mdにC言語のサンプルを記載する。手動要約の区切りより後に置き、一覧の要約には含めない。
 
-### 未確定・未実装
+### 補助機能
 
-- トップページでは入口の `content/_index.ja.md`・`content/_index.en.md` の `code` で指定する予定。読み込み処理は未実装。
-- シンタックスハイライトの方式と配色。
-- 追加アセットの構成。
 - コピーボタンなどの補助機能は要件に含めない。
 
 ## 7. 数式表示
@@ -212,7 +211,7 @@
 - `publication`・`project`・`news`・`memo` はHugoのコンテンツ種別（`type`）として扱う。
 - 推奨配置は、それぞれ `content/publication/`・`content/project/`・`content/news/`・`content/memo/`。
 - 通常のページは従来のデフォルトarchetypeを利用できる。
-- news・memoはカテゴリではなく種別で区別する。個別記事はどちらも共通のpage.htmlを使う。
+- news・memoはカテゴリではなく種別で区別する。news個別記事は共通のpage.html、memo個別記事は日付欄を加えるmemo/page.htmlを使う。本文は同じ共通部品で表示する。
 - カテゴリやタグは、必要に応じて種別とは別に付けられる。
 - Talksはcontent/talks/_index.*.mdによる日英の一覧ページを用意し、共通のdata/talks.yamlからtalksショートコードで年別に表示する。
 
@@ -371,19 +370,19 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 
 ## 20. NEWSの表示とページ送り
 
-- トップとNEWS一覧はnews/item.htmlを共用する。トップは日付の下に概要を置き、日付は通常のh3と同じ--font-size-h3（1.5rem）とする。独立した一覧は従来どおり左に日付、右に要約。日付が記事タイトルとなり、front matterのtitleは指定不要。指定されていても表示・HTMLのtitle・RSSでは無視する。
-- 一覧の日付は `<h3><a><time datetime="YYYY-MM-DD">YYYY-MM-DD</time></a></h3>`。個別ページは共通ページのh1内にtimeで表示し、重複する日付欄は置かない。Newsの日付をタイトルにする既存ルールは共通のタイトル処理で維持する。
-- 日付リンクは全状態で通常本文色。通常時は下線なし、項目ホバー時は日付に下線、キーボードフォーカス時は枠を表示する。
+- トップとNEWS一覧はnews/item.htmlを共用する。トップは日付の下に概要を置き、日付は通常のh3と同じ--font-size-h3（1.5rem）とする。独立した一覧はarticleで囲み、h2の日付リンクの下に要約を縦に置く。日付が記事タイトルとなり、front matterのtitleは指定不要。指定されていても表示・HTMLのtitle・RSSでは無視する。
+- 一覧の日付は `<h2><a><time datetime="YYYY-MM-DD">YYYY-MM-DD</time></a></h2>`。個別ページは共通ページのh1内にtimeで表示し、重複する日付欄は置かない。Newsの日付をタイトルにする既存ルールは共通のタイトル処理で維持する。
+- トップページの日付リンクは全状態で通常本文色。一覧ページの日付リンクは通常リンク色の緑とする。通常時は下線なし、項目ホバー時は日付に下線、キーボードフォーカス時は枠を表示する。
 - 個別項目に「続きを読む」は置かず、項目全体もリンクにしない。日付が個別ページへのリンクとなる。要約は選択・コピーできる。
 - 要約はMarkdownの `<!--more-->` までをHugoの.Summaryで表示する。区切りがなければ全文を表示し、文字数指定の自動要約やCSSによる切り詰めは使わない。
 - 日付横の縦線・項目間の区切り線は置かない。項目ホバー・focus-within時だけグレー#a6a6a6の四辺枠を表示する。透明枠を確保して位置ずれを防ぐ。
-- 余白と列間隔は--news-item-padding（1rem）、項目間は--news-item-gap（1rem）。40rem以下では日付を概要の上に配置する。
+- トップページの余白は--news-item-padding（1rem）、項目間は--news-item-gap（1rem）。独立した一覧は§29の共通カードスタイルを使う。
 - 既存ダミー記事は保持する。titleが残っていても日付を優先し、新規archetypeからはtitleを外す。
 - news/section.htmlで新しい日付順にページ分割する。page_sizeはcontent/news/_index.*.mdで指定し、初期値・省略時3件。トップのlimitとは独立。
 - ページ送りは前へ・ページ番号・次へ。1ページなら非表示、前後がない場合は非リンクの無効表示。
 - 7ページ以下は全件、8ページ以上は先頭・末尾・現在ページ前後1件と省略記号。例：全20ページの10ページ目は「前へ 1 … 9 10 11 … 20 次へ」。
 - 現在ページにaria-current、背景は--header-background、文字は白。他の番号は通常本文色、前後は#737373、無効は#8a8a8a。
-- projectsも同じページ送り部品を共用する。スタイルはnews.css。
+- projects・memoも同じページ送り部品を共用する。スタイルはnews.css。
 
 ## 21. プロジェクト（グラント）
 
@@ -421,7 +420,7 @@ SVGはCSS内のデータURIとして保持し、文字色に追従させる。�
 ### 表示
 
 - 研究種別と課題番号を横並びでグレー表示し、番号のラベルは付けない。
-- 課題名は本文色・太字。トップページはh3、一覧ページはh2。
+- トップページの課題名はh3・本文色・太字。一覧ページはarticle内のh2を通常リンク色の緑で表示し、サイズはMemo・News一覧のh2と共通にする。
 - 次の行にグレーのroleを表示し、is_PI=falseの場合だけ間隔を空けて「研究代表者：氏名」を添える。
 - 最後に期間を小さめのグレー文字で表示する。
 - 通常は区切り線なし、ホバー時はグレーの四辺枠と課題名のみの下線を表示する。キーボードフォーカスでは枠を表示する。
@@ -751,11 +750,27 @@ x &= y + 2
 | 論文一覧 | 共通section.html、content/publication/_index.*.mdとpublications |
 | 講演一覧 | 共通section.html、content/talks/_index.*.mdとtalks |
 | 通常の個別記事・任意の汎用セクション | 共通page.html/section.htmlとMarkdown本文 |
+| メモ個別ページ | 専用memo/page.htmlから共通本文部品を呼び出し、日付のみ追加 |
 | トップページ | 専用home.html |
 | プロジェクト一覧 | 専用project/section.html |
 | NEWS一覧 | 専用news/section.html（ページ送りも維持） |
-| メモ一覧 | 専用memo/section.html（従来の子記事一覧を維持） |
+| メモ一覧 | 専用memo/section.html（手動要約・日付・ページ送り） |
 
 - CV・publication一覧・talks一覧・News個別記事の専用ページテンプレートは削除する。CVのlayout: cvも削除する。
 - 経歴、論文、講演のデータ抽出・項目デザインは既存のショートコード・パーシャル・CSSで維持する。ページ専用ラッパーのクラスには依存させない。
 - CVと講演一覧の末尾余白は各ショートコード自身が担当する。Hugoの_index.mdはセクションとして管理するまま、URLや既存コンテンツは移動しない。
+
+
+## 29. Memoと一覧ページの共通デザイン
+
+- Memo個別ページはmemo/page.htmlを使い、共通のpage-content.htmlへ日付欄を渡す。h1・本文・幅・ヘッダー・フッターは通常ページと共通。日付以外の装飾・自動情報は追加しない。
+- 公開日はdate、更新日はlastmodで指定する。Hugoはlastmod未指定時にdateを使うため、公開日より新しいlastmodがある場合だけ更新欄を表示する。同日時・過去の日時は重複表示しない。日付はtime要素とRFC3339形式のdatetime属性を使う。
+- Memo一覧は新しい公開日順。各記事はarticle、タイトルはh2内のリンク、その下に日付欄・手動要約・グレーの「続きを読む」（英語ではRead more）を置く。
+- 要約はNewsとcontent/summary.htmlを共用し、`<!--more-->`までを表示する。区切りがない場合は全文を表示する。文字数指定の自動要約はしない。
+- カード全体はリンクにせず、タイトルと「続きを読む」がそれぞれ個別ページへリンクする。項目ホバー時はグレーの枠とタイトルの下線を表示。「続きを読む」は自身のホバー時だけ下線を出す。
+- Memo・News・Projectsの独立した一覧はarchive.cssの共通カードを使う。h2のサイズは--archive-title-size（初期値--font-size-h2）、Montserrat 400。タイトルは通常リンク色、ホバー時は通常リンクのホバー色と下線を使う。トップページにはこのスタイルを適用しない。
+- 共通の余白・間隔・枠色は--archive-card-padding、--archive-card-gap、--archive-item-gap、--archive-border-color、--archive-border-radiusで指定する。透明枠を先に確保し、ホバー時の位置ずれを防ぐ。
+- News一覧ではh2の日付をタイトルとし、独立した日付欄・更新日・続きを読むは置かない。Projects一覧では種別・課題番号をh2の上に置き、状態バッジとカード全体のリンクを維持する。各課題はarticleとし、続きを読むは置かない。
+- Memo一覧のpage_sizeはcontent/memo/_index.*.mdで指定し、省略時3件。News・Projectsと同じ省略表示付きページ送りを使う。
+- Memoの日付と続きを読むの文字色・サイズはmemo.cssの--memo-meta-color・--memo-meta-sizeで指定する。
+- 日英の既存ダミーMemoに手動区切りを追加し、sample-memo-2には更新日の例を設定する。

@@ -1,0 +1,6 @@
+{{- /* 手動区切りがなければ全文。文字数による自動要約は使用しない。 */ -}}
+{{- if strings.Contains .RawContent "<!--more-->" -}}
+  {{- .Summary -}}
+{{- else -}}
+  {{- .Content -}}
+{{- end -}}

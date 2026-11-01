@@ -1,4 +1,6 @@
+{{ $page := .page }}
 <article class="container page-content">
-  <h1>{{ if and .IsPage (eq .Type "news") }}<time datetime="{{ .Date.Format "2006-01-02" }}">{{ partial "page-title.html" . }}</time>{{ else }}{{ .Title }}{{ end }}</h1>
-  {{ .Content }}
+  <h1>{{ if and $page.IsPage (eq $page.Type "news") }}<time datetime="{{ $page.Date.Format "2006-01-02" }}">{{ partial "page-title.html" $page }}</time>{{ else }}{{ $page.Title }}{{ end }}</h1>
+  {{ with .metadata }}{{ . }}{{ end }}
+  {{ $page.Content }}
 </article>

@@ -1,0 +1,3 @@
+{{ define "main" }}
+  {{ partial "page-content.html" (dict "page" . "metadata" (partial "memo/dates.html" .)) }}
+{{ end }}

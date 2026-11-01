@@ -1,12 +1,18 @@
+{{ $page := .page }}
+{{ if .archive }}
+<article class="archive-card news-archive-item">
+  <h2 class="archive-title"><a href="{{ $page.RelPermalink }}"><time datetime="{{ $page.Date.Format "2006-01-02" }}">{{ $page.Date.Format "2006-01-02" }}</time></a></h2>
+  <div class="archive-summary">
+    {{ partial "content/summary.html" $page }}
+  </div>
+</article>
+{{ else }}
 <li class="news-item">
-  <h3 class="news-date"><a href="{{ .RelPermalink }}"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time></a></h3>
+  <h3 class="news-date"><a href="{{ $page.RelPermalink }}"><time datetime="{{ $page.Date.Format "2006-01-02" }}">{{ $page.Date.Format "2006-01-02" }}</time></a></h3>
   <div class="news-item-body">
     <div class="news-summary">
-      {{ if strings.Contains .RawContent "<!--more-->" }}
-        {{ .Summary }}
-      {{ else }}
-        {{ .Content }}
-      {{ end }}
+      {{ partial "content/summary.html" $page }}
     </div>
   </div>
 </li>
+{{ end }}

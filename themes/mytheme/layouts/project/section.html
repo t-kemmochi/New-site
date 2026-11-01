@@ -10,11 +10,11 @@
       {{ $pages := sort .RegularPages "Params.period_start" "desc" }}
       {{ $pager := .Paginate $pages (int $size) }}
       {{ with $pager.Pages }}
-        <ul class="project-list" role="list">
+        <div class="project-list archive-list">
           {{ range $i, $page := . }}
             {{ partial "projects/item.html" (dict "page" $page "archive" true "id" (printf "archive-project-%d" $i)) }}
           {{ end }}
-        </ul>
+        </div>
       {{ end }}
       {{ $label := cond (eq .Site.Language.Lang "ja") "プロジェクトのページ送り" "Project pagination" }}
       {{ partial "news/pagination.html" (dict "pager" $pager "lang" .Site.Language.Lang "label" $label) }}

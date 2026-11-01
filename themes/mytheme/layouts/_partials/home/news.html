@@ -10,7 +10,7 @@
 {{ with first $limit $pages.ByDate.Reverse }}
   <ul class="news-list home-news-list" role="list">
     {{ range . }}
-      {{ partial "news/item.html" . }}
+      {{ partial "news/item.html" (dict "page" . "archive" false) }}
     {{ end }}
   </ul>
 {{ end }}

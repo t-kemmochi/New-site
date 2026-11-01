@@ -7,6 +7,8 @@ type = "memo"
 
 This is dummy content for display testing. It does not describe real publications, research activities, or achievements.
 
+<!--more-->
+
 ## Overview
 
 Sample content about organizing research notes.

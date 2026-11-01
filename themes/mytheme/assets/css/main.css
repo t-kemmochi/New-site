@@ -44,6 +44,9 @@
   --font-size-site-title: 1.25rem;
   --font-size-footer: 0.875rem;
   --font-size-cta: var(--font-size-base);
+  --font-size-code: 1.125rem;
+  --code-block-padding: 1rem;
+  --code-block-radius: 0.25rem;
 
   --page-background: #ffffff;
   --text-color: #222222;
@@ -139,6 +142,21 @@ dt:not(:first-child) {
 
 dd {
   margin-inline-start: var(--description-indent);
+}
+
+/* 配色はHugoのMonokaiを使用。長い行はブロック内で横スクロールする。 */
+pre {
+  max-width: 100%;
+  padding: var(--code-block-padding);
+  margin-block: 0 var(--paragraph-margin-after);
+  overflow-x: auto;
+  border-radius: var(--code-block-radius);
+  font-size: var(--font-size-code);
+}
+
+pre,
+pre code {
+  font-family: var(--font-family-monospace);
 }
 
 /* 通常リンク */

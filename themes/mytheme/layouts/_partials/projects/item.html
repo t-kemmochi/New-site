@@ -12,8 +12,8 @@
 {{ if and (not $page.Params.is_pi) (not $page.Params.principal_investigator) }}
   {{ errorf "project: is_PI=false では principal_investigator が必須です：%s" $page.Path }}
 {{ end }}
-<li class="project-item">
-  <a class="project-card" href="{{ $link.href }}"{{ if $link.external }} rel="external"{{ end }} aria-labelledby="{{ .id }}">
+{{ if $archive }}<article class="project-item">{{ else }}<li class="project-item">{{ end }}
+  <a class="project-card{{ if $archive }} archive-card{{ end }}" href="{{ $link.href }}"{{ if $link.external }} rel="external"{{ end }} aria-labelledby="{{ .id }}">
     <div class="project-meta project-topline">
       <span>{{ $page.Params.grant_type }}</span>
       <span>{{ $page.Params.grant_id }}</span>
@@ -22,7 +22,7 @@
       {{ end }}
     </div>
     {{ if $archive }}
-      <h2 class="project-title" id="{{ .id }}">{{ $page.Title }}</h2>
+      <h2 class="project-title archive-title" id="{{ .id }}">{{ $page.Title }}</h2>
     {{ else }}
       <h3 class="project-title" id="{{ .id }}">{{ $page.Title }}</h3>
     {{ end }}
@@ -34,4 +34,4 @@
     </div>
     <div class="project-meta project-period">{{ replace $page.Params.period_start "-" "." }}–{{ replace $page.Params.period_end "-" "." }}</div>
   </a>
-</li>
+{{ if $archive }}</article>{{ else }}</li>{{ end }}
