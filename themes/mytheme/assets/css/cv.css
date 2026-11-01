@@ -27,14 +27,12 @@
 .cv-entry-body pre { max-width: 100%; overflow-x: auto; }
 .cv-entry-period {
   margin: 0;
+  margin-block-end: var(--cv-period-gap);
   color: var(--cv-period-color);
   font-size: var(--cv-period-size);
   font-variant-numeric: tabular-nums;
 }
 .cv-list--timeline .cv-entry { padding-inline-start: var(--cv-timeline-inset); }
-.cv-list--timeline .cv-entry-period { margin-block-end: var(--cv-period-gap); }
-.cv-list--list .cv-entry-period { margin-block-start: var(--cv-period-gap); }
-.cv-list--list .cv-entry-period:first-child { margin-block-start: 0; }
 
 /* 通常のリスト記号を使い、入れ子ではレベル2の記号を表示する。 */
 .cv-list--timeline {
@@ -52,7 +50,6 @@ li > .cv-list--list {
   --cv-entry-gap: var(--list-item-gap);
   list-style-type: circle;
 }
-.cv-period { margin-block-start: var(--cv-period-gap); }
 
 /* 点と線は装飾。年月や項目の順序はHTML本文に保持する。 */
 .cv-list--timeline .cv-entry::after {

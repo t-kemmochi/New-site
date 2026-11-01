@@ -355,7 +355,7 @@ SVGはassets/icon/chevron-right.svgをCSSマスクで参照し、文字色に追
 ## 18. 余白・リストと長さの変数
 
 - リセット後の見出し余白は前1.5rem・後0.75rem、段落末尾は1rem。
-- リストの末尾は1rem、インデントは1.75rem、項目間は0.375rem、入れ子の前後は0.5rem。
+- リストの末尾は1rem、インデントは2.25rem、項目間は0.375rem、入れ子の前後は0.5rem。インデントは共通の--list-indentで指定し、通常のMarkdownのul/olとCVのlistに適用する。
 - 定義リストの説明インデントは1.5rem、2項目目以降の見出し前は0.5rem。
 - これらはmain.css冒頭の `--heading-margin-*`・`--paragraph-margin-after`・`--list-*`・`--nested-list-margin`・`--description-*` で変更できる。
 - リスト記号はulにdisc、入れ子のulにcircle、olにdecimalをCSSで直接指定する。画面の最低高さも100vh・100dvhを直接指定し、これらの変数は設けない。
@@ -712,7 +712,8 @@ x &= y + 2
 - timelineはol/liで時期を本文の前に表示し、点と線をCSSで装飾する。end="present"の点だけ緑。隣り合う項目だけをつなぎ、別のリストまで線を延ばさない。
 - タイムライン全体の左側に--cv-timeline-padding-start（初期値1rem）の余白を設ける。点・線と本文の間隔は--cv-timeline-insetで独立して指定する。
 - listはul/liで本文の下に時期を表示する。通常の箇条書きマーカーを表示し、Markdownリスト内に置くとレベル2のcircleマーカーになる。
-- 入れ子のlistの項目間隔は、通常の箇条書きと同じ--list-item-gap（初期値0.375rem）を使う。独立したCVリスト・タイムラインの項目間隔と、役職から期間までの間隔は維持する。
+- 入れ子のlistの項目間隔は、通常の箇条書きと同じ--list-item-gap（初期値0.375rem）を使う。独立したCVリスト・タイムラインの項目間隔は別に保つ。
+- cv_entry・cv_periodの期間表示は上余白0・下余白--cv-period-gap（初期値0.375rem）に統一する。timelineでも同じ下余白を使う。
 - timelineのみ標準の番号を非表示にして点・線で装飾する。いずれも標準のリスト要素を使い、role="list"を明示する。
 - cv_entryがない空のリストは出力しない。
 - Markdownの箇条書きの項目内にもcv_listを配置できる。外側のリスト記号・字下げと本文の通常の書体を維持する。cv_entry本文が空の場合は期間だけを表示できるが、単一項目の期間は新しいリストを作らずcv_periodで記述する。
@@ -735,6 +736,11 @@ x &= y + 2
 
 - 閉じタグ・本文のないショートコード。通常のMarkdownリスト項目の次行にインデントして置くと、同じli内に期間だけをp/time要素で出力する。ul/liは追加しない。
 - 引数・年月の検証・言語別のpresent表記はcv_entryと共通。start/end（end="present"可）、または単一時点のdateを指定する。リスト外でも利用できる。
+
+```markdown
+- 研究奨励賞
+  {{< cv_period date="2024-06" >}}
+```
 
 ### cv_entry
 
