@@ -3,6 +3,7 @@
 {{ $ja := eq $page.Site.Language.Lang "ja" }}
 {{ $link := partial "projects/link.html" $page }}
 {{ $state := partial "projects/state.html" $page }}
+{{ $period := printf "%s–%s" (replace $page.Params.period_start "-" ".") (replace $page.Params.period_end "-" ".") }}
 {{ if ne (printf "%T" $page.Params.role) "string" }}
   {{ errorf "project: role は表示用の文字列を指定してください：%s" $page.Path }}
 {{ end }}
@@ -17,9 +18,6 @@
     <div class="project-meta project-topline">
       <span>{{ $page.Params.grant_type }}</span>
       <span>{{ $page.Params.grant_id }}</span>
-      {{ if $archive }}
-        <span class="project-status project-status--{{ $state }}">{{ if eq $state "current" }}{{ if $ja }}継続中{{ else }}Current{{ end }}{{ else if eq $state "upcoming" }}{{ if $ja }}開始予定{{ else }}Upcoming{{ end }}{{ else }}{{ if $ja }}完了{{ else }}Completed{{ end }}{{ end }}</span>
-      {{ end }}
     </div>
     {{ if $archive }}
       <h2 class="project-title archive-title" id="{{ .id }}">{{ $page.Title }}</h2>
@@ -32,6 +30,13 @@
         <span>{{ if $ja }}研究代表者：{{ else }}PI: {{ end }}{{ $page.Params.principal_investigator }}</span>
       {{ end }}
     </div>
-    <div class="project-meta project-period">{{ replace $page.Params.period_start "-" "." }}–{{ replace $page.Params.period_end "-" "." }}</div>
+    {{ if $archive }}
+      <div class="project-meta project-period-row">
+        <span class="project-period">{{ $period }}</span>
+        <span class="project-status project-status--{{ $state }}">{{ if eq $state "current" }}{{ if $ja }}継続中{{ else }}Current{{ end }}{{ else if eq $state "upcoming" }}{{ if $ja }}開始予定{{ else }}Upcoming{{ end }}{{ else }}{{ if $ja }}完了{{ else }}Completed{{ end }}{{ end }}</span>
+      </div>
+    {{ else }}
+      <div class="project-meta project-period">{{ $period }}</div>
+    {{ end }}
   </a>
 {{ if $archive }}</article>{{ else }}</li>{{ end }}

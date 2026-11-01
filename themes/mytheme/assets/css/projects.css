@@ -68,6 +68,19 @@
   font-size: var(--project-period-size);
 }
 
+/* 一覧は全画面幅で「期間・右端のバッジ」を同じ行に置く。 */
+.project-period-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.project-period-row .project-period {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: var(--font-size-base);
+}
+
 .project-status {
   margin-inline-start: auto;
   padding: 0.125rem 0.5rem;
@@ -75,6 +88,7 @@
   border-radius: 0.25rem;
   color: var(--project-status-completed-color);
   font-size: var(--project-period-size);
+  white-space: nowrap;
 }
 
 .project-status--current,
