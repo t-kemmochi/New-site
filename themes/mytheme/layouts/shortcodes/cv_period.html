@@ -1,0 +1,4 @@
+{{- $period := partial "cv/period-params.html" . -}}
+{{- if $period.valid -}}
+  {{- partial "cv/period.html" (merge $period (dict "standalone" true)) | strings.TrimSpace | safeHTML -}}
+{{- end -}}

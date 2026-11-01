@@ -687,7 +687,7 @@ x &= y + 2
 - タイムライン・縦リストだけをcv_listで出力する。各項目はcv_entryで記述し、表示形式は親から引き継ぐ。旧cv_sectionはcv_listへ置き換える。
 - 職歴・学歴はtimeline、委員歴・受賞歴・外部資金獲得歴はlist。Markdownの記載順を維持し、自動並べ替えはしない。
 - 本文は表示確認用のダミー。職歴3件・学歴3件・委員歴5件・受賞歴3件・外部資金獲得歴3件を日英で同じ年月・順序に揃え、架空であることをページ先頭に明記する。
-- 在籍・役職・助成期間はstart/end、学位取得・受賞はdate。委員歴は活動ごとに別のcv_listを置き、重複する期間も独立した項目として表示する。
+- 在籍・役職・助成期間はstart/end、学位取得・受賞はdate。委員歴は通常のMarkdownリストで活動を並べ、役職変更の履歴は入れ子のcv_list、単一の役職・会員歴はcv_periodで期間を添える。重複する期間も独立して表示する。
 - 外部資金は研究代表者・研究分担者に分け、架空の助成名・役割・課題番号を本文に記述する。プロジェクトデータとの自動連携は設けない。
 - 元のmath: trueを維持する。通常ページは作成日を自動表示せず、CVではentryに指定した時期だけを表示する。
 
@@ -710,25 +710,31 @@ x &= y + 2
 - layoutはtimelineまたはlist。省略時はtimeline。title引数や見出し生成は設けない。
 - cv_listの中にはcv_entryだけを記述する。セクション見出しや活動グループのh3・h4は外側に通常のMarkdownで書く。
 - timelineはol/liで時期を本文の前に表示し、点と線をCSSで装飾する。end="present"の点だけ緑。隣り合う項目だけをつなぎ、別のリストまで線を延ばさない。
-- listはul/liで本文の下に時期を表示し、点・線は付けない。
-- 標準のリスト要素を使い、番号や記号はCSSで非表示。role="list"を明示して読み上げ時のリスト構造を保つ。
+- タイムライン全体の左側に--cv-timeline-padding-start（初期値1rem）の余白を設ける。点・線と本文の間隔は--cv-timeline-insetで独立して指定する。
+- listはul/liで本文の下に時期を表示する。通常の箇条書きマーカーを表示し、Markdownリスト内に置くとレベル2のcircleマーカーになる。
+- 入れ子のlistの項目間隔は、通常の箇条書きと同じ--list-item-gap（初期値0.375rem）を使う。独立したCVリスト・タイムラインの項目間隔と、役職から期間までの間隔は維持する。
+- timelineのみ標準の番号を非表示にして点・線で装飾する。いずれも標準のリスト要素を使い、role="list"を明示する。
 - cv_entryがない空のリストは出力しない。
-- Markdownの箇条書きの項目内にもcv_listを配置できる。親の活動名は太字（リンク可）、その下に役職と期間を表示し、外側のリスト記号と字下げは省く。cv_entry本文が空の場合は期間だけを表示する。
+- Markdownの箇条書きの項目内にもcv_listを配置できる。外側のリスト記号・字下げと本文の通常の書体を維持する。cv_entry本文が空の場合は期間だけを表示できるが、単一項目の期間は新しいリストを作らずcv_periodで記述する。
 - cv_entry本文は、空行を除く全行に共通する先頭の字下げを除いてからMarkdownとして描画する。入れ子リスト内の字下げによる意図しないコードブロック化を防ぎ、本文内の相対的な字下げ（箇条書き・コードなど）は維持する。
 
 ```markdown
 - 若手研究部会
-    {{< cv_list layout="list" >}}
-        {{< cv_entry start="2025-04" end="present" >}}
-        主査
-        {{< /cv_entry >}}
-    {{< /cv_list >}}
+  {{< cv_list layout="list" >}}
+    {{< cv_entry start="2025-04" end="present" >}}
+      主査
+    {{< /cv_entry >}}
+  {{< /cv_list >}}
+- [Journal A](https://example.com/journal-a) 編集委員
+  {{< cv_period start="2021-04" end="present" >}}
 - 代表会員
-    {{< cv_list layout="list" >}}
-        {{< cv_entry start="2022-04" end="present" >}}
-        {{< /cv_entry >}}
-    {{< /cv_list >}}
+  {{< cv_period start="2022-04" end="present" >}}
 ```
+
+### cv_period
+
+- 閉じタグ・本文のないショートコード。通常のMarkdownリスト項目の次行にインデントして置くと、同じli内に期間だけをp/time要素で出力する。ul/liは追加しない。
+- 引数・年月の検証・言語別のpresent表記はcv_entryと共通。start/end（end="present"可）、または単一時点のdateを指定する。リスト外でも利用できる。
 
 ### cv_entry
 

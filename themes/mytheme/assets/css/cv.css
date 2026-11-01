@@ -5,6 +5,7 @@
   --cv-period-gap: 0.375rem;
   --cv-period-size: var(--font-size-base);
   --cv-period-color: #666666;
+  --cv-timeline-padding-start: 1rem;
   --cv-timeline-inset: 2rem;
   --cv-line-width: 0.0625rem;
   --cv-line-color: #d6d6d6;
@@ -17,7 +18,6 @@
 .cv-list {
   margin-block: 0 var(--cv-list-gap);
   padding: 0;
-  list-style: none;
 }
 .cv-entry-body > :first-child { margin-block-start: 0; }
 .cv-entry-body > :last-child { margin-block-end: 0; }
@@ -36,19 +36,23 @@
 .cv-list--list .cv-entry-period { margin-block-start: var(--cv-period-gap); }
 .cv-list--list .cv-entry-period:first-child { margin-block-start: 0; }
 
-/* Markdownの箇条書きを活動名のグループとして使えるようにする。 */
-ul:has(> li > .cv-list) {
-  padding-inline-start: 0;
+/* 通常のリスト記号を使い、入れ子ではレベル2の記号を表示する。 */
+.cv-list--timeline {
+  padding-inline-start: var(--cv-timeline-padding-start);
   list-style: none;
 }
-li:has(> .cv-list) { font-weight: 700; }
+.cv-list--list {
+  padding-inline-start: var(--list-indent);
+  list-style: disc outside;
+}
 li > .cv-list {
   margin-block: var(--cv-group-heading-gap) 0;
-  font-weight: normal;
 }
-ul:has(> li > .cv-list) > li + li {
-  margin-block-start: var(--cv-list-gap);
+li > .cv-list--list {
+  --cv-entry-gap: var(--list-item-gap);
+  list-style-type: circle;
 }
+.cv-period { margin-block-start: var(--cv-period-gap); }
 
 /* 点と線は装飾。年月や項目の順序はHTML本文に保持する。 */
 .cv-list--timeline .cv-entry::after {

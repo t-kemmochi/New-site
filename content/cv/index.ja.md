@@ -62,41 +62,22 @@ D大学 理学部 数学科
 
 ### [A学会](https://example.com/society-a)
 
-#### 若手研究部会
-
-{{< cv_list layout="list" >}}
-
-{{< cv_entry start="2025-04" end="present" >}}
-主査
-{{< /cv_entry >}}
-
-{{< cv_entry start="2023-04" end="2025-03" >}}
-幹事運営委員
-{{< /cv_entry >}}
-
-{{< cv_entry start="2019-07" end="2023-03" >}}
-運営委員
-{{< /cv_entry >}}
-
-{{< /cv_list >}}
-
-#### [Journal A](https://example.com/journal-a)
-
-{{< cv_list layout="list" >}}
-
-{{< cv_entry start="2021-04" end="present" >}}
-編集委員
-{{< /cv_entry >}}
-
-{{< /cv_list >}}
-
-{{< cv_list layout="list" >}}
-
-{{< cv_entry start="2022-04" end="present" >}}
-#### 代表会員
-{{< /cv_entry >}}
-
-{{< /cv_list >}}
+- 若手研究部会
+  {{< cv_list layout="list" >}}
+    {{< cv_entry start="2025-04" end="present" >}}
+      主査
+    {{< /cv_entry >}}
+    {{< cv_entry start="2023-04" end="2025-03" >}}
+      幹事運営委員
+    {{< /cv_entry >}}
+    {{< cv_entry start="2019-07" end="2023-03" >}}
+      運営委員
+    {{< /cv_entry >}}
+  {{< /cv_list >}}
+- [Journal A](https://example.com/journal-a) 編集委員
+  {{< cv_period start="2021-04" end="present" >}}
+- 代表会員
+  {{< cv_period start="2022-04" end="present" >}}
 
 ## Awards
 

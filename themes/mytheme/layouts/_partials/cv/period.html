@@ -1,4 +1,4 @@
-<p class="cv-entry-period">
+<p class="cv-entry-period{{ if .standalone }} cv-period{{ end }}">
   {{- with .date -}}
     <time datetime="{{ . }}">{{ replace . "-" "." }}</time>
   {{- else -}}

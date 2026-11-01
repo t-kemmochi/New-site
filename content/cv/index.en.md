@@ -62,41 +62,22 @@ Department of Mathematics, Faculty of Science, University D
 
 ### [Society A](https://example.com/society-a)
 
-#### Young Researchers Group
-
-{{< cv_list layout="list" >}}
-
-{{< cv_entry start="2025-04" end="present" >}}
-Chair
-{{< /cv_entry >}}
-
-{{< cv_entry start="2023-04" end="2025-03" >}}
-Organizing Committee Member
-{{< /cv_entry >}}
-
-{{< cv_entry start="2019-07" end="2023-03" >}}
-Steering Committee Member
-{{< /cv_entry >}}
-
-{{< /cv_list >}}
-
-#### [Journal A](https://example.com/journal-a)
-
-{{< cv_list layout="list" >}}
-
-{{< cv_entry start="2021-04" end="present" >}}
-Editorial Board Member
-{{< /cv_entry >}}
-
-{{< /cv_list >}}
-
-{{< cv_list layout="list" >}}
-
-{{< cv_entry start="2022-04" end="present" >}}
-#### Representative Member
-{{< /cv_entry >}}
-
-{{< /cv_list >}}
+- Young Researchers Group
+  {{< cv_list layout="list" >}}
+    {{< cv_entry start="2025-04" end="present" >}}
+      Chair
+    {{< /cv_entry >}}
+    {{< cv_entry start="2023-04" end="2025-03" >}}
+      Organizing Committee Member
+    {{< /cv_entry >}}
+    {{< cv_entry start="2019-07" end="2023-03" >}}
+      Steering Committee Member
+    {{< /cv_entry >}}
+  {{< /cv_list >}}
+- [Journal A](https://example.com/journal-a) Editorial Board Member
+  {{< cv_period start="2021-04" end="present" >}}
+- Representative Member
+  {{< cv_period start="2022-04" end="present" >}}
 
 ## Awards
 

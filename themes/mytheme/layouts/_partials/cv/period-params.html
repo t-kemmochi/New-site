@@ -1,0 +1,30 @@
+{{- $name := .Name -}}
+{{- if and .Params (not .IsNamedParams) -}}
+  {{- errorf "%s: 名前付き引数を使ってください。%s" $name .Position -}}
+{{- end -}}
+{{- range $key, $value := .Params -}}
+  {{- if not (in (slice "date" "start" "end") $key) -}}
+    {{- errorf "%s: 未対応の引数 %q です。%s" $name $key $.Position -}}
+  {{- end -}}
+{{- end -}}
+{{- $date := .Get "date" | default "" -}}
+{{- $start := .Get "start" | default "" -}}
+{{- $end := .Get "end" | default "" -}}
+{{- $valid := true -}}
+{{- if or (and $date (or $start $end)) (and (not $date) (or (not $start) (not $end))) -}}
+  {{- errorf "%s: dateのみ、またはstartとendの組を指定してください。%s" $name .Position -}}
+  {{- $valid = false -}}
+{{- end -}}
+{{- range $key, $value := dict "date" $date "start" $start "end" $end -}}
+  {{- if and $value (not (and (eq $key "end") (eq $value "present"))) -}}
+    {{- if not (findRE `^[1-9][0-9]{3}-(0[1-9]|1[0-2])$` (printf "%v" $value)) -}}
+      {{- errorf "%s: %sはYYYY-MM形式にしてください。endのみpresentも使えます。%s" $name $key $.Position -}}
+      {{- $valid = false -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if and $start $end (ne $end "present") (gt $start $end) -}}
+  {{- errorf "%s: endがstartより前になっています。%s" $name .Position -}}
+  {{- $valid = false -}}
+{{- end -}}
+{{- return (dict "date" $date "start" $start "end" $end "language" .Page.Site.Language.Lang "valid" $valid) -}}
