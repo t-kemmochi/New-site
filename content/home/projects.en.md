@@ -1,5 +1,5 @@
 ---
-title: "Research projects"
+title: "Projects"
 weight: 30
 widget: "projects"
 ---

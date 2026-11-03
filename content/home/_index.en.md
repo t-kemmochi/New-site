@@ -8,9 +8,13 @@ cascade:
 ---
 
 {{< hero_header >}}
+剱持 智哉 (けんもち ともや)
+
 Associate Professor
 
-[Meijo University](https://www.meijo-u.ac.jp/english/) [Faculty of Science and Technology](https://www.meijo-u.ac.jp/academics/sci_tech/) [Department of Mathematics](https://sites.gmath.meijo-u.ac.jp/)
+[Department of Mathematics](https://sites.gmath.meijo-u.ac.jp/),
+[Faculty of Science and Technology](https://www.meijo-u.ac.jp/academics/sci_tech/),
+[Meijo University](https://www.meijo-u.ac.jp/english/) 
 {{< /hero_header >}}
 
 {{< icon_link icon="icons/mail.svg" url="#contact" label="Contact" >}}

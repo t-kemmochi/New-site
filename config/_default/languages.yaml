@@ -11,6 +11,10 @@ ja:
         name: "CV"
         pageRef: "/cv"
         weight: 20
+      - identifier: "research"
+        name: "Research"
+        pageRef: "/research"
+        weight: 25
       - identifier: "publication"
         name: "Publications"
         pageRef: "/publications"
@@ -35,6 +39,10 @@ en:
         name: "CV"
         pageRef: "/cv"
         weight: 20
+      - identifier: "research"
+        name: "Research"
+        pageRef: "/research"
+        weight: 25
       - identifier: "publication"
         name: "Publications"
         pageRef: "/publications"

@@ -10,5 +10,5 @@ widget: "section"
 
 ### Explore more
 
-{{< cta text="論文一覧" url="/publications" >}}
-{{< cta text="講演一覧" url="/talks" >}}
+{{< cta text="Publications" url="/publications" >}}
+{{< cta text="Talks" url="/talks" >}}

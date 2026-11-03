@@ -8,6 +8,8 @@ cascade:
 ---
 
 {{< hero_header >}}
+剱持 智哉 (けんもち ともや)
+
 准教授
 
 [名城大学](https://www.meijo-u.ac.jp/) [理工学部](https://www.meijo-u.ac.jp/academics/sci_tech/) [数学科](https://sites.gmath.meijo-u.ac.jp/)

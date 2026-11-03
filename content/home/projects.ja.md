@@ -1,9 +1,9 @@
 ---
-title: "Research projects"
+title: "Projects"
 weight: 30
 widget: "projects"
 ---
 
 <!-- ここに本文をMarkdownで書きます。 -->
 
-{{< cta text="プロジェクト一覧を見る" url="/project" >}}
+{{< cta text="View all projects" url="/project" >}}

@@ -6,7 +6,7 @@ widget: "section"
 
 ### Research area
 
-Numerical analysis of partial differential equations
+Numerical analysis for partial differential equations
 
 ### Keywords
 
