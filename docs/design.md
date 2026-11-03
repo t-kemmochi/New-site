@@ -216,7 +216,7 @@
 
 ### コンテンツの分類
 
-- `publication`・`project`・`news`・`memo` はHugoのコンテンツ種別（`type`）として扱う。
+- news・memoはHugoのコンテンツ種別として扱う。論文とプロジェクトの一覧情報は共通YAMLで管理し、個別Markdownのtypeには依存しない。
 - 推奨配置は、それぞれ `content/publications/`・`content/project/`・`content/news/`・`content/memo/`。
 - 通常のページは従来のデフォルトarchetypeを利用できる。
 - news・memoはカテゴリではなく種別で区別する。news個別記事は共通のpage.html、memo個別記事は日付欄を加えるmemo/page.htmlを使う。本文は同じ共通部品で表示する。
@@ -234,7 +234,7 @@ hugo new content --kind memo memo/example.ja.md
 ```
 
 - 英語版は同じファイル名の `.en.md` とする。
-- 各archetypeは `type`・`date`・`draft: true` を設定する。公開する場合はdraftをfalseにする。
+- 各archetypeはdate・draft: trueを設定し、news/memoは専用type、projectは通常のpageを使う。公開する場合はdraftをfalseにする。
 - archetypesと既存Markdown（テーマ内のサンプルを含む）のフロントマターは、---で囲むYAML形式に統一する。buildの設定は入れ子のマッピング、タグ等は配列として保持する。hugo.tomlの設定形式は変更しない。
 - 論文はdata/publications.yamlに追加するため、publication用archetypeは設けない。
 - projectは `period_start`・`period_end` とビルド年月から状態を自動判定する。手動のstatusは使わない。
@@ -246,7 +246,7 @@ hugo new content --kind memo memo/example.ja.md
 | `section` | Markdown本文をそのまま表示する |
 | `publications` | 共通YAMLから査読済み英語論文をdate降順で抽出し、Recentのカードを表示する |
 | `news` | 本文の前に、現在の言語の `type: news` を日付の新しい順で、日付を見出し兼リンクとして、その右に手動要約を表示する |
-| `projects` | 本文の前に、現在の言語の `type: project` で期間から継続中と判定した課題を、開始年月の新しい順ですべて表示する |
+| `projects` | 本文の前に、共通YAMLから期間で継続中と判定した課題を、開始年月の新しい順ですべて表示する |
 
 - publications・newsの件数は、各home用Markdownの `limit` で指定する。省略時は3件。
 - `limit` は1以上の整数。該当する公開ページが少ない場合は、その件数だけ表示する。
@@ -395,28 +395,17 @@ SVGはassets/icon/chevron-right.svgをCSSマスクで参照し、文字色に追
 
 ## 21. プロジェクト（グラント）
 
-### メタデータ
+### 共通データとリンク
 
-| パラメータ | 内容 |
-| --- | --- |
-| `title` | 課題名 |
-| `type` | Hugoのコンテンツ種別。`project` を維持 |
-| `grant_type` | 研究種別（例：科研費 若手研究） |
-| `grant_id` | 課題番号。引用符を付けた文字列 |
-| `role` | 自由な表示用文字列。例：研究代表者、研究分担者 |
-| `is_PI` | 代表者かどうかの真偽値。Hugoテンプレートからは小文字の `is_pi` で参照 |
-| `principal_investigator` | 代表者名。is_PI=falseの場合に必須・表示 |
-| `period_start`・`period_end` | 引用符付きYYYY-MM。開始年月・終了年月 |
-| `external` | 外部専用か。省略時true。ひな型にもtrueを明記 |
-| `external_url` | 外部URL。external=trueの場合に必須。HTTP(S)のみ |
-
-### HTML出力とリンク先
-
-- 外部専用課題は `external: true` と `build`内の`render: never`を組にする。`list: always`で一覧からの取得を維持し、`publishResources: false`とする。
-- 内部ページを作る課題は `external: false` と `build`内の`render: always`を組にする。必要なら `publishResources: true`にする。
-- externalだけではHugoの出力を変更できない。設定が不整合の場合はビルドエラーで通知する。
-- カード全体が1つのリンク。外部専用ならexternal_url、内部ページなら言語別RelPermalinkへ移動する。外部リンクも同じタブで開く。
-- 課題内にはCTAなど別のリンクを入れない。カードのリンク名は課題名で指定する。
+- data/projects.yamlをトップ・一覧・日英CVの共通情報源とする。idは一意の文字列。grant_id・title・grant_type・role・is_PI・period_start・period_end・urlを指定する。
+- title・grant_type・role・principal_investigatorは共通文字列またはja/enマッピング。未翻訳の英語は日本語へフォールバックする。is_PIは真偽値で、falseの場合のみprincipal_investigatorが必須。
+- urlはja/enのマッピングにし、現在の言語のURLを使う。URLに別言語フォールバックはなく、欠落・空欄・不正な値はビルドエラーにする。同じリンク先なら日英に同じ値を記載してよい。
+- externalは既定true。trueなら各言語のurlにHTTP(S)の絶対URL、falseなら通常のMarkdownで作成したサイト内ページのパスを指定する。内部リンクは現在言語・/New-site/を解決する。
+- 外部専用課題には個別Markdownを要求しない。既存の外部専用ダミー本文は参考用に残し、render/listをneverにする。既存の内部ページは本文・タイトルを維持した通常ページにし、外部資金メタデータはYAMLへ移す。
+- archetypes/project.mdは任意の個別ページの本文用の薄い雛形とし、データを自動追加しない。
+- content/project/_content.gotmplでrender=never・list=localの内部レコードを各言語へ生成し、Hugo標準のページ送りに利用する。実際の任意ページを課題一覧へ二重に列挙しない。
+- 既存ダミー3件とユーザー提供の15J07471を保存する。15J07471の英語表記は表示用の訳。課題番号リンクもカードもデータのurlを使用する。
+- 不正な年月・期間逆転・重複ID・不正な真偽値・未解決の内部リンクはビルドエラーにする。
 
 ### 状態と並び順
 
@@ -439,7 +428,7 @@ SVGはassets/icon/chevron-right.svgをCSSマスクで参照し、文字色に追
 - ラベルの緑文字は読みやすい濃さとし、枠はヘッダー色を使う。
 - 一覧のpage_sizeは `content/project/_index.*.md` で指定し、省略時3件。NEWSと同じページ送り部品・配色・省略規則を共用し、ナビゲーションのラベルはプロジェクト用にする。
 - スタイルはprojects.css、共通カード・状態判定・リンク判定は `_partials/projects/` に置く。
-- 既存ダミー課題を新メタデータに移行する。外部URLは架空例としてexample.comを使用し、実際の研究課題へのリンクとはしない。
+- ダミー課題の外部URLはexample.com、ユーザー提供の15J07471には指定されたKAKENのURLを使用する。
 
 ## 22. 論文データと注目論文
 
@@ -692,10 +681,10 @@ x &= y + 2
 - content/cv/index.ja.md・index.en.mdにMarkdownで記述する。typeはpageのまま共通の通常ページテンプレートを使用し、layout指定は置かない。
 - h1はページタイトル、Career・Education・Academic service・Awards・Grantsは通常のMarkdownの `##` でh2を出力する。見出しは内容の上に置き、左右の列には分けない。
 - タイムライン・縦リストだけをcv_listで出力する。各項目はcv_entryで記述し、表示形式は親から引き継ぐ。旧cv_sectionはcv_listへ置き換える。
-- 職歴・学歴はtimeline、委員歴・受賞歴・外部資金獲得歴はlist。Markdownの記載順を維持し、自動並べ替えはしない。
-- 本文は表示確認用のダミー。職歴3件・学歴3件・委員歴5件・受賞歴3件・外部資金獲得歴3件を日英で同じ年月・順序に揃え、架空であることをページ先頭に明記する。
+- 職歴・学歴はtimeline、委員歴・受賞歴は通常のリストとcv_period/cv_list、外部資金はcv_grantsを使う。手書き経歴はMarkdownの記載順、外部資金は開始年月の降順とする。
+- ユーザーが編集した日本語CVの経歴・委員歴・受賞を維持する。英語版にはダミー経歴が残る。外部資金は共通データのダミー3件とユーザー提供の15J07471を表示する。
 - 在籍・役職・助成期間はstart/end、学位取得・受賞はdate。委員歴は通常のMarkdownリストで活動を並べ、役職変更の履歴は入れ子のcv_list、単一の役職・会員歴はcv_periodで期間を添える。重複する期間も独立して表示する。
-- 外部資金は研究代表者・研究分担者に分け、架空の助成名・役割・課題番号を本文に記述する。プロジェクトデータとの自動連携は設けない。
+- 外部資金は研究代表者・研究分担者に分け、cv_grantsでdata/projects.yamlを参照する。idで1件、is_PIで役割別の抽出に対応する。
 - 元のmath: trueを維持する。通常ページは作成日を自動表示せず、CVではentryに指定した時期だけを表示する。
 
 ### cv_list
@@ -773,7 +762,7 @@ x &= y + 2
 
 - cv_listの直接の子として使う。本文はHugoのMarkdownで描画し、太字・斜体・リンク・見出し・箇条書き・コード・数式などを記述できる。数式は表示先ページのmath: trueで有効化する。
 - 期間はstart="YYYY-MM"とend="YYYY-MM"、継続中はend="present"。単一時点はdate="YYYY-MM"のみ。dateとstart/endは混在させず、終了年月の省略を継続中とは解釈しない。
-- 年月はYYYY-MMで管理し、YYYY.MMで表示する。presentは日本語版で「現在」、英語版で「Present」。年月はtime要素、presentは通常のテキスト。
+- CVの年月はYYYY-MMで管理し、日本語は2026年11月、英語はNovember 2026のように表示する。範囲は日本語では～、英語では空白付きの–で区切る。presentは日本語版で「現在」、英語版で「Present」。年月はtime要素でdatetime=YYYY-MMを保持する。
 - 不正な年月、期間の逆転、日付指定の不足・混在、親リストなし、未対応引数・layoutはビルドエラー。
 - 追加時はentryを希望の位置へ追記する。役職変更時は旧entryのpresentを終了年月に置き換え、新しいentryを先頭に追加する。
 - entryが生成した安全なHTMLを内部プレースホルダー経由でリストに組み立てる。Goldmarkのunsafe設定は変更しない。
@@ -859,3 +848,9 @@ x &= y + 2
 - 自作テーマのassets/icon/にmenu.svg・close.svg・chevron-right.svg・chevron-left.svgを置く。既存の所属・連絡先等のassets/icons/は維持する。
 - メニューボタンとページ送りはicons/image.htmlからSVGリソースのURLを参照する。CTAはCSS変数に同じchevron-right.svgのURLを渡す。CSSマスクとcurrentColorにより状態色を継承し、装飾アイコンは読み上げ対象から外す。
 - インラインSVG・CSSのSVGデータURI・ページ送りの文字記号による描画をファイル参照へ統一する。HugoのRelPermalinkによりGitHub Pagesの/New-site/配下へ公開する。
+
+## 34. CVの外部資金ショートコード
+
+- cv_grantsはid（任意の文字列）・is_PI（任意の真偽値）をANDで絞り込み、開始年月の降順で通常のul/liを出力する。引数なしは全件。未知のIDや不正な引数はビルドエラー。
+- 各liは研究種別 (課題番号: 番号リンク)、題目、ローカライズした期間、分担者の場合のみ研究代表者名の順でbr改行する。リンクラベルに余分な空白を入れず、英文の単語間の空白は維持する。
+- cv_entry・cv_period・cv_grantsはcv/date.htmlで年月の表示を共通化し、CV全体に適用する。既存のカードの期間表記は維持する。

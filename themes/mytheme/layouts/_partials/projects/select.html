@@ -1,0 +1,39 @@
+{{- $conditions := . -}}
+{{- $items := slice -}}
+{{- $seen := dict -}}
+{{- range hugo.Data.projects | default slice -}}
+  {{- $project := . -}}
+  {{- $id := .id | default "" -}}
+  {{- if or (ne (printf "%T" $id) "string") (not $id) -}}
+    {{- errorf "projects: idは空でない文字列で指定してください。" -}}
+  {{- else if isset $seen $id -}}
+    {{- errorf "projects: id %q が重複しています。" $id -}}
+  {{- end -}}
+  {{- $seen = merge $seen (dict $id true) -}}
+  {{- range slice "title" "grant_type" "role" "principal_investigator" -}}
+    {{- $value := partial "projects/localize.html" (dict "value" (index $project .) "language" $conditions.page.Site.Language.Lang) -}}
+    {{- $project = merge $project (dict . $value) -}}
+  {{- end -}}
+  {{- range slice "title" "grant_type" "grant_id" "role" -}}
+    {{- if or (not (index $project .)) (ne (printf "%T" (index $project .)) "string") -}}
+      {{- errorf "projects: %q の%sは空でない文字列で指定してください。" $id . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if ne (printf "%T" (index $project "is_PI")) "bool" -}}
+    {{- errorf "projects: %q のis_PIはtrueまたはfalseで指定してください。" $id -}}
+  {{- else if and (not (index $project "is_PI")) (not $project.principal_investigator) -}}
+    {{- errorf "projects: %q はis_PI=falseのためprincipal_investigatorが必要です。" $id -}}
+  {{- end -}}
+  {{- $state := partial "projects/state.html" $project -}}
+  {{- $link := partial "projects/link.html" (dict "project" $project "page" $conditions.page) -}}
+  {{- $project = merge $project (dict "state" $state "href" $link.href "external" $link.external) -}}
+  {{- $match := true -}}
+  {{- if and $conditions.id (ne $conditions.id $id) -}}{{- $match = false -}}{{- end -}}
+  {{- if and (isset $conditions "is_PI") (ne (index $conditions "is_PI") (index $project "is_PI")) -}}{{- $match = false -}}{{- end -}}
+  {{- if and $conditions.state (ne $conditions.state $state) -}}{{- $match = false -}}{{- end -}}
+  {{- if $match -}}{{- $items = $items | append $project -}}{{- end -}}
+{{- end -}}
+{{- if and $conditions.id (not (isset $seen $conditions.id)) -}}
+  {{- errorf "projects: id %q はdata/projects.yamlにありません。" $conditions.id -}}
+{{- end -}}
+{{- return (sort $items "period_start" "desc") -}}

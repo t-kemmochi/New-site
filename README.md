@@ -45,6 +45,7 @@ hugo --minify      # 本番用ビルド。出力先はpublic/
 | `content/home/` | ヒーローとトップページの各セクション |
 | `data/publications.yaml` | 日英共通の論文情報 |
 | `data/talks.yaml` | 日英共通の講演情報 |
+| `data/projects.yaml` | トップ・一覧・CVで共有する外部資金情報 |
 | `archetypes/` | `hugo new`で作るコンテンツの雛形 |
 | `themes/mytheme/layouts/` | ページテンプレート、パーシャル、ショートコード |
 | `themes/mytheme/assets/css/` | リセット・共通・各部品のCSS |
@@ -190,25 +191,49 @@ News・Memoの要約は、Markdown中の`<!--more-->`までです。区切りが
 
 一覧の1ページ当たり件数は、各`_index.*.md`の`page_size`で指定します。既定は3件です。
 
-### 研究課題
+### 研究課題（外部資金）
 
-Projectには次の独自フロントマターがあります。雛形を使って編集してください。
+編集先は**`data/projects.yaml`**です。トップ・一覧・CVは同じデータを参照し、課題ごとのMarkdownからは情報を抽出しません。
 
-| パラメータ | 内容 |
+```yaml
+- id: '15J07471'
+  grant_id: '15J07471'
+  grant_type:
+    ja: 科研費 特別研究員奨励費
+    en: JSPS KAKENHI Grant-in-Aid for JSPS Fellows
+  title:
+    ja: 離散最大正則性とその有限要素法・有限体積法への応用
+    en: Discrete maximal regularity and its applications to finite element and finite volume methods
+  role:
+    ja: 研究代表者
+    en: Principal investigator
+  is_PI: true
+  period_start: '2015-04'
+  period_end: '2018-03'
+  external: true
+  url:
+    ja: https://kaken.nii.ac.jp/grant/KAKENHI-PROJECT-15J07471/
+    en: https://kaken.nii.ac.jp/en/grant/KAKENHI-PROJECT-15J07471/
+```
+
+| 項目 | 内容 |
 | --- | --- |
-| `type: project` | 課題として扱う |
-| `title` | 研究課題名 |
-| `grant_type` / `grant_id` | 研究種別・課題番号 |
-| `role` | 表示用の役割の文字列 |
-| `is_PI` | 研究代表者なら`true`、それ以外は`false` |
-| `principal_investigator` | `is_PI: false`のとき必須の代表者名 |
-| `period_start` / `period_end` | 開始・終了年月。引用符付き`"YYYY-MM"` |
-| `external` | 外部ページへリンクするか。省略時`true` |
-| `external_url` | `external: true`のとき必須のHTTP(S) URL |
+| `id` | 一意な文字列。CVで個別指定するときのキー |
+| `grant_id` | 表示する課題番号（文字列） |
+| `title` / `grant_type` / `role` | 題目・研究種別・役割。共通の文字列か`ja`/`en`のマッピング |
+| `is_PI` | 代表者なら`true`、分担者なら`false`。必須の真偽値 |
+| `principal_investigator` | `is_PI: false`の場合に必須の代表者名。文字列または日英マッピング |
+| `period_start` / `period_end` | 引用符付き`'YYYY-MM'`の開始・終了年月 |
+| `external` | 省略時`true`。`true`なら外部URL、`false`ならサイト内ページ |
+| `url` | 必須の`ja`/`en`マッピング。外部HTTP(S) URL、または`external: false`時のサイト内パス。現在の言語のURLがなければエラー |
 
-外部リンク専用の課題は、雛形の`build`内の`render: never`を維持します。個別ページを作る場合は`external: false`と`build`内の`render: always`をセットで指定します。
+文字列の日英マッピングで英語が未指定なら日本語を使用します。URLは別言語へフォールバックしないため、`url.ja`・`url.en`を両方記入します。同じリンク先なら同じ値で構いません。英語題目などの訳は必要に応じて確認してください。既存の先頭3件はダミーデータ、15J07471はユーザー提供の情報です。
 
-ステータスは`status`で指定せず、開始・終了年月と**ビルド時の年月**から自動判定します。終了月までは継続中、翌月から完了です。年月が変わったら再ビルドが必要です。
+個別ページが必要になったら、通常のMarkdownページを作成し、データに`external: false`と`url.ja: /project/example`・`url.en: /project/example`を入れ子のマッピングで指定します。日英で異なるパスも指定できます。`hugo new content --kind project project/example.ja.md`は、その本文用の薄い雛形を作ります。言語・公開先のサブディレクトリは内部リンク解決時に反映されます。外部専用課題にはMarkdownページは不要です。既存の外部専用サンプルMarkdownは参考用に残し、出力・一覧取得を停止しています。
+
+ステータスは期間とビルド年月で自動判定し、開始月前は開始予定、終了月までは継続中、その翌月から完了です。トップは継続中だけ、一覧とCVは完了済みも含み、開始年月の新しい順に表示します。月が変わったら再ビルドしてください。
+
+`content/project/_content.gotmpl`は、Hugoの標準ページ送りに必要な内部レコードをデータから生成します。これらの個別HTMLは出力せず、任意の個別ページは別の通常Markdownで作成します。
 
 ### 数式とコード
 
@@ -363,9 +388,25 @@ Projectには次の独自フロントマターがあります。雛形を使っ�
   {{< cv_period date="2024-06" >}}
 ```
 
-`cv_period`は閉じタグ不要です。`cv_entry`と同じ年月引数を受け付け、リストを追加せず、期間を`p`・`time`要素で出力します。`date`単独指定は正式な使い方です。`present`は日本語版で「現在」、英語版で「Present」になります。
+`cv_period`は閉じタグ不要です。`cv_entry`と同じ年月引数を受け付け、リストを追加せず、期間を`p`・`time`要素で出力します。`date`単独指定は正式な使い方です。`present`は日本語版で「現在」、英語版で「Present」になります。CV内の年月は`2026年11月`／`November 2026`のようにローカライズし、time要素のdatetimeはYYYY-MMのまま保持します。
 
 外側は黒丸、入れ子の`cv_list layout="list"`は白丸です。期間表示の余白は上ではなく下に付きます。
+
+### `cv_grants`：外部資金一覧
+
+```markdown
+### 研究代表者
+{{< cv_grants is_PI=true >}}
+
+### 研究分担者
+{{< cv_grants is_PI=false >}}
+
+{{< cv_grants id="15J07471" >}}
+```
+
+`data/projects.yaml`を参照し、通常の`ul`/`li`を出力します。`is_PI`は任意の真偽値で、省略時は全役割です。`id`も任意で、指定した1課題を表示します。両方の指定はAND条件で、未知のID・未対応引数・不正な真偽値はビルドエラーです。
+
+各項目は「研究種別 (課題番号: 番号リンク) → 題目 → 期間 → 分担者の場合のみ代表者名」を改行して表示します。課題番号はデータの`url`へリンクし、期間は日英にローカライズします。見出しはMarkdown側で記述します。
 
 ## 論文データ
 

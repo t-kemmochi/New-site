@@ -1,0 +1,10 @@
+{{- /* Hugoの標準ページ送り用。個別HTMLを生成しない内部レコード。 */ -}}
+{{- .EnableAllLanguages -}}
+{{- range hugo.Data.projects -}}
+  {{- $.AddPage (dict
+    "path" (printf "data-%s" .id)
+    "title" .id
+    "params" (dict "project_id" .id "period_start" .period_start)
+    "build" (dict "render" "never" "list" "local" "publishResources" false)
+  ) -}}
+{{- end -}}

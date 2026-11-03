@@ -1,0 +1,30 @@
+{{- $conditions := dict "page" .Page -}}
+{{- if and .Params (not .IsNamedParams) -}}
+  {{- errorf "cv_grants: id・is_PIの名前付き引数を使ってください。%s" .Position -}}
+{{- else -}}
+  {{- range $key, $value := .Params -}}
+    {{- if eq $key "id" -}}
+      {{- if not $value -}}{{- errorf "cv_grants: idを空にしないでください。%s" $.Position -}}{{- end -}}
+      {{- $conditions = merge $conditions (dict "id" (printf "%v" $value)) -}}
+    {{- else if eq $key "is_PI" -}}
+      {{- $flag := printf "%v" $value -}}
+      {{- if not (in (slice "true" "false") $flag) -}}
+        {{- errorf "cv_grants: is_PIはtrueまたはfalseにしてください。%s" $.Position -}}
+      {{- else -}}{{- $conditions = merge $conditions (dict "is_PI" (eq $flag "true")) -}}{{- end -}}
+    {{- else -}}{{- errorf "cv_grants: 未対応の引数 %q。%s" $key $.Position -}}{{- end -}}
+  {{- end -}}
+  {{- with partial "projects/select.html" $conditions -}}
+    <ul class="cv-grants">
+      {{- range . -}}
+        {{- $ja := eq $.Page.Site.Language.Lang "ja" -}}
+        <li>{{ .grant_type }} ({{ if $ja }}課題番号: {{ else }}Grant ID: {{ end }}<a href="{{ .href }}"{{ if .external }} rel="external"{{ end }}>{{ .grant_id }}</a>)<br>
+          {{- .title -}}<br>
+          {{- partial "cv/date.html" (dict "date" .period_start "language" $.Page.Site.Language.Lang) -}}
+          {{- if $ja }}～{{ else }} – {{ end -}}
+          {{- partial "cv/date.html" (dict "date" .period_end "language" $.Page.Site.Language.Lang) -}}
+          {{- if not (index . "is_PI") -}}<br>{{ if $ja }}研究代表者: {{ else }}Principal Investigator: {{ end }}{{ .principal_investigator }}{{- end -}}
+        </li>
+      {{- end -}}
+    </ul>
+  {{- end -}}
+{{- end -}}

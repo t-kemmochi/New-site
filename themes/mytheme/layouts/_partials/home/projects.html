@@ -1,13 +1,8 @@
-{{ $current := slice }}
-{{ range where .Site.RegularPages "Type" "project" }}
-  {{ if eq (partial "projects/state.html" .) "current" }}
-    {{ $current = $current | append . }}
-  {{ end }}
-{{ end }}
-{{ with $current }}
+{{ $page := . }}
+{{ with partial "projects/select.html" (dict "page" . "state" "current") }}
   <ul class="project-list home-projects-list" role="list">
-    {{ range $i, $page := sort . "Params.period_start" "desc" }}
-      {{ partial "projects/item.html" (dict "page" $page "archive" false "id" (printf "home-project-%d" $i)) }}
+    {{ range $i, $project := . }}
+      {{ partial "projects/item.html" (dict "page" $page "project" $project "archive" false "id" (printf "home-project-%d" $i)) }}
     {{ end }}
   </ul>
 {{ end }}

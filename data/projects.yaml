@@ -1,0 +1,85 @@
+# 日英共通の外部資金データ。先頭3件は表示確認用の既存ダミーです。
+# 日本語・英語で異なる文字列はja/enで指定。urlは必ずja/enで指定し、別言語へフォールバックしません。
+# external=falseのurlは、各言語で解決するサイト内ページのパスです。
+# 15J07471はユーザー提供の情報。英語の題目・研究種別は表示用の訳です。
+- id: 26K00001
+  grant_id: 26K00001
+  grant_type:
+    ja: 科研費 若手研究
+    en: JSPS KAKENHI Early-Career Scientists
+  title:
+    ja: 【ダミー】数理モデルの解析
+    en: '[Dummy] Analysis of mathematical models'
+  role:
+    ja: 研究代表者
+    en: Principal investigator
+  principal_investigator:
+    ja: 山田 太郎
+    en: Taro Yamada
+  is_PI: true
+  period_start: '2026-04'
+  period_end: '2029-03'
+  external: false
+  url:
+    ja: /project/sample-current-1
+    en: /project/sample-current-1
+- id: 25H00002
+  grant_id: 25H00002
+  grant_type:
+    ja: 科研費 基盤研究(B)
+    en: JSPS KAKENHI Scientific Research (B)
+  title:
+    ja: 【ダミー】計算手法の開発
+    en: '[Dummy] Development of computational methods'
+  role:
+    ja: 研究分担者
+    en: Co-investigator
+  principal_investigator:
+    ja: 山田 太郎
+    en: Taro Yamada
+  is_PI: false
+  period_start: '2025-04'
+  period_end: '2028-03'
+  external: true
+  url:
+    ja: https://example.com/projects/25H00002/
+    en: https://example.com/projects/25H00002/
+- id: 22K00003
+  grant_id: 22K00003
+  grant_type:
+    ja: 科研費 若手研究
+    en: JSPS KAKENHI Early-Career Scientists
+  title:
+    ja: 【ダミー】計算環境の整備
+    en: '[Dummy] Computational environment setup'
+  role:
+    ja: 研究代表者
+    en: Principal investigator
+  principal_investigator:
+    ja: 山田 太郎
+    en: Taro Yamada
+  is_PI: true
+  period_start: '2022-04'
+  period_end: '2025-03'
+  external: true
+  url:
+    ja: https://example.com/projects/22K00003/
+    en: https://example.com/projects/22K00003/
+- id: 15J07471
+  grant_id: 15J07471
+  grant_type:
+    ja: 科研費 特別研究員奨励費
+    en: JSPS KAKENHI Grant-in-Aid for JSPS Fellows
+  title:
+    ja: 離散最大正則性とその有限要素法・有限体積法への応用
+    en: Discrete maximal regularity and its applications to finite element and finite volume methods
+  role:
+    ja: 研究代表者
+    en: Principal investigator
+  is_PI: true
+  period_start: '2015-04'
+  period_end: '2018-03'
+  external: true
+  url:
+    ja: https://kaken.nii.ac.jp/grant/KAKENHI-PROJECT-15J07471/
+    en: https://kaken.nii.ac.jp/en/grant/KAKENHI-PROJECT-15J07471/

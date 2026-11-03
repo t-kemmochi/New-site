@@ -7,12 +7,21 @@
     {{ if not (findRE `^[1-9][0-9]*$` (printf "%v" $size)) }}
       {{ errorf "project: page_size は1以上の整数を指定してください：%s" .Path }}
     {{ else }}
-      {{ $pages := sort .RegularPages "Params.period_start" "desc" }}
-      {{ $pager := .Paginate $pages (int $size) }}
+      {{ $projects := partial "projects/select.html" (dict "page" .) }}
+      {{ $page := . }}
+      {{ $byID := dict }}
+      {{ $ids := slice }}
+      {{ range $projects }}
+        {{ $byID = merge $byID (dict .id .) }}
+        {{ $ids = $ids | append .id }}
+      {{ end }}
+      {{ $records := where .RegularPages "Params.project_id" "in" $ids }}
+      {{ $pager := .Paginate (sort $records "Params.period_start" "desc") (int $size) }}
       {{ with $pager.Pages }}
         <div class="project-list archive-list">
-          {{ range $i, $page := . }}
-            {{ partial "projects/item.html" (dict "page" $page "archive" true "id" (printf "archive-project-%d" $i)) }}
+          {{ range $i, $record := . }}
+            {{ $project := index $byID $record.Params.project_id }}
+            {{ partial "projects/item.html" (dict "page" $page "project" $project "archive" true "id" (printf "archive-project-%d" $i)) }}
           {{ end }}
         </div>
       {{ end }}

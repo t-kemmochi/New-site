@@ -6,7 +6,7 @@ type: page
 math: true
 ---
 
-**This is a dummy CV for layout testing. All appointments, institutions, service roles, awards, and grants below are fictional and do not represent actual achievements.**
+**This is a dummy CV for layout testing. The appointments, institutions, service roles, and awards below are fictional. Grants are drawn from the shared project data, which includes dummy records and the user-provided grant 15J07471.**
 
 ## Career
 
@@ -107,38 +107,8 @@ University D
 
 ### Principal Investigator
 
-{{< cv_list layout="list" >}}
-
-{{< cv_entry start="2025-04" end="present" >}}
-**[Structure-Preserving Numerical Methods (Sample)](https://example.com/grants/dummy-2025-01)**
-
-Fictional Research Grant A · Principal Investigator
-
-Grant ID: `DUMMY-2025-01`
-{{< /cv_entry >}}
-
-{{< cv_entry start="2020-04" end="2023-03" >}}
-**Numerical Analysis of Partial Differential Equations (Sample)**
-
-Fictional Research Grant B · Principal Investigator
-
-Grant ID: `DUMMY-2020-02`
-{{< /cv_entry >}}
-
-{{< /cv_list >}}
+{{< cv_grants is_PI=true >}}
 
 ### Co-Investigator
 
-{{< cv_list layout="list" >}}
-
-{{< cv_entry start="2022-04" end="2026-03" >}}
-**Foundations of Scientific Computing (Sample)**
-
-Fictional Collaborative Research Grant C · Co-Investigator
-
-Principal Investigator: Sample Researcher B
-
-Grant ID: `DUMMY-2022-03`
-{{< /cv_entry >}}
-
-{{< /cv_list >}}
+{{< cv_grants is_PI=false >}}

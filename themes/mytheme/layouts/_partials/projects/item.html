@@ -1,33 +1,24 @@
 {{ $page := .page }}
 {{ $archive := .archive }}
 {{ $ja := eq $page.Site.Language.Lang "ja" }}
-{{ $link := partial "projects/link.html" $page }}
-{{ $state := partial "projects/state.html" $page }}
-{{ $period := printf "%s–%s" (replace $page.Params.period_start "-" ".") (replace $page.Params.period_end "-" ".") }}
-{{ if ne (printf "%T" $page.Params.role) "string" }}
-  {{ errorf "project: role は表示用の文字列を指定してください：%s" $page.Path }}
-{{ end }}
-{{ if ne (printf "%T" $page.Params.is_pi) "bool" }}
-  {{ errorf "project: is_PI はtrueまたはfalseで指定してください：%s" $page.Path }}
-{{ end }}
-{{ if and (not $page.Params.is_pi) (not $page.Params.principal_investigator) }}
-  {{ errorf "project: is_PI=false では principal_investigator が必須です：%s" $page.Path }}
-{{ end }}
+{{ $project := .project }}
+{{ $state := $project.state }}
+{{ $period := printf "%s–%s" (replace $project.period_start "-" ".") (replace $project.period_end "-" ".") }}
 {{ if $archive }}<article class="project-item">{{ else }}<li class="project-item">{{ end }}
-  <a class="project-card{{ if $archive }} archive-card{{ end }}" href="{{ $link.href }}"{{ if $link.external }} rel="external"{{ end }} aria-labelledby="{{ .id }}">
+  <a class="project-card{{ if $archive }} archive-card{{ end }}" href="{{ $project.href }}"{{ if $project.external }} rel="external"{{ end }} aria-labelledby="{{ .id }}">
     <div class="project-meta project-topline">
-      <span>{{ $page.Params.grant_type }}</span>
-      <span>{{ $page.Params.grant_id }}</span>
+      <span>{{ $project.grant_type }}</span>
+      <span>{{ $project.grant_id }}</span>
     </div>
     {{ if $archive }}
-      <h2 class="project-title archive-title" id="{{ .id }}">{{ $page.Title }}</h2>
+      <h2 class="project-title archive-title" id="{{ .id }}">{{ $project.title }}</h2>
     {{ else }}
-      <h3 class="project-title" id="{{ .id }}">{{ $page.Title }}</h3>
+      <h3 class="project-title" id="{{ .id }}">{{ $project.title }}</h3>
     {{ end }}
     <div class="project-meta project-role">
-      <span>{{ $page.Params.role }}</span>
-      {{ if not $page.Params.is_pi }}
-        <span>{{ if $ja }}研究代表者：{{ else }}PI: {{ end }}{{ $page.Params.principal_investigator }}</span>
+      <span>{{ $project.role }}</span>
+      {{ if not (index $project "is_PI") }}
+        <span>{{ if $ja }}研究代表者：{{ else }}PI: {{ end }}{{ $project.principal_investigator }}</span>
       {{ end }}
     </div>
     {{ if $archive }}

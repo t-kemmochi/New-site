@@ -45,6 +45,7 @@ In development, CSS and the main JavaScript file are not minified, and source ma
 | `content/home/` | The hero and individual home page sections |
 | `data/publications.yaml` | Publication data shared by both languages |
 | `data/talks.yaml` | Talk data shared by both languages |
+| `data/projects.yaml` | Grant data shared by the home page, project list, and CV |
 | `archetypes/` | Content templates used by `hugo new` |
 | `themes/mytheme/layouts/` | Page templates, partials, and shortcodes |
 | `themes/mytheme/assets/css/` | Reset, shared, and component styles |
@@ -190,25 +191,49 @@ The rest of the body appears on the individual page.
 
 Set `page_size` in each list's `_index.*.md` to change the number of items per page. The default is 3.
 
-### Research projects
+### Research projects and grants
 
-Project content uses the following custom front matter. Start from the archetype and fill in the values.
+Edit **`data/projects.yaml`**. The home page, project list, and CV share this data; individual Markdown pages are no longer the source of project metadata.
 
-| Parameter | Description |
+```yaml
+- id: '15J07471'
+  grant_id: '15J07471'
+  grant_type:
+    ja: 科研費 特別研究員奨励費
+    en: JSPS KAKENHI Grant-in-Aid for JSPS Fellows
+  title:
+    ja: 離散最大正則性とその有限要素法・有限体積法への応用
+    en: Discrete maximal regularity and its applications to finite element and finite volume methods
+  role:
+    ja: 研究代表者
+    en: Principal investigator
+  is_PI: true
+  period_start: '2015-04'
+  period_end: '2018-03'
+  external: true
+  url:
+    ja: https://kaken.nii.ac.jp/grant/KAKENHI-PROJECT-15J07471/
+    en: https://kaken.nii.ac.jp/en/grant/KAKENHI-PROJECT-15J07471/
+```
+
+| Field | Description |
 | --- | --- |
-| `type: project` | Treats the content as a project |
-| `title` | Research project title |
-| `grant_type` / `grant_id` | Grant type and grant number |
-| `role` | A string describing the role to display |
-| `is_PI` | `true` for the principal investigator; otherwise `false` |
-| `principal_investigator` | The PI's name; required when `is_PI: false` |
-| `period_start` / `period_end` | Start and end months as quoted `"YYYY-MM"` strings |
-| `external` | Whether to link to an external page; defaults to `true` |
-| `external_url` | An HTTP(S) URL; required when `external: true` |
+| `id` | A unique string used for individual selection in the CV |
+| `grant_id` | The displayed grant number, as a string |
+| `title` / `grant_type` / `role` | Title, grant type, and role; a shared string or a `ja`/`en` mapping |
+| `is_PI` | Required boolean: `true` for the PI, `false` for a co-investigator |
+| `principal_investigator` | Required when `is_PI: false`; a string or language mapping |
+| `period_start` / `period_end` | Start and end months as quoted `'YYYY-MM'` strings |
+| `external` | Defaults to `true`; external URL when `true`, internal page when `false` |
+| `url` | A required `ja`/`en` mapping. An absolute HTTP(S) URL, or an internal page path when `external: false`. A missing URL for the current language is an error |
 
-For projects that only link externally, retain `render: never` inside the archetype's `build` mapping. To create an individual page, set `external: false` and set `render: always` within `build`.
+Text mappings fall back to Japanese when English is missing. URLs do not fall back to another language: provide both `url.ja` and `url.en`. They may have the same value when the destination is shared. Review translated titles and other labels as needed. The first three existing entries are dummy data; grant 15J07471 was provided by the user.
 
-Project status is calculated automatically from the start and end months and the **month at build time**, rather than from a `status` field. A project remains current through its end month and is completed from the following month. Rebuild the site when the month changes to update the status.
+To add an individual page, create a regular Markdown page and set `external: false` and, for example, `url.ja: /project/example` and `url.en: /project/example` as a nested mapping in the data. The paths may differ between languages. `hugo new content --kind project project/example.ja.md` creates a minimal template for that body. Internal links account for the current language and deployment subdirectory. External-only projects need no Markdown page. Existing external-only sample Markdown files are retained for reference with rendering and listing disabled.
+
+Status is calculated from the period and build month: upcoming before the start month, current through the end month, and completed thereafter. The home page shows only current projects; the full list and CV include completed grants, sorted by start month from newest to oldest. Rebuild when the month changes.
+
+`content/project/_content.gotmpl` generates internal records for Hugo's standard pagination. These records do not produce individual HTML pages. Optional individual pages are separate regular Markdown pages.
 
 ### Mathematics and code
 
@@ -363,9 +388,25 @@ Common indentation is removed automatically, while relative indentation within t
   {{< cv_period date="2024-06" >}}
 ```
 
-`cv_period` does not require a closing tag. It accepts the same date arguments as `cv_entry` and outputs dates using `p` and `time` elements without creating another list. Using `date` alone is fully supported. `present` is displayed as “現在” in Japanese and “Present” in English.
+`cv_period` does not require a closing tag. It accepts the same date arguments as `cv_entry` and outputs dates using `p` and `time` elements without creating another list. Using `date` alone is fully supported. `present` is displayed as “現在” in Japanese and “Present” in English. CV months are localized, for example as `2026年11月` or `November 2026`, while `time` elements retain YYYY-MM in their datetime attributes.
 
 The outer list uses filled bullets, and nested `cv_list layout="list"` items use hollow bullets. Spacing is added below the date, rather than above it.
+
+### `cv_grants`: grant lists
+
+```markdown
+### Principal Investigator
+{{< cv_grants is_PI=true >}}
+
+### Co-Investigator
+{{< cv_grants is_PI=false >}}
+
+{{< cv_grants id="15J07471" >}}
+```
+
+Reads `data/projects.yaml` and outputs ordinary `ul`/`li` elements. `is_PI` is an optional boolean; omitting it includes all roles. The optional `id` selects one grant. Both arguments are combined with AND. Unknown IDs, unsupported arguments, and invalid boolean values cause build errors.
+
+Each item contains the grant type and linked grant number, title, period, and—only for co-investigators—the PI's name, separated by line breaks. Grant numbers link to the record's `url`, and periods are localized for the page language. Write headings in Markdown outside the shortcode.
 
 ## Publication data
 

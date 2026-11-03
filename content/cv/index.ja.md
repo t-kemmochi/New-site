@@ -117,22 +117,8 @@ math: true
 
 ### 研究代表者
 
-- **[構造保存型数値解法に関する研究（ダミー）](https://example.com/grants/dummy-2025-01)**  
-架空研究助成A・研究代表者  
-課題番号：`DUMMY-2025-01`  
-{{< cv_period 
-  start="2025-04" 
-  end="present" 
->}}
-- **偏微分方程式の数値解析（ダミー）**  
-架空研究助成B・研究代表者  
-課題番号：`DUMMY-2020-02`  
-{{< cv_period start="2020-04" end="2023-03" >}}
+{{< cv_grants is_PI=true >}}
 
 ### 研究分担者
 
-- **科学技術計算の基盤手法（ダミー）**  
-架空共同研究助成C・研究分担者  
-研究代表者：サンプル研究者B  
-課題番号：`DUMMY-2022-03`
-{{< cv_period start="2022-04" end="2026-03" >}}
+{{< cv_grants is_PI=false >}}
