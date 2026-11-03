@@ -10,5 +10,5 @@ widget: "section"
 
 ### Explore more
 
-{{< cta text="Publications" url="/publication" >}}
+{{< cta text="Publications" url="/publications" >}}
 {{< cta text="Talks" url="/talks" >}}

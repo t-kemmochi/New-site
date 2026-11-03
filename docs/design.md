@@ -213,7 +213,7 @@
 ### コンテンツの分類
 
 - `publication`・`project`・`news`・`memo` はHugoのコンテンツ種別（`type`）として扱う。
-- 推奨配置は、それぞれ `content/publication/`・`content/project/`・`content/news/`・`content/memo/`。
+- 推奨配置は、それぞれ `content/publications/`・`content/project/`・`content/news/`・`content/memo/`。
 - 通常のページは従来のデフォルトarchetypeを利用できる。
 - news・memoはカテゴリではなく種別で区別する。news個別記事は共通のpage.html、memo個別記事は日付欄を加えるmemo/page.htmlを使う。本文は同じ共通部品で表示する。
 - カテゴリやタグは、必要に応じて種別とは別に付けられる。
@@ -224,7 +224,6 @@
 リポジトリのルートで、以下のように作成する。`hugo` にPATHが通っていない場合、このクラウド環境では `/workspace/.local/hugo/hugo` を使用する。
 
 ```sh
-hugo new content --kind publication publication/example.ja.md
 hugo new content --kind project project/example.ja.md
 hugo new content --kind news news/example.ja.md
 hugo new content --kind memo memo/example.ja.md
@@ -232,6 +231,7 @@ hugo new content --kind memo memo/example.ja.md
 
 - 英語版は同じファイル名の `.en.md` とする。
 - 各archetypeは `type`・`date`・`draft: true` を設定する。公開する場合はdraftをfalseにする。
+- 論文はdata/publications.yamlに追加するため、publication用archetypeは設けない。
 - projectは `period_start`・`period_end` とビルド年月から状態を自動判定する。手動のstatusは使わない。
 
 ### ウィジェットの動作
@@ -267,7 +267,7 @@ CTA自体にfont-familyを指定せず、本文のOpen Sans・LINE Seed JPを継
 SVGはassets/icon/chevron-right.svgをCSSマスクで参照し、文字色に追従させる。Hugoが生成するURLを使用し、公開先サブディレクトリにも対応する。
 
 ```markdown
-{{< cta text="View publications" url="/publication" >}}
+{{< cta text="View publications" url="/publications" >}}
 {{< cta text="View news" url="/news" external=false >}}
 {{< cta text="Jump to research" url="#research" >}}
 {{< cta text="External website" url="https://example.com/" external=true >}}
@@ -332,7 +332,7 @@ SVGはassets/icon/chevron-right.svgをCSSマスクで参照し、文字色に追
 
 - ヒーローを除く4セクションの日英Markdownに `cta` ショートコードを配置する。
 - ResearchはCVへリンクする（日英とも `/cv`）。研究紹介の独立ページは未作成のため、既存の略歴ページを案内する。
-- publications・projects・newsは、それぞれ `/publication`・`/project`・`/news` の一覧へリンクする。
+- publications・projects・newsは、それぞれ `/publications`・`/project`・`/news` の一覧へリンクする。
 - 日本語の文言は「略歴を見る」「論文一覧を見る」「プロジェクト一覧を見る」「お知らせ一覧を見る」。英語は「View CV」「View all publications」「View all projects」「View all news」。
 - 一覧型ウィジェットは、自動生成した一覧の後ろにMarkdown本文を表示し、本文末尾のCTAが一覧の下に来るようにする。
 - ヒーローには今回CTAを追加しない。
@@ -455,7 +455,7 @@ SVGはassets/icon/chevron-right.svgをCSSマスクで参照し、文字色に追
 
 ## 23. 論文一覧とショートコード
 
-日英の `content/publication/_index.*.md` に見出しとショートコードを置く。論文情報そのものは共通YAMLだけを編集する。
+日英の `content/publications/_index.*.md` に見出しとショートコードを置く。論文情報そのものは共通YAMLだけを編集する。
 
 ```markdown
 ## Preprints
@@ -588,7 +588,7 @@ x &= y + 2
 
 ### Explore more
 
-{{< cta text="論文一覧" url="/publication" >}}
+{{< cta text="論文一覧" url="/publications" >}}
 {{< cta text="講演一覧" url="/talks" >}}
 ```
 
@@ -783,7 +783,7 @@ x &= y + 2
 | 対象 | ページテンプレート・内容の置き場所 |
 | --- | --- |
 | CV | 共通page.html、content/cv/index.*.mdのMarkdown見出しとcv_list/cv_entry |
-| 論文一覧 | 共通section.html、content/publication/_index.*.mdとpublications |
+| 論文一覧 | 共通section.html、content/publications/_index.*.mdとpublications |
 | 講演一覧 | 共通section.html、content/talks/_index.*.mdとtalks |
 | 通常の個別記事・任意の汎用セクション | 共通page.html/section.htmlとMarkdown本文 |
 | メモ個別ページ | 専用memo/page.htmlから共通本文部品を呼び出し、日付のみ追加 |
