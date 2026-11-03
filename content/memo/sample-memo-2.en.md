@@ -1,10 +1,10 @@
-+++
-title = "[Dummy] Recording computational experiments"
-date = '2026-09-02T12:00:00+09:00'
-lastmod = '2026-09-08T12:00:00+09:00'
-draft = false
-type = "memo"
-+++
+---
+title: '[Dummy] Recording computational experiments'
+date: "2026-09-02T12:00:00+09:00"
+lastmod: "2026-09-08T12:00:00+09:00"
+draft: false
+type: memo
+---
 
 This is dummy content for display testing. It does not describe real publications, research activities, or achievements.
 

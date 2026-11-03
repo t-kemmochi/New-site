@@ -1,6 +1,6 @@
 <li class="publication-archive-item">
   <div class="publication-bibliography">
-    {{ with partial "publications/authors.html" . }}{{ . }}. {{ end }}<strong>{{ .title }}</strong>. {{ partial "publications/citation-details.html" . }}
+    {{ with partial "publications/authors.html" . }}{{ . }}. {{ end }}<strong>{{ .title }}</strong>.{{ if and (eq .kind "preprint") .arxiv }} <span class="publication-arxiv">arXiv:{{ .arxiv }}</span>.{{ end }}{{ with partial "publications/citation-details.html" . }} {{ . }}{{ end }}
   </div>
   {{- $links := .links | default slice -}}
   {{- $paperID := .id -}}
@@ -8,6 +8,7 @@
     {{- if not (findRE `^10\.[0-9]{4,9}/[^\s]+$` .) -}}
       {{- errorf "論文 %q: doi は10.xxxx/から始まる識別子を指定してください。" $paperID -}}
     {{- else -}}
+      <div class="publication-archive-doi">DOI: {{ . }}</div>
       {{- $links = (slice (dict "label" "DOI" "url" (printf "https://doi.org/%s" .))) | append $links -}}
     {{- end -}}
   {{- end -}}

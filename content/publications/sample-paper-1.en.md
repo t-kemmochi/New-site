@@ -1,9 +1,9 @@
-+++
-title = "[Dummy] Comparing numerical methods"
-date = '2026-09-01T12:00:00+09:00'
-draft = false
-type = "publication"
-+++
+---
+title: '[Dummy] Comparing numerical methods'
+date: "2026-09-01T12:00:00+09:00"
+draft: false
+type: publication
+---
 
 This is dummy content for display testing. It does not describe real publications, research activities, or achievements.
 

@@ -174,7 +174,7 @@ hugo new content --kind memo memo/example.ja.md
 hugo new content --kind project project/example.ja.md
 ```
 
-Archetypes normally set `draft = true`. Change it to `false` when the content is ready to publish. Create the English version in the same location with the `.en.md` suffix. When a translation is unavailable, the language switcher links to the other language's home page.
+Archetypes and existing Markdown files use YAML front matter enclosed by `---` delimiters. Archetypes normally set `draft: true`. Change it to `false` when the content is ready to publish. Create the English version in the same location with the `.en.md` suffix. When a translation is unavailable, the language switcher links to the other language's home page.
 
 News uses `date` as the title and ignores `title` even if it is specified. Memo uses `title`, `date`, and an optional `lastmod`.
 
@@ -206,7 +206,7 @@ Project content uses the following custom front matter. Start from the archetype
 | `external` | Whether to link to an external page; defaults to `true` |
 | `external_url` | An HTTP(S) URL; required when `external: true` |
 
-For projects that only link externally, retain `build.render = 'never'` from the archetype. To create an individual page, set both `external = false` and `build.render = 'always'`.
+For projects that only link externally, retain `render: never` inside the archetype's `build` mapping. To create an individual page, set `external: false` and set `render: always` within `build`.
 
 Project status is calculated automatically from the start and end months and the **month at build time**, rather than from a `status` field. A project remains current through its end month and is completed from the following month. Rebuild the site when the month changes to update the status.
 
@@ -410,12 +410,13 @@ This is fictional information illustrating the format. Replace the URLs and DOI 
 | `journal` | The journal name; italicized only for English papers |
 | `volume` / `number` / `pages` | Volume, issue, and pages; omit unavailable fields |
 | `article_number` | An article number; takes precedence over `pages` when specified |
+| `arxiv` | The arXiv ID, such as `'2308.02334'`. For `kind: preprint`, it is shown immediately after the title as plain text |
 | `doi` | The identifier starting with `10.`; do not include `https://doi.org/` |
 | `links` | Optional additional links: an array of `label` and absolute HTTP(S) `url` pairs |
 
 Records can be rendered before the journal, volume, issue, pages, or year are finalized; simply omit unavailable fields. Records without `date` can also be displayed, but enter a known year or date when a consistent chronological order is needed. When mixing existing year-only records with full dates, there is no need to invent unknown months or days.
 
-The DOI badge is generated automatically from `doi`. Add arXiv, video, PDF, and other links to `links`. The existing `arxiv` and `source_note` fields alone do not generate links or visible notes.
+The DOI is displayed as `DOI: identifier` below the bibliographic information and above the links, and a DOI link badge is also generated automatically from `doi`. Add arXiv, video, PDF, and other links to `links`. The `arxiv` field displays the identifier for preprints but does not automatically create a link. `source_note` is not displayed.
 
 `content/publications/sample-paper-*` contains samples from the earlier page-based approach and is not used as data for the current list. Add new papers to the YAML file.
 

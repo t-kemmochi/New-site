@@ -174,7 +174,7 @@ hugo new content --kind memo memo/example.ja.md
 hugo new content --kind project project/example.ja.md
 ```
 
-雛形は通常`draft = true`です。公開するときは`false`にします。英語版は同じ場所に`.en.md`で作ります。翻訳ページがないとき、言語切り替えは相手言語のトップへ移動します。
+archetypesと既存のMarkdownのフロントマターは、`---`で囲んだYAML形式に統一しています。雛形は通常`draft: true`です。公開するときは`false`にします。英語版は同じ場所に`.en.md`で作ります。翻訳ページがないとき、言語切り替えは相手言語のトップへ移動します。
 
 Newsは`date`をタイトルとして使い、`title`を指定しても表示には使いません。Memoは`title`・`date`と、任意の`lastmod`を使います。
 
@@ -206,7 +206,7 @@ Projectには次の独自フロントマターがあります。雛形を使っ�
 | `external` | 外部ページへリンクするか。省略時`true` |
 | `external_url` | `external: true`のとき必須のHTTP(S) URL |
 
-外部リンク専用の課題は、雛形の`build.render = 'never'`を維持します。個別ページを作る場合は`external = false`と`build.render = 'always'`をセットで指定します。
+外部リンク専用の課題は、雛形の`build`内の`render: never`を維持します。個別ページを作る場合は`external: false`と`build`内の`render: always`をセットで指定します。
 
 ステータスは`status`で指定せず、開始・終了年月と**ビルド時の年月**から自動判定します。終了月までは継続中、翌月から完了です。年月が変わったら再ビルドが必要です。
 
@@ -410,12 +410,13 @@ Projectには次の独自フロントマターがあります。雛形を使っ�
 | `journal` | 雑誌名。英語論文のみイタリック |
 | `volume` / `number` / `pages` | 巻・号・ページ。ない項目は省略可能 |
 | `article_number` | 論文番号。指定時は`pages`より優先 |
+| `arxiv` | arXivのID番号（例：`'2308.02334'`）。`kind: preprint`の場合はタイトル直後にリンクなしで表示 |
 | `doi` | `10.`から始まる識別子。`https://doi.org/`は付けない |
 | `links` | 任意の補足リンク。`label`とHTTP(S)の絶対`url`を組にした配列 |
 
 雑誌・巻号ページ・発行年が未確定でも、ない項目を省いて表示できます。`date`がないデータも表示可能ですが、新しい順を安定させたい場合は既知の年・日付を記入してください。年だけの既存データと日付を混在させる場合も、不明な月日を推測して埋める必要はありません。
 
-DOIのバッジは`doi`から自動生成します。arXiv・動画・PDFなどは`links`に追加してください。既存の`arxiv`や`source_note`フィールドだけではリンク・注記は表示しません。
+DOIは書誌情報の下・リンク群の上に`DOI: 識別子`として表示し、リンク用のバッジも`doi`から自動生成します。arXiv・動画・PDFなどへのリンクは`links`に追加してください。`arxiv`はプレプリントの番号表示に使いますが、自動でリンクにはしません。`source_note`は表示しません。
 
 `content/publications/sample-paper-*`は以前のページ方式のサンプルで、現在の一覧データには使っていません。新しい論文はYAMLに追加します。
 

@@ -28,11 +28,13 @@
   --drawer-duration: 200ms;
 }
 
-/* 現在位置とその親項目はホバーしていないときも下線で示す。 */
-.site-menu a.is-current,
-.site-menu a.is-ancestor {
-  text-decoration: underline;
-  text-underline-offset: var(--menu-underline-offset);
+/* PCでは現在位置とその親項目を常時下線で示す。 */
+@media (width >= 75rem) {
+  .site-menu a.is-current,
+  .site-menu a.is-ancestor {
+    text-decoration: underline;
+    text-underline-offset: var(--menu-underline-offset);
+  }
 }
 
 .menu-toggle,

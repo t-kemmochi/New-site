@@ -86,7 +86,7 @@
 
 - 日英のメニュー定義だけをconfig/_default/languages.yamlに分離する。Hugo標準の設定統合でhugo.tomlの言語設定と組み合わせ、既存の.Site.Menus.main・IsMenuCurrent・HasMenuCurrentで描画・現在位置の判定を行う。PCとハンバーガーメニューで共通に使う。
 - YAMLはja/enのmenus.mainにidentifier・name・pageRef・weightを指定する。weightの小さい順に表示し、ホームはpageRef: /で指定する。サイト名・言語・説明などはhugo.tomlに維持する。
-- 現在の項目（is-current）と閲覧中ページの親項目（is-ancestor）は、PC・モバイルともホバーせずに下線を表示する。現在のページにはaria-current="page"を付ける。
+- 現在の項目（is-current）と閲覧中ページの親項目（is-ancestor）は、PC（75rem以上）のみ常時下線を表示する。スマホ・タブレットでは常時下線を付けず、背景色で現在位置を示す。通常のホバー時の下線は維持し、現在のページにはaria-current="page"を付ける。
 
 | 日本語版 | 英語版 |
 | --- | --- |
@@ -235,6 +235,7 @@ hugo new content --kind memo memo/example.ja.md
 
 - 英語版は同じファイル名の `.en.md` とする。
 - 各archetypeは `type`・`date`・`draft: true` を設定する。公開する場合はdraftをfalseにする。
+- archetypesと既存Markdown（テーマ内のサンプルを含む）のフロントマターは、---で囲むYAML形式に統一する。buildの設定は入れ子のマッピング、タグ等は配列として保持する。hugo.tomlの設定形式は変更しない。
 - 論文はdata/publications.yamlに追加するため、publication用archetypeは設けない。
 - projectは `period_start`・`period_end` とビルド年月から状態を自動判定する。手動のstatusは使わない。
 
@@ -411,8 +412,8 @@ SVGはassets/icon/chevron-right.svgをCSSマスクで参照し、文字色に追
 
 ### HTML出力とリンク先
 
-- 外部専用課題は `external = true` と `[build] render = 'never'` を組にする。`list = 'always'` で一覧からの取得を維持し、`publishResources = false` とする。
-- 内部ページを作る課題は `external = false` と `[build] render = 'always'` を組にする。必要なら `publishResources = true` にする。
+- 外部専用課題は `external: true` と `build`内の`render: never`を組にする。`list: always`で一覧からの取得を維持し、`publishResources: false`とする。
+- 内部ページを作る課題は `external: false` と `build`内の`render: always`を組にする。必要なら `publishResources: true`にする。
 - externalだけではHugoの出力を変更できない。設定が不整合の場合はビルドエラーで通知する。
 - カード全体が1つのリンク。外部専用ならexternal_url、内部ページなら言語別RelPermalinkへ移動する。外部リンクも同じタブで開く。
 - 課題内にはCTAなど別のリンクを入れない。カードのリンク名は課題名で指定する。
@@ -481,6 +482,8 @@ SVGはassets/icon/chevron-right.svgをCSSマスクで参照し、文字色に追
 - 未対応引数や不正な真偽値・limitはビルドエラーとする。
 - 結果がある場合だけ `<ol reversed start="件数">` を出力する。番号はカテゴリごとに件数から1へ減る。
 - 一覧は著者名、太字タイトル、雑誌名、巻号ページまたは記事番号、発行年の順。省略された書誌項目はラベルごと省く。
+- kind: preprintでarxivがある場合は、タイトル直後にarXiv:番号をリンクなしの通常テキストで表示する。
+- doiがある場合は書誌情報の下・補足リンク群の上にDOI: 識別子をリンクなしの通常テキストで表示する。既存のDOIリンクは維持する。
 - 色は通常本文色を継承し、雑誌名は論文が英語の場合のみ斜体とする。
 - 項目に枠を付けず、ホバー・focus-within時は薄いグレー `#f5f5f5` の背景を表示する。項目全体をリンクにはしない。
 - 書誌情報の後で改行し、doiがあれば大文字DOIリンク、その後にlinks配列のリンクを配置する。HTTP(S)の絶対URLとラベルを検証し、同じタブで開く。
@@ -513,7 +516,7 @@ SVGはassets/icon/chevron-right.svgをCSSマスクで参照し、文字色に追
 ## 24. MathJaxの条件付き読み込み
 
 - ページのフロントマターに真偽値 `math: true` を指定した場合だけMathJaxを読み込む。省略・falseの場合は読み込まない。文字列の"true"などはビルドエラー。
-- YAMLでは `math: true`、TOMLでは `math = true` と書く。通常ページのindex・単独Markdownと、一覧・トップの_indexのいずれにも適用する。
+- YAMLフロントマターに `math: true` と書く。通常ページのindex・単独Markdownと、一覧・トップの_indexのいずれにも適用する。
 - `head/math.html` はページごとに判定し、キャッシュしない。設定JS→MathJax本体の順にdeferで実行する。
 - 設定はassets/js/mathjax-config.jsに置き、Hugoで圧縮・ハッシュ付与する。本体は `https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js` を使う。
 - インラインは `$…$`、別行立ては `\[…\]`。AMSのalign・align*・equation・equation*・gather・gather*・alignat・multlineなどに対応する。
@@ -824,7 +827,7 @@ x &= y + 2
 - 右側にヘッダーと同じ緑背景のパネルを表示する。幅はタブレット22rem、スマートフォン20remを上限とし、狭い画面でも左側に最低3remの背景を残す。閉じるボタンは開くボタンと同じ位置に置き、通常時の枠と背景をなくした白いバツ印とする。操作範囲は2.75rem角を保ち、ハンバーガーと閉じるボタンのSVGは--menu-icon-size（初期値2rem）を共用する。
 - パネルは画面の高さいっぱいに表示する。下端の余白にはsafe-area-inset-bottomを加え、言語リンクをホームインジケーターと重ねない。高さ30rem未満では段間の余白を縮め、ナビゲーション部分だけをスクロールする。
 - 上段左側にサイト名（.Site.Title）と現在の言語のトップページへのリンク、右側に閉じるボタンを置く。その下にCV・Publications・Projects・Memo・Newsを縦に並べ、地球アイコン付きの言語リンクを最下部左側に置く。言語の表示・リンク先・現在位置の判定はPCと共通のパーシャルを使う。ハンバーガーと閉じるボタンはassets/icon/のSVGファイルをCSSマスクで参照する。
-- ナビゲーションの文字はMontserrat 400・白。言語リンクの文字・地球アイコン・枠も白。ホバー時は既存のヘッダーと同じ淡い白緑色と下線を使う。現在の項目・祖先の項目は常時下線を表示し、パネル背景に白を12%混ぜた、少し明るい緑背景とする。色は--drawer-background・--drawer-text-color・--drawer-link-hover-color・--drawer-current-backgroundで指定する。言語リンクは1rem、メニュー項目は--font-size-h3。高さの小さい画面ではナビゲーション部分だけをスクロールし、閉じるボタンは上部、言語リンクは下部に残す。
+- ナビゲーションの文字はMontserrat 400・白。言語リンクの文字・地球アイコン・枠も白。ホバー時は既存のヘッダーと同じ淡い白緑色と下線を使う。現在の項目・祖先の項目に常時下線は付けず、パネル背景に白を12%混ぜた、少し明るい緑背景で示す。色は--drawer-background・--drawer-text-color・--drawer-link-hover-color・--drawer-current-backgroundで指定する。言語リンクは1rem、メニュー項目は--font-size-h3。高さの小さい画面ではナビゲーション部分だけをスクロールし、閉じるボタンは上部、言語リンクは下部に残す。
 - パネル外は黒・不透明度45%で覆う。標準のdialog.showModal()で背景を操作不可にし、bodyを固定して背景スクロールを止める。閉じたら元のスクロール位置へ戻す。
 - 背景タップ・閉じるボタン・Escで閉じる。リンク選択時も閉じる。開いた際は閉じるボタンへフォーカスし、Tab/Shift+Tabはパネル内で循環させる。閉じたら開くボタンへフォーカスを戻す。PC幅へ広げた場合はパネルとスクロール固定を解除する。
 - 開閉はCSSで200msの移動と背景のフェードを行う。prefers-reduced-motion: reduceでは動きを省略する。閉じるアニメーションが終わるまでモーダル状態を維持する。

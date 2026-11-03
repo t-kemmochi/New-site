@@ -1,5 +1,5 @@
-+++
-date = '{{ .Date }}'
-draft = true
-type = "news"
-+++
+---
+date: '{{ .Date }}'
+draft: true
+type: news
+---
