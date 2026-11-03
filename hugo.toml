@@ -21,7 +21,7 @@ timeZone = 'Asia/Tokyo'
     hasCJKLanguage = true
 
     [languages.ja.params]
-      description = '研究者名の個人サイトです。研究内容、業績、略歴などを紹介します。'
+      description = '名城大学理工学部数学科の剱持智哉の個人サイトです. 偏微分方程式に対する数値解析の研究をしています.'
 
   [languages.en]
     label = 'EN'
@@ -30,38 +30,39 @@ timeZone = 'Asia/Tokyo'
     weight = 2
 
     [languages.en.params]
-      description = 'Personal website of Your Name, featuring research, publications, and biography.'
+      description = 'This is a personal website of Tomoya Kemmochi, curently in Department of Mathematics, Meijo University. I am working on numerical analysis for PDEs.'
 
+
+[[languages.ja.menus.main]]
+  identifier = 'home'
+  name = 'Home'
+  pageRef = '/'
+  weight = 10
 
 [[languages.ja.menus.main]]
   identifier = 'cv'
   name = 'CV'
   pageRef = '/cv'
-  weight = 10
+  weight = 20
 
 [[languages.ja.menus.main]]
   identifier = 'publication'
   name = 'Publications'
-  pageRef = '/publication'
-  weight = 20
+  pageRef = '/publications'
+  weight = 30
 
 [[languages.ja.menus.main]]
-  identifier = 'project'
-  name = 'Projects'
-  pageRef = '/project'
-  weight = 30
+  identifier = 'talk'
+  name = 'Talks'
+  pageRef = '/talks'
+  weight = 40
 
 [[languages.ja.menus.main]]
   identifier = 'memo'
   name = 'Memo'
   pageRef = '/memo'
-  weight = 40
-
-[[languages.ja.menus.main]]
-  identifier = 'news'
-  name = 'News'
-  pageRef = '/news'
   weight = 50
+
 
 [[languages.en.menus.main]]
   identifier = 'cv'
@@ -72,7 +73,7 @@ timeZone = 'Asia/Tokyo'
 [[languages.en.menus.main]]
   identifier = 'publication'
   name = 'Publications'
-  pageRef = '/publication'
+  pageRef = '/publications'
   weight = 20
 
 [[languages.en.menus.main]]
