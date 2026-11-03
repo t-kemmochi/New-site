@@ -39,7 +39,8 @@ hugo --minify      # 本番用ビルド。出力先はpublic/
 
 | パス | 役割 |
 | --- | --- |
-| `hugo.toml` | URL、言語、メニュー、コード表示、数式などの設定 |
+| `hugo.toml` | URL、言語、コード表示、数式などの設定 |
+| `config/_default/languages.yaml` | 日英のヘッダーナビゲーションメニュー |
 | `content/` | 日英のMarkdownページ |
 | `content/home/` | ヒーローとトップページの各セクション |
 | `data/publications.yaml` | 日英共通の論文情報 |
@@ -70,7 +71,6 @@ hugo --minify      # 本番用ビルド。出力先はpublic/
 | `defaultContentLanguage` / `defaultContentLanguageInSubdir` | 既定言語と`/ja/`を付ける設定 |
 | `timeZone` | 日付の解釈。現在は`Asia/Tokyo` |
 | `languages.ja.title` / `languages.en.title` | ヘッダーのサイト名・ホームへのリンクの表示名 |
-| `languages.*.menus.main` | 言語ごとのメニュー。`name`、`pageRef`、`weight`を編集する |
 | `services.googleAnalytics.id` | GA4測定ID。空欄なら計測コードを出力しない |
 | `markup.highlight` | Hugo内蔵のコード表示。現在は`noClasses = true`、`style = 'monokai'` |
 | `markup.goldmark.extensions.passthrough` | 数式の区切りをMarkdown処理から保護する設定 |
@@ -85,6 +85,29 @@ GA4の例：
 ```
 
 計測コードは本番ビルドだけに出力し、`hugo server`では出力しません。コードや計測の設定値をREADMEに書くだけでは有効にならず、`hugo.toml`を編集する必要があります。
+
+### ヘッダーメニューの設定
+
+メニューだけを**`config/_default/languages.yaml`**に分離しています。Hugoが`hugo.toml`と自動で統合する標準の設定ファイルです。言語名・サイト名などの設定は引き続き`hugo.toml`で管理します。
+
+```yaml
+ja:
+  menus:
+    main:
+      - identifier: cv
+        name: CV
+        pageRef: /cv
+        weight: 20
+en:
+  menus:
+    main:
+      - identifier: cv
+        name: CV
+        pageRef: /cv
+        weight: 10
+```
+
+これは1項目だけを抜き出した例です。`ja`・`en`それぞれの`menus.main`に項目を追加します。`identifier`はメニュー内で一意にし、`name`は表示名、`pageRef`は現在の言語のページパス、`weight`は小さい順の表示順です。ホームは`pageRef: /`を指定します。PCとハンバーガーメニューは同じ定義を使い、現在のページ・祖先ページの表示も従来どおりです。
 
 ## トップページの編集
 

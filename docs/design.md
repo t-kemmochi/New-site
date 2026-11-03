@@ -84,13 +84,16 @@
 
 ### 現在のメニュー設定
 
+- 日英のメニュー定義だけをconfig/_default/languages.yamlに分離する。Hugo標準の設定統合でhugo.tomlの言語設定と組み合わせ、既存の.Site.Menus.main・IsMenuCurrent・HasMenuCurrentで描画・現在位置の判定を行う。PCとハンバーガーメニューで共通に使う。
+- YAMLはja/enのmenus.mainにidentifier・name・pageRef・weightを指定する。weightの小さい順に表示し、ホームはpageRef: /で指定する。サイト名・言語・説明などはhugo.tomlに維持する。
+
 | 日本語版 | 英語版 |
 | --- | --- |
-| CV | CV |
-| Publications | Publications |
-| Projects | Projects |
-| Memo | Memo |
-| News | News |
+| Home | CV |
+| CV | Publications |
+| Publications | Projects |
+| Talks | Memo |
+| Memo | News |
 
 ### 未完成・未確定
 

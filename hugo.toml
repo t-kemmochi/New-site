@@ -32,67 +32,7 @@ timeZone = 'Asia/Tokyo'
     [languages.en.params]
       description = 'This is a personal website of Tomoya Kemmochi, curently in Department of Mathematics, Meijo University. I am working on numerical analysis for PDEs.'
 
-
-[[languages.ja.menus.main]]
-  identifier = 'home'
-  name = 'Home'
-  pageRef = '/'
-  weight = 10
-
-[[languages.ja.menus.main]]
-  identifier = 'cv'
-  name = 'CV'
-  pageRef = '/cv'
-  weight = 20
-
-[[languages.ja.menus.main]]
-  identifier = 'publication'
-  name = 'Publications'
-  pageRef = '/publications'
-  weight = 30
-
-[[languages.ja.menus.main]]
-  identifier = 'talk'
-  name = 'Talks'
-  pageRef = '/talks'
-  weight = 40
-
-[[languages.ja.menus.main]]
-  identifier = 'memo'
-  name = 'Memo'
-  pageRef = '/memo'
-  weight = 50
-
-
-[[languages.en.menus.main]]
-  identifier = 'cv'
-  name = 'CV'
-  pageRef = '/cv'
-  weight = 10
-
-[[languages.en.menus.main]]
-  identifier = 'publication'
-  name = 'Publications'
-  pageRef = '/publications'
-  weight = 20
-
-[[languages.en.menus.main]]
-  identifier = 'project'
-  name = 'Projects'
-  pageRef = '/project'
-  weight = 30
-
-[[languages.en.menus.main]]
-  identifier = 'memo'
-  name = 'Memo'
-  pageRef = '/memo'
-  weight = 40
-
-[[languages.en.menus.main]]
-  identifier = 'news'
-  name = 'News'
-  pageRef = '/news'
-  weight = 50
+# ヘッダーのメニュー定義は config/_default/languages.yaml で管理します。
 
 # Hugo内蔵のChromaでコードフェンスを静的にハイライトする。
 # 色をHTMLに含めるため、追加のCSS・JavaScriptやcodeパラメーターは不要。

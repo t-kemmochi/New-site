@@ -39,7 +39,8 @@ In development, CSS and the main JavaScript file are not minified, and source ma
 
 | Path | Purpose |
 | --- | --- |
-| `hugo.toml` | Settings for URLs, languages, menus, code highlighting, mathematics, and more |
+| `hugo.toml` | Settings for URLs, languages, code highlighting, mathematics, and more |
+| `config/_default/languages.yaml` | Japanese and English header navigation menus |
 | `content/` | Japanese and English Markdown pages |
 | `content/home/` | The hero and individual home page sections |
 | `data/publications.yaml` | Publication data shared by both languages |
@@ -70,7 +71,6 @@ In development, CSS and the main JavaScript file are not minified, and source ma
 | `defaultContentLanguage` / `defaultContentLanguageInSubdir` | The default language and whether to include `/ja/` in its URLs |
 | `timeZone` | Time zone used to interpret dates; currently `Asia/Tokyo` |
 | `languages.ja.title` / `languages.en.title` | The site name shown in the header as a link to the home page |
-| `languages.*.menus.main` | Menus for each language; edit `name`, `pageRef`, and `weight` |
 | `services.googleAnalytics.id` | The GA4 measurement ID; no tracking code is generated when empty |
 | `markup.highlight` | Hugo's built-in code highlighting; currently `noClasses = true` and `style = 'monokai'` |
 | `markup.goldmark.extensions.passthrough` | Protects mathematical delimiters from Markdown processing |
@@ -85,6 +85,29 @@ GA4 example:
 ```
 
 Tracking code is generated only for production builds, not when running `hugo server`. Writing a measurement ID in this README does not enable tracking; edit `hugo.toml` to configure it.
+
+### Header menu settings
+
+Only the menus are separated into **`config/_default/languages.yaml`**. This is a standard Hugo configuration file, automatically merged with `hugo.toml`. Language properties, site titles, and other settings remain in `hugo.toml`.
+
+```yaml
+ja:
+  menus:
+    main:
+      - identifier: cv
+        name: CV
+        pageRef: /cv
+        weight: 20
+en:
+  menus:
+    main:
+      - identifier: cv
+        name: CV
+        pageRef: /cv
+        weight: 10
+```
+
+This example shows just one item per language. Add entries under `menus.main` for `ja` and `en`. Keep each `identifier` unique within its menu. `name` is the display label, `pageRef` is a page path in the current language, and `weight` sets the order, lowest first. Use `pageRef: /` for the home page. Desktop and hamburger menus share these definitions, and current-page and ancestor highlighting continue to work as before.
 
 ## Editing the home page
 
