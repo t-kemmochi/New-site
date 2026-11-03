@@ -27,23 +27,23 @@ ja:
 en:
   menus:
     main:
+      - identifier: "home"
+        name: "Home"
+        pageRef: "/"
+        weight: 10
       - identifier: "cv"
         name: "CV"
         pageRef: "/cv"
-        weight: 10
+        weight: 20
       - identifier: "publication"
         name: "Publications"
         pageRef: "/publications"
-        weight: 20
-      - identifier: "project"
-        name: "Projects"
-        pageRef: "/project"
         weight: 30
+      - identifier: "talk"
+        name: "Talks"
+        pageRef: "/talks"
+        weight: 40
       - identifier: "memo"
         name: "Memo"
         pageRef: "/memo"
-        weight: 40
-      - identifier: "news"
-        name: "News"
-        pageRef: "/news"
         weight: 50
