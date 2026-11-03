@@ -2,69 +2,95 @@
 # 日本語・英語で異なる文字列はja/enで指定。urlは必ずja/enで指定し、別言語へフォールバックしません。
 # external=falseのurlは、各言語で解決するサイト内ページのパスです。
 # 15J07471はユーザー提供の情報。英語の題目・研究種別は表示用の訳です。
-- id: 26K00001
-  grant_id: 26K00001
+####################################################
+- id: 26K22267
+  grant_id: 26K22267
   grant_type:
-    ja: 科研費 若手研究
-    en: JSPS KAKENHI Early-Career Scientists
+    ja: 科研費 挑戦的研究 (萌芽)
+    en: JSPS KAKENHI Grant-in-Aid for Challenging Research (Exploratory)
   title:
-    ja: 【ダミー】数理モデルの解析
-    en: '[Dummy] Analysis of mathematical models'
-  role:
-    ja: 研究代表者
-    en: Principal investigator
-  principal_investigator:
-    ja: 山田 太郎
-    en: Taro Yamada
-  is_PI: true
-  period_start: '2026-04'
-  period_end: '2029-03'
-  external: false
-  url:
-    ja: /project/sample-current-1
-    en: /project/sample-current-1
-- id: 25H00002
-  grant_id: 25H00002
-  grant_type:
-    ja: 科研費 基盤研究(B)
-    en: JSPS KAKENHI Scientific Research (B)
-  title:
-    ja: 【ダミー】計算手法の開発
-    en: '[Dummy] Development of computational methods'
+    ja: 離散最大値原理を実現する非線形安定化有限要素法
+    en: Nonlinearly Stabilized Finite Element Methods that Preserve the Discrete Maximum Principle
   role:
     ja: 研究分担者
     en: Co-investigator
   principal_investigator:
-    ja: 山田 太郎
-    en: Taro Yamada
+    ja: 齊藤 宣一
+    en: Norikazu Saito
   is_PI: false
-  period_start: '2025-04'
-  period_end: '2028-03'
+  period_start: '2026-06'
+  period_end: '2029-03'
   external: true
   url:
-    ja: https://example.com/projects/25H00002/
-    en: https://example.com/projects/25H00002/
-- id: 22K00003
-  grant_id: 22K00003
+    ja: https://kaken.nii.ac.jp/grant/KAKENHI-PROJECT-26K22267/
+    en: https://kaken.nii.ac.jp/en/grant/KAKENHI-PROJECT-26K22267/
+####################################################
+- id: 25K17295
+  grant_id: 25K17295
   grant_type:
     ja: 科研費 若手研究
-    en: JSPS KAKENHI Early-Career Scientists
+    en: JSPS KAKENHI Grant-in-Aid for Early-Career Scientists
   title:
-    ja: 【ダミー】計算環境の整備
-    en: '[Dummy] Computational environment setup'
+    ja: 工学的諸問題に対する時空間有限要素法の数学解析
+    en: Mathematical analysis of space-time finite element methods for various problems arising in engineering
   role:
     ja: 研究代表者
     en: Principal investigator
   principal_investigator:
-    ja: 山田 太郎
-    en: Taro Yamada
+    ja: 剱持 智哉
+    en: Tomoya Kemmochi
   is_PI: true
-  period_start: '2022-04'
-  period_end: '2025-03'
+  period_start: '2025-04'
+  period_end: '2030-03'
   external: true
   url:
-    ja: https://example.com/projects/22K00003/
-    en: https://example.com/projects/22K00003/
+    ja: https://kaken.nii.ac.jp/grant/KAKENHI-PROJECT-25K17295/
+    en: https://kaken.nii.ac.jp/en/grant/KAKENHI-PROJECT-25K17295/
+####################################################
+- id: 23K20802
+  grant_id: 23K20802
+  grant_type:
+    ja: 科研費 基盤研究 (B)
+    en: JSPS KAKENHI Scientific Research (B)
+  title:
+    ja: 高階幾何学的勾配流における特異形状解析
+    en: 'Analysis on singularities of higher order geometric gradient flows'
+  role:
+    ja: 研究分担者
+    en: Co-investigator
+  principal_investigator:
+    ja: 岡部 真也
+    en: Shinya Okabe
+  is_PI: false
+  period_start: '2024-04'
+  period_end: '2026-03'
+  external: true
+  url:
+    ja: https://kaken.nii.ac.jp/grant/KAKENHI-PROJECT-23K20802/
+    en: https://kaken.nii.ac.jp/en/grant/KAKENHI-PROJECT-23K20802/
+####################################################
+- id: 19K14590
+  grant_id: 19K14590
+  grant_type:
+    ja: 科研費 若手研究
+    en: JSPS KAKENHI Grant-in-Aid for Early-Career Scientists
+  title:
+    ja: 滑らかな領域における非線形偏微分方程式に対する有限要素法
+    en: 'Finite element methods for nonlinear partial differential equations on curved domains'
+  role:
+    ja: 研究代表者
+    en: Principal investigator
+  principal_investigator:
+    ja: 剱持 智哉
+    en: Tomoya Kemmochi
+  is_PI: true
+  period_start: '2019-04'
+  period_end: '2024-03'
+  external: true
+  url:
+    ja: https://kaken.nii.ac.jp/grant/KAKENHI-PROJECT-19K14590/
+    en: https://kaken.nii.ac.jp/en/grant/KAKENHI-PROJECT-19K14590/
+####################################################
 - id: 15J07471
   grant_id: 15J07471
   grant_type:

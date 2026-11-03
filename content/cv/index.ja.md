@@ -1,5 +1,5 @@
 ---
-title: "CV"
+title: "Curriculum Vitae"
 date: 2026-10-24T00:00:00+09:00
 draft: false
 type: page
@@ -115,6 +115,8 @@ math: true
 
 ## 外部資金
 
+<!-- [外部資金一覧](/projects) でもいいか -->
+
 ### 研究代表者
 
 {{< cv_grants is_PI=true >}}
@@ -122,3 +124,15 @@ math: true
 ### 研究分担者
 
 {{< cv_grants is_PI=false >}}
+
+
+
+
+
+## データベース
+
+* [ORCID](http://orcid.org/0000-0003-4060-6288)
+* [Google Scholar](https://scholar.google.co.jp/citations?user=tNnJyuMAAAAJ)
+* [MathSciNet](http://www.ams.org/mathscinet/search/author.html?mrauthid=1179149)
+* [zbMATH](https://www.zbmath.org/authors/?q=ai:kemmochi.tomoya)
+* [researchmap](https://researchmap.jp/t-kemmochi/)
