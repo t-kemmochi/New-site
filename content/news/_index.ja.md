@@ -1,7 +1,5 @@
 ---
 title: "News"
 draft: false
-page_size: 3
+page_size: 10
 ---
-
-このページは準備中です。現在は表示確認用のダミーデータを掲載しています。

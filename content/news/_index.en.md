@@ -1,7 +1,5 @@
 ---
 title: "News"
 draft: false
-page_size: 3
+page_size: 10
 ---
-
-This page is under construction. The entries below are dummy content for display testing.
