@@ -1,0 +1,9 @@
+{{- with .Params.summary -}}
+  {{- if ne (printf "%T" .) "string" -}}
+    {{- errorf "memo: summaryにはMarkdownの文字列を指定してください：%s" $.Path -}}
+  {{- else -}}
+    {{- $.RenderString (dict "display" "block") . -}}
+  {{- end -}}
+{{- else -}}
+  {{- partial "content/summary.html" . -}}
+{{- end -}}

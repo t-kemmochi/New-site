@@ -177,9 +177,11 @@ hugo new content --kind project project/example.ja.md
 
 archetypesと既存のMarkdownのフロントマターは、`---`で囲んだYAML形式に統一しています。雛形は通常`draft: true`です。公開するときは`false`にします。英語版は同じ場所に`.en.md`で作ります。翻訳ページがないとき、言語切り替えは相手言語のトップへ移動します。
 
-Newsは`date`をタイトルとして使い、`title`を指定しても表示には使いません。Memoは`title`・`date`と、任意の`lastmod`を使います。
+Newsは`date`をタイトルとして使い、`title`を指定しても表示には使いません。Memoは`title`・`date`と、任意の`lastmod`を使います。Memoの公開日はラベルなしの日付だけを表示し、更新日は「最終更新」（英語ではLast modified）と表示します。
 
-News・Memoの要約は、Markdown中の`<!--more-->`までです。区切りがない場合は全文を表示します。
+Memoの一覧は、フロントマターの`summary`に空でない文字列を指定すると、そのMarkdownだけを概要として表示します。「続きを読む」は引き続き表示し、個別ページの本文はそのままです。例：`summary: "このメモの**概要**です。"`。
+
+`summary`が未指定・空欄の場合のMemoとNewsの要約は、Markdown中の`<!--more-->`（`<!-- more -->`も可）までです。区切りがない場合は全文を表示します。
 
 ```markdown
 ここが一覧にも表示する概要です。
@@ -237,6 +239,8 @@ News・Memoの要約は、Markdown中の`<!--more-->`までです。区切りが
 
 ### 数式とコード
 
+Markdown内に書いた`<dl>`などの生HTMLは、そのままHTMLとして描画します。`hugo.toml`の`markup.goldmark.renderer.unsafe = true`で有効にしています。
+
 各ページのフロントマターに`math: true`を指定するとMathJaxを読み込みます。省略時は無効です。
 
 ```latex
@@ -267,6 +271,17 @@ News・Memoの要約は、Markdown中の`<!--more-->`までです。区切りが
 ```
 
 `text`と`url`は必須です。`external`の既定は`false`で、内部ページは現在の言語・公開先のパスを考慮して解決します。外部リンクには`external=true`が必要で、別タブで開きます。色・シェブロンの寸法はCSS変数で調整します。
+
+### `static_link`：staticファイルへのリンク
+
+```markdown
+{{< static_link text="資料PDF" static_path="pdf/handout.pdf" >}}
+{{< static_link text="資料を別タブで開く" static_path="pdf/handout.pdf" newtab=true >}}
+```
+
+閉じタグは不要です。`text`（リンク文字列）と`static_path`（`static/`以下の相対パス）は必須で、`newtab`は省略時`false`です。例えば`static/pdf/handout.pdf`を配置したら、`static_path="pdf/handout.pdf"`と書きます。先頭の`static/`や`/`は付けません。
+
+URLは公開先のサブディレクトリを反映し、言語プレフィックスは付けません。現在の設定では`/New-site/pdf/handout.pdf`になります。`newtab=true`のときだけ`target="_blank"`と`rel="noopener noreferrer"`を付けます。外部URL・親ディレクトリへの移動・クエリ・フラグメントは指定せず、リンク先のファイルをstatic内に配置してください。
 
 ### `hero_header`：名前・職位・所属
 

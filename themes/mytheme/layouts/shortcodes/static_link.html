@@ -1,0 +1,33 @@
+{{- $text := .Get "text" | default "" -}}
+{{- $staticPath := .Get "static_path" | default "" -}}
+{{- $newtab := false -}}
+{{- $valid := true -}}
+{{- if and .Params (not .IsNamedParams) -}}
+  {{- errorf "static_link: 名前付き引数を使ってください。%s" .Position -}}
+  {{- $valid = false -}}
+{{- end -}}
+{{- range $key, $value := .Params -}}
+  {{- if not (in (slice "text" "static_path" "newtab") $key) -}}
+    {{- errorf "static_link: 未対応の引数 %q。%s" $key $.Position -}}
+    {{- $valid = false -}}
+  {{- end -}}
+{{- end -}}
+{{- if isset .Params "newtab" -}}
+  {{- $flag := printf "%v" (.Get "newtab") -}}
+  {{- if not (in (slice "true" "false") $flag) -}}
+    {{- errorf "static_link: newtabはtrueまたはfalseにしてください。%s" .Position -}}
+    {{- $valid = false -}}
+  {{- else -}}{{- $newtab = eq $flag "true" -}}{{- end -}}
+{{- end -}}
+{{- if or (not (strings.TrimSpace $text)) (not (strings.TrimSpace $staticPath)) -}}
+  {{- errorf "static_link: textとstatic_pathは必須です。%s" .Position -}}
+  {{- $valid = false -}}
+{{- else -}}
+  {{- $url := urls.Parse $staticPath -}}
+  {{- if or $url.Scheme $url.Host $url.RawQuery $url.Fragment (strings.HasPrefix $staticPath "/") (strings.Contains $staticPath "\\") (in (split $url.Path "/") "..") -}}
+    {{- errorf "static_link: static_pathはstatic/からの相対パスで指定してください。%s" .Position -}}
+    {{- $valid = false -}}
+  {{- else if $valid -}}
+    <a href="{{ $url.EscapedPath | relURL }}"{{ if $newtab }} target="_blank" rel="noopener noreferrer"{{ end }}>{{ $text }}</a>
+  {{- end -}}
+{{- end -}}

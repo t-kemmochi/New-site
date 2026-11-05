@@ -41,6 +41,10 @@ timeZone = 'Asia/Tokyo'
   noClasses = true
   style = 'monokai'
 
+# Markdown内のdlなどの生HTMLをそのまま描画する。
+[markup.goldmark.renderer]
+  unsafe = true
+
 # 数式中のアンダースコア・改行・バックスラッシュ等をMarkdown処理から保護する。
 [markup.goldmark.extensions.passthrough]
   enable = true

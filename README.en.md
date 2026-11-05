@@ -177,9 +177,11 @@ hugo new content --kind project project/example.ja.md
 
 Archetypes and existing Markdown files use YAML front matter enclosed by `---` delimiters. Archetypes normally set `draft: true`. Change it to `false` when the content is ready to publish. Create the English version in the same location with the `.en.md` suffix. When a translation is unavailable, the language switcher links to the other language's home page.
 
-News uses `date` as the title and ignores `title` even if it is specified. Memo uses `title`, `date`, and an optional `lastmod`.
+News uses `date` as the title and ignores `title` even if it is specified. Memo uses `title`, `date`, and an optional `lastmod`. Memo publication dates appear without a label; modification dates are labeled “Last modified” (“最終更新” in Japanese).
 
-News and Memo summaries include the Markdown up to `<!--more-->`. If no separator is present, the full body is displayed.
+For Memo list pages, a nonempty `summary` string in front matter takes precedence over the body excerpt and is rendered as Markdown. The “Read more” link remains, and the individual page keeps its full body. Example: `summary: "A **brief summary** of this memo."`.
+
+For Memo without a summary (or with an empty value), and for News, summaries include the Markdown up to `<!--more-->`; `<!-- more -->` is also supported. If no separator is present, the full body is displayed.
 
 ```markdown
 This summary also appears on the list page.
@@ -237,6 +239,8 @@ Status is calculated from the period and build month: upcoming before the start 
 
 ### Mathematics and code
 
+Raw HTML in Markdown, including elements such as `<dl>`, is rendered directly. This is enabled by `markup.goldmark.renderer.unsafe = true` in `hugo.toml`.
+
 Set `math: true` in a page's front matter to load MathJax. Mathematics support is disabled when this parameter is omitted.
 
 ```latex
@@ -267,6 +271,17 @@ Use named arguments as shown below. Shortcodes with a body require a closing tag
 ```
 
 `text` and `url` are required. `external` defaults to `false`; internal page links are resolved for the current language and deployment path. External links require `external=true` and open in a new tab. Colors and chevron dimensions are controlled by CSS variables.
+
+### `static_link`: links to static files
+
+```markdown
+{{< static_link text="Handout PDF" static_path="pdf/handout.pdf" >}}
+{{< static_link text="Open handout in a new tab" static_path="pdf/handout.pdf" newtab=true >}}
+```
+
+No closing tag is needed. `text` (the link label) and `static_path` (a path relative to `static/`) are required. `newtab` defaults to `false`. For a file at `static/pdf/handout.pdf`, use `static_path="pdf/handout.pdf"`, without a leading `static/` or `/`.
+
+The URL includes the deployment subdirectory but no language prefix. With the current configuration it becomes `/New-site/pdf/handout.pdf`. Only `newtab=true` adds `target="_blank"` and `rel="noopener noreferrer"`. Use a file path, without an external URL, parent-directory traversal, query, or fragment, and place the target file under static.
 
 ### `hero_header`: name, position, and affiliation
 

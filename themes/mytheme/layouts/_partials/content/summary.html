@@ -1,6 +1,13 @@
 {{- /* 手動区切りがなければ全文。文字数による自動要約は使用しない。 */ -}}
-{{- if strings.Contains .RawContent "<!--more-->" -}}
-  {{- .Summary -}}
+{{- $page := . -}}
+{{- with findRE `<!--\s*more\s*-->` .RawContent 1 -}}
+  {{- $marker := index . 0 -}}
+  {{- if eq $marker "<!--more-->" -}}
+    {{- $page.Summary -}}
+  {{- else -}}
+    {{- /* 空白を含む区切りも、ショートコードを描画したMarkdownから切り出す。 */ -}}
+    {{- $page.RenderString (dict "display" "block") (index (split $page.RenderShortcodes $marker) 0) -}}
+  {{- end -}}
 {{- else -}}
-  {{- .Content -}}
+  {{- $page.Content -}}
 {{- end -}}

@@ -797,8 +797,10 @@ x &= y + 2
 
 - Memo個別ページはmemo/page.htmlを使い、共通のpage-content.htmlへ日付欄を渡す。h1・本文・幅・ヘッダー・フッターは通常ページと共通。日付以外の装飾・自動情報は追加しない。
 - 公開日はdate、更新日はlastmodで指定する。Hugoはlastmod未指定時にdateを使うため、公開日より新しいlastmodがある場合だけ更新欄を表示する。同日時・過去の日時は重複表示しない。日付はtime要素とRFC3339形式のdatetime属性を使う。
+- Memo一覧・個別ページとも公開日のラベル（公開／Published）は付けず、日付だけ表示する。更新欄のラベルは日本語「最終更新」、英語「Last modified」とする。
 - Memo一覧は新しい公開日順。各記事はarticle、タイトルはh2内のリンク、その下に日付欄・手動要約・グレーの「続きを読む」（英語ではRead more）を置く。
-- 要約はNewsとcontent/summary.htmlを共用し、`<!--more-->`までを表示する。区切りがない場合は全文を表示する。文字数指定の自動要約はしない。
+- Memo一覧は空でないsummaryフロントマターのMarkdownを優先し、その場合も「続きを読む」を表示する。個別本文は変更しない。未指定・空欄ならNewsと共通のcontent/summary.htmlで手動要約する。
+- 手動要約は`<!--more-->`または`<!-- more -->`の最初の区切りまで。区切りがない場合は全文を表示し、文字数指定の自動要約はしない。空白付き区切りではRenderShortcodes後のMarkdownを切り出してRenderStringし、本文内のショートコードも描画する。
 - カード全体はリンクにせず、タイトルと「続きを読む」がそれぞれ個別ページへリンクする。項目ホバー時はグレーの枠とタイトルの下線を表示。「続きを読む」は自身のホバー時だけ下線を出す。
 - Memo・News・Projectsの独立した一覧はarchive.cssの共通カードを使う。h2のサイズは--archive-title-size（初期値--font-size-h2）、Montserrat 400。タイトルは通常リンク色、ホバー時は通常リンクのホバー色と下線を使う。トップページにはこのスタイルを適用しない。
 - 共通の余白・間隔・枠色は--archive-card-padding、--archive-card-gap、--archive-item-gap、--archive-border-color、--archive-border-radiusで指定する。透明枠を先に確保し、ホバー時の位置ずれを防ぐ。
@@ -854,3 +856,10 @@ x &= y + 2
 - cv_grantsはid（任意の文字列）・is_PI（任意の真偽値）をANDで絞り込み、開始年月の降順で通常のul/liを出力する。引数なしは全件。未知のIDや不正な引数はビルドエラー。
 - 各liは研究種別 (課題番号: 番号リンク)、題目、ローカライズした期間、分担者の場合のみ研究代表者名の順でbr改行する。リンクラベルに余分な空白を入れず、英文の単語間の空白は維持する。
 - cv_entry・cv_period・cv_grantsはcv/date.htmlで年月の表示を共通化し、CV全体に適用する。既存のカードの期間表記は維持する。
+
+## 35. 生HTMLとstaticファイルへのリンク
+
+- hugo.tomlのmarkup.goldmark.renderer.unsafe=trueにより、Markdown内のdl等の生HTMLをそのまま描画する。通常ページ・Memo・News・RenderStringによるMarkdown表示で共通に適用する。
+- static_linkは閉じタグなし。text・static_pathを必須、newtabを任意（既定false）とする。リンク文字列はHTMLとして解釈せずエスケープし、テンプレート由来の前後の空白を出力しない。
+- static_pathはstatic/からの相対パス。relURLで公開先の/New-site/を反映し、言語プレフィックスを付けない。空白・日本語を含むパスはURLエンコードする。外部URL・絶対パス・親への移動・クエリ・フラグメントはエラーとする。
+- newtab=trueの場合だけtarget=_blankとrel=noopener noreferrerを付ける。未対応引数・不正な真偽値・必須引数の欠落はビルドエラー。ファイルの存在は検証せず、利用者がstatic内に配置する。
